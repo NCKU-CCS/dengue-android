@@ -2,4 +2,5 @@
     <string name="app_name">Dengue-android</string>
     <string name="breedingSources_submit_img">image</string>
     <string name="breedingSources_submit_button">submit</string>
+    <string name="goBack">goBack</string>
 </resources>
