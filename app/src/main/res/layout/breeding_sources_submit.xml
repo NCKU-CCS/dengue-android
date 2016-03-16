@@ -14,7 +14,7 @@
         <ImageButton
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
-            android:id="@+id/imageButton"
+            android:id="@+id/breedingSources_submit_goback"
             android:background="@color/colorPrimary"
             android:layout_weight="0.15"
             android:src="@mipmap/go_back"

@@ -7,6 +7,7 @@ import android.telephony.TelephonyManager;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.TextView;
 
 /**
@@ -17,22 +18,46 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.login);
+        login_buttonEvent();
+    }
 
-        //login
+    // 'login' button event
+    private void login_buttonEvent() {
         Button login_submitButton = (Button)findViewById(R.id.login_submit);
         login_submitButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View w) {
-                setContentView(R.layout.breeding_sources_submit);
-                breedingSources_submit_submitButtonEvent();
+                setContentView(R.layout.menu);
+                menu_buttonsEvent();
             }
         });
     }
 
-    //'breeding sources submit' submit button event
+    // 'menu' button event
+    private void menu_buttonsEvent() {
+        Button menu_breedingSources = (Button)findViewById(R.id.menu_breedingSources);
+        menu_breedingSources.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View w){
+                setContentView(R.layout.breeding_sources_submit);
+                breedingSources_submit_submitButtonEvent();
+            }
+        });
+
+        Button menu_logout = (Button)findViewById(R.id.menu_logout);
+        menu_logout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View w){
+                setContentView(R.layout.login);
+                login_buttonEvent();
+            }
+        });
+    }
+
+    // 'breeding sources submit' submit button event
     private void breedingSources_submit_submitButtonEvent() {
         final TelephonyManager mTelManager = (TelephonyManager)getSystemService(Context.TELEPHONY_SERVICE);
-        Button breedingSources_submitButton = (Button)findViewById(R.id.breedingSources_submit_submit);
+        Button breedingSources_submitButton = (Button) findViewById(R.id.breedingSources_submit_submit);
         breedingSources_submitButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View w) {
@@ -43,6 +68,15 @@ public class MainActivity extends AppCompatActivity {
                 data += "phone:" + mTelManager.getLine1Number() + "\n";
                 data += "description:" + text.getText().toString();
                 output.setText(data);
+            }
+        });
+
+        ImageButton breedingSources_goBackButton = (ImageButton) findViewById(R.id.breedingSources_submit_goback);
+        breedingSources_goBackButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View w) {
+                setContentView(R.layout.menu);
+                menu_buttonsEvent();
             }
         });
     }
