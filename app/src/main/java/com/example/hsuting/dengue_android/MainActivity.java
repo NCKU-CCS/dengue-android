@@ -23,6 +23,12 @@ public class MainActivity extends AppCompatActivity {
 
     // 'login' button event
     private void login_buttonEvent() {
+        final TelephonyManager mTelManager = (TelephonyManager)getSystemService(Context.TELEPHONY_SERVICE);
+        if(mTelManager != null) {
+            EditText text = (EditText) findViewById(R.id.login_phone_value);
+            text.setText(mTelManager.getLine1Number());
+        }
+
         Button login_submitButton = (Button)findViewById(R.id.login_submit);
         login_submitButton.setOnClickListener(new View.OnClickListener() {
             @Override
