@@ -2,7 +2,7 @@
     <string name="app_name">Dengue-android</string>
     <string name="goBack">goBack</string>
 
-    <string name="login_username">Username</string>
+    <string name="login_username">Phone number</string>
     <string name="login_password">Password</string>
     <string name="login_submit">Log In</string>
 
