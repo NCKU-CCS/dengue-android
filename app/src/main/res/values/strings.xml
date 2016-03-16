@@ -1,5 +1,8 @@
 <resources>
     <string name="app_name">Dengue-android</string>
+    <string name="login_username">Username</string>
+    <string name="login_password">Password</string>
+    <string name="login_submit">Log In</string>
     <string name="breedingSources_submit_img">image</string>
     <string name="breedingSources_submit_button">submit</string>
     <string name="goBack">goBack</string>

@@ -16,15 +16,28 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.breeding_sources_submit);
-        final TelephonyManager mTelManager = (TelephonyManager)getSystemService(Context.TELEPHONY_SERVICE);
+        setContentView(R.layout.login);
 
-        Button submit = (Button)findViewById(R.id.breedingSources_submit_submit);
-        submit.setOnClickListener(new View.OnClickListener() {
+        //login
+        Button login_submitButton = (Button)findViewById(R.id.login_submit);
+        login_submitButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View w) {
-                TextView output = (TextView)findViewById(R.id.breedingSources_submit_output);
-                EditText text = (EditText)findViewById(R.id.breedingSources_submit_editText);
+                setContentView(R.layout.breeding_sources_submit);
+                breedingSources_submit_submitButtonEvent();
+            }
+        });
+    }
+
+    //'breeding sources submit' submit button event
+    private void breedingSources_submit_submitButtonEvent() {
+        final TelephonyManager mTelManager = (TelephonyManager)getSystemService(Context.TELEPHONY_SERVICE);
+        Button breedingSources_submitButton = (Button)findViewById(R.id.breedingSources_submit_submit);
+        breedingSources_submitButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View w) {
+                TextView output = (TextView) findViewById(R.id.breedingSources_submit_output);
+                EditText text = (EditText) findViewById(R.id.breedingSources_submit_editText);
                 String data = "";
 
                 data += "phone:" + mTelManager.getLine1Number() + "\n";
