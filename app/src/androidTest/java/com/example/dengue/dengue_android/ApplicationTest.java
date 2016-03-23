@@ -1,4 +1,4 @@
-package com.example.hsuting.dengue_android;
+package com.example.dengue.dengue_android;
 
 import android.app.Application;
 import android.test.ApplicationTestCase;

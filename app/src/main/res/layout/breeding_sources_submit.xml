@@ -26,20 +26,19 @@
             android:orientation="horizontal"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:gravity="right"
-            android:layout_marginRight="20dp"
+            android:gravity="center"
             android:paddingRight="20dp">
 
-            <Button
+            <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/breedingSources_submit_button"
-                android:id="@+id/breedingSources_submit_submit"
-                android:background="@color/colorPrimary"
+                android:textAppearance="?android:attr/textAppearanceLarge"
+                android:text="@string/breedingSources_submit_title"
+                android:id="@+id/breedingSources_submit_title"
+                android:paddingTop="10dp"
+                android:paddingBottom="10dp"
                 android:textColor="@color/colorText"
-                android:gravity="center"
-                android:paddingLeft="20dp"
-                android:paddingRight="20dp" />
+                android:layout_marginRight="55dp" />
         </LinearLayout>
     </LinearLayout>
 
@@ -52,7 +51,8 @@
                 android:orientation="vertical"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                >
+                android:paddingLeft="20dp"
+                android:paddingRight="20dp">
 
                 <ImageView
                     android:layout_width="match_parent"
@@ -61,21 +61,53 @@
                     android:src="@drawable/img"
                     android:contentDescription="@string/breedingSources_submit_img" />
 
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:textAppearance="?android:attr/textAppearanceLarge"
+                    android:text="@string/breedingSources_submit_type"
+                    android:id="@+id/breedingSources_submit_type_text" />
+
+                <Spinner
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/breedingSources_submit_type_value"
+                    android:spinnerMode="dropdown" />
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:textAppearance="?android:attr/textAppearanceLarge"
+                    android:text="@string/breedingSources_submit_description"
+                    android:id="@+id/breedingSources_submit_description_text"
+                    android:layout_marginTop="20dp" />
+
                 <EditText
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:inputType="textMultiLine"
                     android:ems="10"
-                    android:id="@+id/breedingSources_submit_editText"
-                    android:layout_marginLeft="20dp"
-                    android:layout_marginRight="20dp" />
+                    android:id="@+id/breedingSources_submit_description_value" />
+
+                <Button
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:text="@string/breedingSources_submit_button"
+                    android:id="@+id/breedingSources_submit_submit"
+                    android:background="@color/colorPrimary"
+                    android:textColor="@color/colorText"
+                    android:gravity="center"
+                    android:paddingLeft="20dp"
+                    android:paddingRight="20dp"
+                    android:layout_gravity="center_horizontal" />
 
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:text=""
                     android:id="@+id/breedingSources_submit_output"
-                    android:gravity="center" />
+                    android:gravity="center"
+                    android:padding="20dp" />
             </LinearLayout>
         </ScrollView>
 

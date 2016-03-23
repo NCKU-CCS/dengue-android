@@ -9,6 +9,9 @@
     <string name="menu_breedingSources">Breeding Sources</string>
     <string name="menu_logout">log out</string>
 
+    <string name="breedingSources_submit_title">孳生源舉報</string>
     <string name="breedingSources_submit_img">image</string>
-    <string name="breedingSources_submit_button">submit</string>
+    <string name="breedingSources_submit_button">上傳</string>
+    <string name="breedingSources_submit_description">地點描述:</string>
+    <string name="breedingSources_submit_type">孳生源類型:</string>
 </resources>
