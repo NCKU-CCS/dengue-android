@@ -12,7 +12,7 @@
         <ImageButton
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:id="@+id/breedingSources_submit_goback"
+            android:id="@+id/goback"
             android:background="@color/colorPrimary"
             android:src="@mipmap/go_back"
             android:contentDescription="@string/goBack"

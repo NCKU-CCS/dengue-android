@@ -15,6 +15,12 @@
     <string name="menu_doctorInfo">登革熱就醫資訊</string>
     <string name="menu_logout">log out</string>
 
+    <string name="reportList_title">待檢查孳生源點</string>
+    <string name="reportList_number">還有 個點待查</string>
+    <string name="reportList_item_name">Name</string>
+    <string name="reportList_item_isDone">完成</string>
+    <string name="reportList_item_next"><![CDATA[>]]></string>
+
     <string name="breedingSources_submit_title">孳生源舉報</string>
     <string name="breedingSources_submit_img">image</string>
     <string name="breedingSources_submit_button">上傳</string>

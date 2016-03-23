@@ -2,20 +2,18 @@ package com.example.dengue.dengue_android;
 
 import android.content.Context;
 import android.location.Location;
-import android.nfc.Tag;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.telephony.TelephonyManager;
 import android.util.Log;
 import android.view.View;
-import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
+import android.widget.ListView;
 import android.widget.Spinner;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.api.GoogleApiClient;
@@ -24,9 +22,6 @@ import com.google.android.gms.location.LocationServices;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
-/**
- * Created by hsuting on 16/3/8.
- */
 public class MainActivity extends AppCompatActivity implements
         GoogleApiClient.ConnectionCallbacks,
         GoogleApiClient.OnConnectionFailedListener {
@@ -36,6 +31,7 @@ public class MainActivity extends AppCompatActivity implements
     private Location mLastLocation;
     private String lat;
     private String lon;
+    private boolean isVillageChief;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -103,12 +99,12 @@ public class MainActivity extends AppCompatActivity implements
             @Override
             public void onClick(View w) {
                 EditText phone = (EditText) findViewById(R.id.login_phone_value);
-                Log.i(TAG, phone.getText().toString());
-                if( phone.getText().toString().equals("0912345678") ) {
+                if (phone.getText().toString().equals("0912345678")) {
+                    isVillageChief = true;
                     setContentView(R.layout.menu_village_chief);
                     menu_buttonsEvent();
-                }
-                else {
+                } else {
+                    isVillageChief = false;
                     setContentView(R.layout.menu);
                     menu_buttonsEvent();
                 }
@@ -118,6 +114,17 @@ public class MainActivity extends AppCompatActivity implements
 
     // 'menu' button event
     private void menu_buttonsEvent() {
+        if(isVillageChief) {
+            Button menu_reportList = (Button) findViewById(R.id.menu_reportList);
+            menu_reportList.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View w) {
+                    setContentView(R.layout.report_list);
+                    reportList_buttonEvent();
+                }
+            });
+        }
+
         Button menu_breedingSources = (Button)findViewById(R.id.menu_breedingSources);
         menu_breedingSources.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -130,15 +137,38 @@ public class MainActivity extends AppCompatActivity implements
         Button menu_logout = (Button)findViewById(R.id.menu_logout);
         menu_logout.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View w){
+            public void onClick(View w) {
                 setContentView(R.layout.login);
                 login_buttonEvent();
             }
         });
     }
 
+    // 'report list' button event
+    private void reportList_buttonEvent() {
+        goBack(R.layout.menu_village_chief);
+        final String number = "10";
+        final String[] name = new String[] {"地點1", "地點2", "地點3"};
+        final String[] isDone = new String[] {"完成", "未查", "完成"};
+        CharSequence[] Name = name;
+        CharSequence[] IsDone = isDone;
+
+        TextView report_number = (TextView) findViewById(R.id.reportList_number);
+        report_number.setText("還有 " + number + " 個點待查");
+
+        ListView report_list = (ListView) findViewById(R.id.reportList_list);
+        report_list.setAdapter(new reportAdapter(this, Name, IsDone));
+    }
+
     // 'breeding sources submit' submit button event
     private void breedingSources_submit_submitButtonEvent() {
+        if(isVillageChief) {
+            goBack(R.layout.menu_village_chief);
+        }
+        else {
+            goBack(R.layout.menu);
+        }
+
         Spinner breedingSources_submit_spinner = (Spinner)findViewById(R.id.breedingSources_submit_type_value);
         String[] types = {"type1", "type2"};
         ArrayAdapter<String> typelist = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, types);
@@ -165,12 +195,14 @@ public class MainActivity extends AppCompatActivity implements
 
             }
         });
+    }
 
-        ImageButton breedingSources_goBackButton = (ImageButton) findViewById(R.id.breedingSources_submit_goback);
-        breedingSources_goBackButton.setOnClickListener(new View.OnClickListener() {
+    private void goBack(final int layoutID) {
+        ImageButton goBackButton = (ImageButton) findViewById(R.id.goback);
+        goBackButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View w) {
-                setContentView(R.layout.menu);
+                setContentView(layoutID);
                 menu_buttonsEvent();
             }
         });
