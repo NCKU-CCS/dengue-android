@@ -49,7 +49,7 @@
                     android:layout_height="400dp"
                     android:id="@+id/breedingSources_submit_imageView"
                     android:src="@drawable/img"
-                    android:contentDescription="@string/breedingSources_submit_img" />
+                    android:contentDescription="@string/img" />
 
                 <TextView
                     android:layout_width="match_parent"

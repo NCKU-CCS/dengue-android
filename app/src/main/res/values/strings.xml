@@ -2,6 +2,7 @@
     <string name="app_name">Dengue-android</string>
     <string name="goBack">goBack</string>
     <string name="menu">menu</string>
+    <string name="img">image</string>
 
     <string name="login_phone">Phone number</string>
     <string name="login_password">Password</string>
@@ -21,9 +22,15 @@
     <string name="reportList_item_isDone">完成</string>
     <string name="reportList_item_next"><![CDATA[>]]></string>
 
+    <string name="reportList_check_description">補充：</string>
+    <string name="reportList_check_type">地點描述：</string>
+    <string name="reportList_check_date">通報時間：</string>
+    <string name="reportList_check_yes">是孳生源</string>
+    <string name="reportList_check_no">不是孳生源</string>
+    <string name="reportList_check_dialogTitle">回報處理</string>
+
     <string name="breedingSources_submit_title">孳生源舉報</string>
-    <string name="breedingSources_submit_img">image</string>
     <string name="breedingSources_submit_button">上傳</string>
-    <string name="breedingSources_submit_description">地點描述:</string>
-    <string name="breedingSources_submit_type">孳生源類型:</string>
+    <string name="breedingSources_submit_description">地點描述：</string>
+    <string name="breedingSources_submit_type">孳生源類型：</string>
 </resources>
