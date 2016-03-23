@@ -4,43 +4,34 @@
     android:layout_height="match_parent"
     android:orientation="vertical">
 
-    <LinearLayout
-        android:orientation="horizontal"
+    <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@color/colorPrimary"
-        android:weightSum="1">
+        android:background="@color/colorPrimary">
 
         <ImageButton
             android:layout_width="wrap_content"
-            android:layout_height="match_parent"
+            android:layout_height="wrap_content"
             android:id="@+id/breedingSources_submit_goback"
             android:background="@color/colorPrimary"
             android:layout_weight="0.15"
             android:src="@mipmap/go_back"
             android:contentDescription="@string/goBack"
-            android:layout_marginLeft="20dp" />
+            android:layout_marginLeft="20dp"
+            android:layout_centerVertical="true" />
 
-
-        <LinearLayout
-            android:orientation="horizontal"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:gravity="center"
-            android:paddingRight="20dp">
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textAppearance="?android:attr/textAppearanceLarge"
-                android:text="@string/breedingSources_submit_title"
-                android:id="@+id/breedingSources_submit_title"
-                android:paddingTop="10dp"
-                android:paddingBottom="10dp"
-                android:textColor="@color/colorText"
-                android:layout_marginRight="55dp" />
-        </LinearLayout>
-    </LinearLayout>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceLarge"
+            android:text="@string/breedingSources_submit_title"
+            android:id="@+id/breedingSources_submit_title"
+            android:paddingTop="10dp"
+            android:paddingBottom="10dp"
+            android:textColor="@color/colorText"
+            android:layout_marginRight="55dp"
+            android:layout_centerHorizontal="true" />
+    </RelativeLayout>
 
     <ScrollView
         android:layout_width="match_parent"
