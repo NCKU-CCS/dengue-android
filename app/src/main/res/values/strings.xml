@@ -8,7 +8,11 @@
     <string name="login_submit">Log In</string>
 
     <string name="menu_title">登革熱防疫平台</string>
+    <string name="menu_reportList">舉報點清單</string>
+    <string name="menu_bite">蚊蟲叮咬舉報</string>
     <string name="menu_breedingSources">孳生源舉報</string>
+    <string name="menu_hotInfo">熱區資訊</string>
+    <string name="menu_doctorInfo">登革熱就醫資訊</string>
     <string name="menu_logout">log out</string>
 
     <string name="breedingSources_submit_title">孳生源舉報</string>

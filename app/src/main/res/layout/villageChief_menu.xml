@@ -44,6 +44,14 @@
         <Button
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:text="@string/menu_reportList"
+            android:id="@+id/menu_reportList"
+            android:layout_gravity="center_horizontal"
+            android:minWidth="200dp" />
+
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
             android:text="@string/menu_bite"
             android:id="@+id/menu_bites"
             android:layout_gravity="center_horizontal"
