@@ -99,8 +99,8 @@ public class MainActivity extends AppCompatActivity implements
             text.setText(mTelManager.getLine1Number());
         }
 
-        Button login_submitButton = (Button)findViewById(R.id.login_submit);
-        login_submitButton.setOnClickListener(new View.OnClickListener() {
+        Button login_normalButton = (Button)findViewById(R.id.login_normal);
+        login_normalButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View w) {
                 EditText phone = (EditText) findViewById(R.id.login_phone_value);
@@ -113,6 +113,16 @@ public class MainActivity extends AppCompatActivity implements
                     setContentView(R.layout.menu);
                     menu_buttonsEvent();
                 }
+            }
+        });
+
+        Button login_quicklyButton = (Button)findViewById(R.id.login_quickly);
+        login_quicklyButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View w) {
+                isVillageChief = false;
+                setContentView(R.layout.menu);
+                menu_buttonsEvent();
             }
         });
     }

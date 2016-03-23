@@ -4,9 +4,10 @@
     <string name="menu">menu</string>
     <string name="img">image</string>
 
-    <string name="login_phone">Phone number</string>
-    <string name="login_password">Password</string>
-    <string name="login_submit">Log In</string>
+    <string name="login_phone">手機</string>
+    <string name="login_password">密碼</string>
+    <string name="login_normal">登入</string>
+    <string name="login_quickly">快速登入</string>
 
     <string name="menu_title">登革熱防疫平台</string>
     <string name="menu_reportList">舉報點清單</string>
