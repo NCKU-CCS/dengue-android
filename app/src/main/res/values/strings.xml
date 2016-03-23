@@ -41,4 +41,9 @@
     <string name="hospital_number">您附近有 個醫療院所</string>
     <string name="hospital_item_name">醫院</string>
     <string name="hospital_item_next"><![CDATA[>]]></string>
+
+    <string name="hospital_info_name">院所名稱：</string>
+    <string name="hospital_info_address">院所地址：</string>
+    <string name="hospital_info_openTime">院所開放時間：</string>
+    <string name="hospital_info_tel">院所電話：</string>
 </resources>

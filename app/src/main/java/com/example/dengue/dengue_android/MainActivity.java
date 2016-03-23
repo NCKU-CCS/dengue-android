@@ -23,6 +23,8 @@ import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.location.LocationServices;
 
+import org.w3c.dom.Text;
+
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
@@ -195,12 +197,14 @@ public class MainActivity extends AppCompatActivity implements
                 menu_buttonsEvent();
             }
         });
-        final String number = "10";
+
         CharSequence[] Name = new String[] {"地點1", "地點2", "地點3"};
         CharSequence[] IsDone = new String[] {"待處理", "待查", "待處理"};
+        final int number = Name.length;
 
         TextView reportList_number = (TextView) findViewById(R.id.reportList_number);
-        reportList_number.setText("還有 " + number + " 個點待查");
+        String output_number = "還有 " + number + " 個點待查";
+        reportList_number.setText(output_number);
 
         ListView reportList_list = (ListView) findViewById(R.id.reportList_list);
         reportList_list.setAdapter(new reportAdapter(this, Name, IsDone));
@@ -228,9 +232,12 @@ public class MainActivity extends AppCompatActivity implements
         TextView reportList_check_date = (TextView) findViewById(R.id.reportList_check_date);
         TextView reportList_check_type = (TextView) findViewById(R.id.reportList_check_type);
         TextView reportList_check_description = (TextView) findViewById(R.id.reportList_check_description);
-        reportList_check_date.setText(reportList_check_date.getText().toString() + date);
-        reportList_check_type.setText(reportList_check_type.getText().toString() + type);
-        reportList_check_description.setText(reportList_check_description.getText().toString() + description);
+        String output_date = reportList_check_date.getText().toString() + date;
+        String output_type = reportList_check_type.getText().toString() + type;
+        String output_description = reportList_check_description.getText().toString() + description;
+        reportList_check_date.setText(output_date);
+        reportList_check_type.setText(output_type);
+        reportList_check_description.setText(output_description);
 
         final String[] ways = new String[] {"已處理", "通知處理"};
         Button reportList_check_yesButton = (Button) findViewById(R.id.reportList_check_yesButton);
@@ -350,13 +357,48 @@ public class MainActivity extends AppCompatActivity implements
             });
         }
 
-        final String number = "10";
         CharSequence[] Name = new String[] {"醫院1", "醫院2", "醫院3"};
+        final int number = Name.length;
 
         TextView hospital_number = (TextView) findViewById(R.id.hospital_number);
-        hospital_number.setText("您附近有 " + number + " 個醫療院所");
+        String output_number = "您附近有 " + number + " 個醫療院所";
+        hospital_number.setText(output_number);
 
         ListView hospital_list = (ListView) findViewById(R.id.hospital_list);
         hospital_list.setAdapter(new hospitalAdapter(this, Name));
+        hospital_list.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                setContentView(R.layout.hospital_info);
+                String name = "name";
+                String address = "address";
+                String openTime = "openTime";
+                String tel = "tel";
+                hospital_infoButtonEvent(name, address, openTime, tel);
+            }
+        });
+    }
+
+    // 'hospital' info button event
+    private void hospital_infoButtonEvent(String name, String address, String openTime, String tel) {
+        goBack(R.layout.hospital, new Runnable() {
+            @Override
+            public void run() {
+                hospital_buttonEvent();
+            }
+        });
+
+        TextView hospital_info_name = (TextView) findViewById(R.id.hospital_info_name);
+        TextView hospital_info_address = (TextView) findViewById(R.id.hospital_info_address);
+        TextView hospital_info_openTime = (TextView) findViewById(R.id.hospital_info_openTime);
+        TextView hospital_info_tel = (TextView) findViewById(R.id.hospital_info_tel);
+        String output_name = hospital_info_name.getText().toString() + name;
+        String output_address = hospital_info_address.getText().toString() + address;
+        String output_openTime = hospital_info_openTime.getText().toString() + openTime;
+        String output_tel = hospital_info_tel.getText().toString() + tel;
+        hospital_info_name.setText(output_name);
+        hospital_info_address.setText(output_address);
+        hospital_info_openTime.setText(output_openTime);
+        hospital_info_tel.setText(output_tel);
     }
 }
