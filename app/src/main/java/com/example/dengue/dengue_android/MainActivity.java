@@ -102,8 +102,16 @@ public class MainActivity extends AppCompatActivity implements
         login_submitButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View w) {
-                setContentView(R.layout.menu);
-                menu_buttonsEvent();
+                EditText phone = (EditText) findViewById(R.id.login_phone_value);
+                Log.i(TAG, phone.getText().toString());
+                if( phone.getText().toString().equals("0912345678") ) {
+                    setContentView(R.layout.menu_village_chief);
+                    menu_buttonsEvent();
+                }
+                else {
+                    setContentView(R.layout.menu);
+                    menu_buttonsEvent();
+                }
             }
         });
     }
