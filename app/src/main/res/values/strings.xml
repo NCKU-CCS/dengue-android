@@ -27,7 +27,7 @@
     <string name="reportList_check_date">通報時間：</string>
     <string name="reportList_check_yes">是孳生源</string>
     <string name="reportList_check_no">不是孳生源</string>
-    <string name="reportList_check_dialogTitle">回報處理</string>
+    <string name="reportList_check_dialogTitle">處理方式</string>
 
     <string name="breedingSources_submit_title">孳生源舉報</string>
     <string name="breedingSources_submit_button">上傳</string>

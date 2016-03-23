@@ -159,7 +159,7 @@ public class MainActivity extends AppCompatActivity implements
         });
         final String number = "10";
         final String[] name = new String[] {"地點1", "地點2", "地點3"};
-        final String[] isDone = new String[] {"完成", "未查", "完成"};
+        final String[] isDone = new String[] {"待處理", "待查", "待處理"};
         CharSequence[] Name = name;
         CharSequence[] IsDone = isDone;
 
@@ -196,7 +196,7 @@ public class MainActivity extends AppCompatActivity implements
         reportList_check_type.setText(reportList_check_type.getText().toString() + type);
         reportList_check_description.setText(reportList_check_description.getText().toString() + description);
 
-        final String[] ways = new String[] {"清除", "告知清理"};
+        final String[] ways = new String[] {"已處理", "通知處理"};
         Button reportList_check_yesButton = (Button) findViewById(R.id.reportList_check_yesButton);
         reportList_check_yesButton.setOnClickListener(new View.OnClickListener() {
             @Override
