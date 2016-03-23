@@ -60,7 +60,7 @@
         <Button
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/menu_hotInfo"
+            android:text="@string/menu_hot"
             android:id="@+id/menu_hot"
             android:layout_gravity="center_horizontal"
             android:minWidth="200dp" />
@@ -68,8 +68,8 @@
         <Button
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/menu_doctorInfo"
-            android:id="@+id/menu_doctorInfo"
+            android:text="@string/menu_hospital"
+            android:id="@+id/menu_hospital"
             android:layout_gravity="center_horizontal"
             android:minWidth="200dp" />
 

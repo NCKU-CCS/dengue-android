@@ -91,6 +91,17 @@ public class MainActivity extends AppCompatActivity implements
         Log.i(TAG, "Connection failed: ConnectionResult.getErrorCode() = " + result.getErrorCode());
     }
 
+    private void goBack(final int layoutID, final Runnable buttonEvent) {
+        ImageButton goBackButton = (ImageButton) findViewById(R.id.goback);
+        goBackButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View w) {
+                setContentView(layoutID);
+                buttonEvent.run();
+            }
+        });
+    }
+
     // 'login' button event
     private void login_buttonEvent() {
         if(mTelManager != null) {
@@ -157,6 +168,15 @@ public class MainActivity extends AppCompatActivity implements
             }
         });
 
+        Button menu_hospital = (Button) findViewById(R.id.menu_hospital);
+        menu_hospital.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                setContentView(R.layout.hospital);
+                hospital_buttonEvent();
+            }
+        });
+
         Button menu_logout = (Button)findViewById(R.id.menu_logout);
         menu_logout.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -176,10 +196,8 @@ public class MainActivity extends AppCompatActivity implements
             }
         });
         final String number = "10";
-        final String[] name = new String[] {"地點1", "地點2", "地點3"};
-        final String[] isDone = new String[] {"待處理", "待查", "待處理"};
-        CharSequence[] Name = name;
-        CharSequence[] IsDone = isDone;
+        CharSequence[] Name = new String[] {"地點1", "地點2", "地點3"};
+        CharSequence[] IsDone = new String[] {"待處理", "待查", "待處理"};
 
         TextView reportList_number = (TextView) findViewById(R.id.reportList_number);
         reportList_number.setText("還有 " + number + " 個點待查");
@@ -313,14 +331,32 @@ public class MainActivity extends AppCompatActivity implements
         web.loadUrl("http://real.taiwanstat.com/dengue-spatial-temporal/");
     }
 
-    private void goBack(final int layoutID, final Runnable buttonEvent) {
-        ImageButton goBackButton = (ImageButton) findViewById(R.id.goback);
-        goBackButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View w) {
-                setContentView(layoutID);
-                buttonEvent.run();
-            }
-        });
+    // 'hospital' button Event
+    private void hospital_buttonEvent() {
+        if(isVillageChief) {
+            goBack(R.layout.menu_village_chief, new Runnable() {
+                @Override
+                public void run() {
+                    menu_buttonsEvent();
+                }
+            });
+        }
+        else {
+            goBack(R.layout.menu, new Runnable() {
+                @Override
+                public void run() {
+                    menu_buttonsEvent();
+                }
+            });
+        }
+
+        final String number = "10";
+        CharSequence[] Name = new String[] {"醫院1", "醫院2", "醫院3"};
+
+        TextView hospital_number = (TextView) findViewById(R.id.hospital_number);
+        hospital_number.setText("您附近有 " + number + " 個醫療院所");
+
+        ListView hospital_list = (ListView) findViewById(R.id.hospital_list);
+        hospital_list.setAdapter(new hospitalAdapter(this, Name));
     }
 }
