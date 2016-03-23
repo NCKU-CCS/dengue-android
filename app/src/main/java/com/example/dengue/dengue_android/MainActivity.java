@@ -9,6 +9,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.telephony.TelephonyManager;
 import android.util.Log;
 import android.view.View;
+import android.webkit.WebView;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
@@ -21,8 +22,6 @@ import android.widget.TextView;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.location.LocationServices;
-
-import org.w3c.dom.Text;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -146,6 +145,15 @@ public class MainActivity extends AppCompatActivity implements
             public void onClick(View w) {
                 setContentView(R.layout.breeding_sources_submit);
                 breedingSources_submit_submitButtonEvent();
+            }
+        });
+
+        Button menu_hot = (Button) findViewById(R.id.menu_hot);
+        menu_hot.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View w) {
+                setContentView(R.layout.hot);
+                hot_buttonEvent();
             }
         });
 
@@ -278,6 +286,31 @@ public class MainActivity extends AppCompatActivity implements
                 output.setText(data);
             }
         });
+    }
+
+    // 'hot' button Event
+    private void hot_buttonEvent() {
+        if(isVillageChief) {
+            goBack(R.layout.menu_village_chief, new Runnable() {
+                @Override
+                public void run() {
+                    menu_buttonsEvent();
+                }
+            });
+        }
+        else {
+            goBack(R.layout.menu, new Runnable() {
+                @Override
+                public void run() {
+                    menu_buttonsEvent();
+                }
+            });
+        }
+
+        WebView web = (WebView) findViewById(R.id.hot_web);
+        web.getSettings().setJavaScriptEnabled(true);
+        web.requestFocus();
+        web.loadUrl("http://real.taiwanstat.com/dengue-spatial-temporal/");
     }
 
     private void goBack(final int layoutID, final Runnable buttonEvent) {
