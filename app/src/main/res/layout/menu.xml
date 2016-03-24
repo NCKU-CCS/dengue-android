@@ -34,53 +34,12 @@
 
     </RelativeLayout>
 
-    <LinearLayout
-        android:orientation="vertical"
+    <GridView
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="match_parent"
+        android:id="@+id/menu_grid"
+        android:numColumns="auto_fit"
         android:gravity="center"
-        android:padding="20dp">
-
-        <Button
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/menu_bite"
-            android:id="@+id/menu_bites"
-            android:layout_gravity="center_horizontal"
-            android:minWidth="200dp" />
-
-        <Button
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/menu_breedingSources"
-            android:id="@+id/menu_breedingSources"
-            android:layout_gravity="center_horizontal"
-            android:minWidth="200dp" />
-
-        <Button
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/menu_hot"
-            android:id="@+id/menu_hot"
-            android:layout_gravity="center_horizontal"
-            android:minWidth="200dp" />
-
-        <Button
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/menu_hospital"
-            android:id="@+id/menu_hospital"
-            android:layout_gravity="center_horizontal"
-            android:minWidth="200dp" />
-
-        <Button
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/menu_logout"
-            android:id="@+id/menu_logout"
-            android:layout_gravity="center_horizontal"
-            android:minWidth="200dp" />
-
-    </LinearLayout>
+        android:stretchMode="columnWidth" />
 
 </LinearLayout>

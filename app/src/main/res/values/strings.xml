@@ -3,6 +3,7 @@
     <string name="goBack">goBack</string>
     <string name="menu">menu</string>
     <string name="img">image</string>
+    <string name="logout">log out</string>
 
     <string name="login_phone">手機</string>
     <string name="login_password">密碼</string>
@@ -15,7 +16,7 @@
     <string name="menu_breedingSources">孳生源舉報</string>
     <string name="menu_hot">熱區資訊</string>
     <string name="menu_hospital">登革熱就醫資訊</string>
-    <string name="menu_logout">log out</string>
+    <string name="menu_item_name">item</string>
 
     <string name="reportList_title">待檢查孳生源點</string>
     <string name="reportList_number">還有 個點待查</string>

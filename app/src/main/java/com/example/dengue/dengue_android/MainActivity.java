@@ -14,6 +14,7 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.GridView;
 import android.widget.ImageButton;
 import android.widget.ListView;
 import android.widget.Spinner;
@@ -116,15 +117,9 @@ public class MainActivity extends AppCompatActivity implements
             @Override
             public void onClick(View w) {
                 EditText phone = (EditText) findViewById(R.id.login_phone_value);
-                if (phone.getText().toString().equals("0912345678")) {
-                    isVillageChief = true;
-                    setContentView(R.layout.menu_village_chief);
-                    menu_buttonsEvent();
-                } else {
-                    isVillageChief = false;
-                    setContentView(R.layout.menu);
-                    menu_buttonsEvent();
-                }
+                isVillageChief = phone.getText().toString().equals("0912345678");
+                setContentView(R.layout.menu);
+                menu_buttonsEvent();
             }
         });
 
@@ -141,57 +136,81 @@ public class MainActivity extends AppCompatActivity implements
 
     // 'menu' button event
     private void menu_buttonsEvent() {
+        final int [] Name;
+        final int [] Img;
         if(isVillageChief) {
-            Button menu_reportList = (Button) findViewById(R.id.menu_reportList);
-            menu_reportList.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View w) {
-                    setContentView(R.layout.report_list);
-                    reportList_buttonEvent();
-                }
-            });
+            Name = new int[]{
+                    R.string.menu_reportList,
+                    R.string.menu_bite,
+                    R.string.menu_breedingSources,
+                    R.string.menu_hot,
+                    R.string.menu_hospital,
+                    R.string.logout
+            };
+            Img = new int[]{
+                    R.drawable.img,
+                    R.drawable.img,
+                    R.drawable.img,
+                    R.drawable.img,
+                    R.drawable.img,
+                    R.drawable.img
+            };
+
+        }
+        else {
+            Name = new int[]{
+                    R.string.menu_bite,
+                    R.string.menu_breedingSources,
+                    R.string.menu_hot,
+                    R.string.menu_hospital,
+                    R.string.logout
+            };
+            Img = new int[]{
+                    R.drawable.img,
+                    R.drawable.img,
+                    R.drawable.img,
+                    R.drawable.img,
+                    R.drawable.img
+            };
         }
 
-        Button menu_breedingSources = (Button)findViewById(R.id.menu_breedingSources);
-        menu_breedingSources.setOnClickListener(new View.OnClickListener() {
+        GridView menu_list = (GridView) findViewById(R.id.menu_grid);
+        menu_list.setNumColumns(2);
+        menu_list.setAdapter(new menuAdapter(this, Name, Img));
+        menu_list.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
-            public void onClick(View w) {
-                setContentView(R.layout.breeding_sources_submit);
-                breedingSources_submit_submitButtonEvent();
-            }
-        });
-
-        Button menu_hot = (Button) findViewById(R.id.menu_hot);
-        menu_hot.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View w) {
-                setContentView(R.layout.hot);
-                hot_buttonEvent();
-            }
-        });
-
-        Button menu_hospital = (Button) findViewById(R.id.menu_hospital);
-        menu_hospital.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                setContentView(R.layout.hospital);
-                hospital_buttonEvent();
-            }
-        });
-
-        Button menu_logout = (Button)findViewById(R.id.menu_logout);
-        menu_logout.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View w) {
-                setContentView(R.layout.login);
-                login_buttonEvent();
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                switch (Name[position]) {
+                    case R.string.menu_reportList:
+                        setContentView(R.layout.report_list);
+                        reportList_buttonEvent();
+                        break;
+                    case R.string.menu_bite:
+                        break;
+                    case R.string.menu_breedingSources:
+                        setContentView(R.layout.breeding_sources_submit);
+                        breedingSources_submit_submitButtonEvent();
+                        break;
+                    case R.string.menu_hot:
+                        setContentView(R.layout.hot);
+                        hot_buttonEvent();
+                        break;
+                    case R.string.menu_hospital:
+                        setContentView(R.layout.hospital);
+                        hospital_buttonEvent();
+                        break;
+                    case R.string.logout:
+                        setContentView(R.layout.login);
+                        login_buttonEvent();
+                        break;
+                }
             }
         });
     }
 
     // 'report list' button event
     private void reportList_buttonEvent() {
-        goBack(R.layout.menu_village_chief, new Runnable() {
+        goBack(R.layout.menu, new Runnable() {
             @Override
             public void run() {
                 menu_buttonsEvent();
@@ -269,25 +288,15 @@ public class MainActivity extends AppCompatActivity implements
 
     // 'breeding sources submit' submit button event
     private void breedingSources_submit_submitButtonEvent() {
-        if(isVillageChief) {
-            goBack(R.layout.menu_village_chief, new Runnable() {
+        goBack(R.layout.menu, new Runnable() {
                 @Override
                 public void run() {
                     menu_buttonsEvent();
                 }
             });
-        }
-        else {
-            goBack(R.layout.menu, new Runnable() {
-                @Override
-                public void run() {
-                    menu_buttonsEvent();
-                }
-            });
-        }
 
         Spinner breedingSources_submit_spinner = (Spinner)findViewById(R.id.breedingSources_submit_type_value);
-        String[] types = {"type1", "type2"};
+        String[] types = {"住家積水容器", "雜物堆積(髒亂)", "空地積水容器"};
         ArrayAdapter<String> typelist = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, types);
         breedingSources_submit_spinner.setAdapter(typelist);
 
@@ -315,22 +324,12 @@ public class MainActivity extends AppCompatActivity implements
 
     // 'hot' button Event
     private void hot_buttonEvent() {
-        if(isVillageChief) {
-            goBack(R.layout.menu_village_chief, new Runnable() {
-                @Override
-                public void run() {
-                    menu_buttonsEvent();
-                }
-            });
-        }
-        else {
-            goBack(R.layout.menu, new Runnable() {
-                @Override
-                public void run() {
-                    menu_buttonsEvent();
-                }
-            });
-        }
+        goBack(R.layout.menu, new Runnable() {
+            @Override
+            public void run() {
+                menu_buttonsEvent();
+            }
+        });
 
         WebView web = (WebView) findViewById(R.id.hot_web);
         web.getSettings().setJavaScriptEnabled(true);
@@ -340,22 +339,12 @@ public class MainActivity extends AppCompatActivity implements
 
     // 'hospital' button Event
     private void hospital_buttonEvent() {
-        if(isVillageChief) {
-            goBack(R.layout.menu_village_chief, new Runnable() {
+        goBack(R.layout.menu, new Runnable() {
                 @Override
                 public void run() {
                     menu_buttonsEvent();
                 }
             });
-        }
-        else {
-            goBack(R.layout.menu, new Runnable() {
-                @Override
-                public void run() {
-                    menu_buttonsEvent();
-                }
-            });
-        }
 
         CharSequence[] Name = new String[] {"醫院1", "醫院2", "醫院3"};
         final int number = Name.length;
