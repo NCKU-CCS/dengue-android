@@ -3,7 +3,7 @@
     <string name="goBack">goBack</string>
     <string name="menu">menu</string>
     <string name="img">image</string>
-    <string name="logout">log out</string>
+    <string name="logout">登出</string>
 
     <string name="login_phone">手機</string>
     <string name="login_password">密碼</string>

@@ -1,45 +1,94 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical" android:layout_width="match_parent"
-    android:layout_height="match_parent">
+<android.support.v4.widget.DrawerLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:id="@+id/menu">
 
-    <RelativeLayout
+    <LinearLayout
+        android:orientation="vertical"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="@color/colorPrimary">
+        android:layout_height="match_parent">
 
-        <ImageButton
-            android:layout_width="wrap_content"
+        <RelativeLayout
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:id="@+id/menu_menu"
-            android:background="@color/colorPrimary"
-            android:src="@mipmap/menu"
-            android:contentDescription="@string/menu"
-            android:layout_alignParentEnd="false"
-            android:layout_alignParentStart="true"
-            android:layout_centerVertical="true"
-            android:layout_marginLeft="20dp" />
+            android:background="@color/colorPrimary">
+
+            <ImageButton
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/menu_menuButton"
+                android:background="@color/colorPrimary"
+                android:src="@mipmap/menu"
+                android:contentDescription="@string/menu"
+                android:layout_alignParentEnd="false"
+                android:layout_alignParentStart="true"
+                android:layout_centerVertical="true"
+                android:layout_marginLeft="20dp" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textAppearance="?android:attr/textAppearanceLarge"
+                android:text="@string/menu_title"
+                android:id="@+id/breedingSources_submit_title"
+                android:paddingTop="10dp"
+                android:paddingBottom="10dp"
+                android:textColor="@color/colorText"
+                android:layout_alignParentEnd="false"
+                android:layout_centerHorizontal="true" />
+
+        </RelativeLayout>
+
+        <GridView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:id="@+id/menu_grid"
+            android:numColumns="auto_fit"
+            android:gravity="center"
+            android:stretchMode="columnWidth" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="240dp"
+        android:layout_height="match_parent"
+        android:background="#000"
+        android:layout_gravity="start"
+        android:orientation="vertical"
+        android:padding="20dp"
+        android:clickable="true">
+
 
         <TextView
-            android:layout_width="wrap_content"
+            android:id="@+id/menu_username"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:textAppearance="?android:attr/textAppearanceLarge"
-            android:text="@string/menu_title"
-            android:id="@+id/breedingSources_submit_title"
-            android:paddingTop="10dp"
-            android:paddingBottom="10dp"
             android:textColor="@color/colorText"
-            android:layout_alignParentEnd="false"
-            android:layout_centerHorizontal="true" />
+            android:paddingTop="20dp"
+            android:paddingBottom="20dp"
+            android:background="#000"
+            android:textSize="24sp" />
 
-    </RelativeLayout>
+        <LinearLayout
+            android:orientation="vertical"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:gravity="center|bottom">
 
-    <GridView
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:id="@+id/menu_grid"
-        android:numColumns="auto_fit"
-        android:gravity="center"
-        android:stretchMode="columnWidth" />
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/logout"
+                android:id="@+id/logout"
+                android:textColor="@color/colorText"
+                android:background="#000"
+                android:paddingTop="20dp"
+                android:paddingBottom="20dp" />
+        </LinearLayout>
 
-</LinearLayout>
+    </LinearLayout>
+
+</android.support.v4.widget.DrawerLayout>

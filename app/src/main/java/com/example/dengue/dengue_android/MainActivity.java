@@ -5,6 +5,8 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.location.Location;
 import android.os.Bundle;
+import android.support.v4.view.GravityCompat;
+import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.telephony.TelephonyManager;
 import android.util.Log;
@@ -136,6 +138,26 @@ public class MainActivity extends AppCompatActivity implements
 
     // 'menu' button event
     private void menu_buttonsEvent() {
+        final DrawerLayout menu = (DrawerLayout) findViewById(R.id.menu);
+        ImageButton menu_button = (ImageButton) findViewById(R.id.menu_menuButton);
+        menu_button.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View w) {
+                menu.openDrawer(GravityCompat.START);
+            }
+        });
+
+        TextView username = (TextView) findViewById(R.id.menu_username);
+        username.setText("User name");
+        TextView logout = (TextView) findViewById(R.id.logout);
+        logout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                setContentView(R.layout.login);
+                login_buttonEvent();
+            }
+        });
+
         final int [] Name;
         final int [] Img;
         if(isVillageChief) {
@@ -144,11 +166,9 @@ public class MainActivity extends AppCompatActivity implements
                     R.string.menu_bite,
                     R.string.menu_breedingSources,
                     R.string.menu_hot,
-                    R.string.menu_hospital,
-                    R.string.logout
+                    R.string.menu_hospital
             };
             Img = new int[]{
-                    R.drawable.img,
                     R.drawable.img,
                     R.drawable.img,
                     R.drawable.img,
@@ -162,11 +182,9 @@ public class MainActivity extends AppCompatActivity implements
                     R.string.menu_bite,
                     R.string.menu_breedingSources,
                     R.string.menu_hot,
-                    R.string.menu_hospital,
-                    R.string.logout
+                    R.string.menu_hospital
             };
             Img = new int[]{
-                    R.drawable.img,
                     R.drawable.img,
                     R.drawable.img,
                     R.drawable.img,
@@ -198,10 +216,6 @@ public class MainActivity extends AppCompatActivity implements
                     case R.string.menu_hospital:
                         setContentView(R.layout.hospital);
                         hospital_buttonEvent();
-                        break;
-                    case R.string.logout:
-                        setContentView(R.layout.login);
-                        login_buttonEvent();
                         break;
                 }
             }
