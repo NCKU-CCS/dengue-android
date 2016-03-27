@@ -1,0 +1,68 @@
+package com.example.dengue.dengue_android;
+
+import android.telephony.TelephonyManager;
+import android.view.View;
+import android.widget.ArrayAdapter;
+import android.widget.Button;
+import android.widget.EditText;
+import android.widget.Spinner;
+import android.widget.TextView;
+
+import java.text.SimpleDateFormat;
+import java.util.Date;
+
+public class breedingSourcesSubmitEvent {
+    private MainActivity Main;
+    private String[] types;
+    private TelephonyManager TelManager;
+    private String Lat;
+    private String Lon;
+
+    breedingSourcesSubmitEvent(MainActivity mMain) {
+        Main = mMain;
+        types = new String[] {"住家積水容器", "雜物堆積(髒亂)", "空地積水容器"};
+    }
+
+    public void setBreedingSourcesSubmitView(TelephonyManager mTelManager,
+                                             String mLat,
+                                             String mLon,
+                                             Runnable goBack
+    ) {
+        TelManager = mTelManager;
+        Lat = mLat;
+        Lon = mLon;
+        Main.setContentView(R.layout.breeding_sources_submit);
+
+        goBack.run();
+        breedingSourcesSubmitTypeList();
+        breedingSourcesSubmitSubmit();
+    }
+
+    private void breedingSourcesSubmitTypeList() {
+        Spinner breedingSources_submit_spinner = (Spinner) Main.findViewById(R.id.breedingSources_submit_type_value);
+        breedingSources_submit_spinner.setAdapter(new ArrayAdapter<String>(Main, android.R.layout.simple_spinner_item, types));
+    }
+
+    private void breedingSourcesSubmitSubmit() {
+        Button breedingSources_submitButton = (Button) Main.findViewById(R.id.breedingSources_submit_submit);
+        breedingSources_submitButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View w) {
+                TextView output = (TextView) Main.findViewById(R.id.breedingSources_submit_output);
+                EditText description = (EditText) Main.findViewById(R.id.breedingSources_submit_description_value);
+                Spinner type = (Spinner) Main.findViewById(R.id.breedingSources_submit_type_value);
+                String now = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss").format(new Date(System.currentTimeMillis()));
+
+                String data = "";
+                data += "id: " + TelManager.getLine1Number() + "\n";
+                data += "type:" + type.getSelectedItem().toString() + "\n";
+                data += "description: " + description.getText().toString() + "\n";
+                data += "date: " + now + "\n";
+                data += "lat:" + Lat + "\n";
+                data += "lon:" + Lon + "\n";
+                data += "done: false";
+                output.setText(data);
+            }
+        });
+    }
+}
