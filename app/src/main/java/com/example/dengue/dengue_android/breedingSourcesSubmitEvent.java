@@ -10,13 +10,15 @@ import android.widget.TextView;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.Locale;
 
 public class breedingSourcesSubmitEvent {
     private MainActivity Main;
     private String[] types;
     private TelephonyManager TelManager;
-    private String Lat;
-    private String Lon;
+    private double Lat;
+    private double Lon;
+    private gps gps;
 
     breedingSourcesSubmitEvent(MainActivity mMain) {
         Main = mMain;
@@ -24,13 +26,15 @@ public class breedingSourcesSubmitEvent {
     }
 
     public void setBreedingSourcesSubmitView(TelephonyManager mTelManager,
-                                             String mLat,
-                                             String mLon,
+                                             double mLat,
+                                             double mLon,
+                                             gps mGps,
                                              Runnable goBack
     ) {
         TelManager = mTelManager;
         Lat = mLat;
         Lon = mLon;
+        gps = mGps;
         Main.setContentView(R.layout.breeding_sources_submit);
 
         goBack.run();
@@ -40,7 +44,7 @@ public class breedingSourcesSubmitEvent {
 
     private void breedingSourcesSubmitTypeList() {
         Spinner breedingSources_submit_spinner = (Spinner) Main.findViewById(R.id.breedingSources_submit_type_value);
-        breedingSources_submit_spinner.setAdapter(new ArrayAdapter<String>(Main, android.R.layout.simple_spinner_item, types));
+        breedingSources_submit_spinner.setAdapter(new ArrayAdapter<>(Main, android.R.layout.simple_spinner_item, types));
     }
 
     private void breedingSourcesSubmitSubmit() {
@@ -49,9 +53,11 @@ public class breedingSourcesSubmitEvent {
             @Override
             public void onClick(View w) {
                 TextView output = (TextView) Main.findViewById(R.id.breedingSources_submit_output);
+
                 EditText description = (EditText) Main.findViewById(R.id.breedingSources_submit_description_value);
                 Spinner type = (Spinner) Main.findViewById(R.id.breedingSources_submit_type_value);
-                String now = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss").format(new Date(System.currentTimeMillis()));
+                String now = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss", Locale.TRADITIONAL_CHINESE)
+                        .format( new Date(System.currentTimeMillis()) );
 
                 String data = "";
                 data += "id: " + TelManager.getLine1Number() + "\n";
@@ -60,6 +66,7 @@ public class breedingSourcesSubmitEvent {
                 data += "date: " + now + "\n";
                 data += "lat:" + Lat + "\n";
                 data += "lon:" + Lon + "\n";
+                data += "address:" + gps.get(Lat, Lon) + "\n";
                 data += "done: false";
                 output.setText(data);
             }
