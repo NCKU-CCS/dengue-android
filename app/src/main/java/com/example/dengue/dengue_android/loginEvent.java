@@ -5,27 +5,39 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 
+import java.util.Random;
+
 public class loginEvent {
     private MainActivity Main;
     private boolean isVillageChief = false;
+    private TelephonyManager TelManager;
+    private session Session;
 
     private Runnable Menu;
 
-    loginEvent(final MainActivity mMain) {
+    loginEvent(MainActivity mMain) {
         Main = mMain;
     }
 
-    public void setLoginView (TelephonyManager mTelManager, Runnable mMenu) {
+    public void setLoginView (TelephonyManager mTelManager, session mSession, Runnable mMenu) {
         Menu = mMenu;
-        Main.setContentView(R.layout.login);
+        TelManager = mTelManager;
+        Session = mSession;
 
-        if(mTelManager != null) {
-            EditText text = (EditText) Main.findViewById(R.id.login_phone_value);
-            text.setText(mTelManager.getLine1Number());
+        if( Session.getBooleanData("isLogin") ) {
+            Menu.run();
         }
+        else {
+            Main.setContentView(R.layout.login);
 
-        normalLogin();
-        quicklyLogin();
+            EditText login_phoneValue = (EditText) Main.findViewById(R.id.login_phone_value);
+            login_phoneValue.setText(Session.getStringData("phone"));
+            EditText login_passwordValue = (EditText) Main.findViewById(R.id.login_password_value);
+            login_passwordValue.setText(Session.getStringData("password"));
+
+            normalLogin();
+            quicklyLogin();
+        }
     }
 
     public boolean getIsVillageChief () {
@@ -38,7 +50,13 @@ public class loginEvent {
             @Override
             public void onClick(View w) {
                 EditText phone = (EditText) Main.findViewById(R.id.login_phone_value);
+                Session.setData("phone", phone.getText().toString());
+
+                EditText password = (EditText) Main.findViewById(R.id.login_password_value);
+                Session.setData("password", password.getText().toString());
+
                 isVillageChief = phone.getText().toString().equals("0912345678");
+                Session.setData("isLogin", true);
                 Menu.run();
             }
         });
@@ -49,7 +67,14 @@ public class loginEvent {
         login_quicklyButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View w) {
+                Random random = new Random();
+                String phone = TelManager != null ? TelManager.getLine1Number() : String.valueOf(random.nextInt(10000));
+
+                Session.setData("phone", phone);
+                Session.setData("password", String.valueOf(random.nextInt(10000)));
+
                 isVillageChief = false;
+                Session.setData("isLogin", true);
                 Menu.run();
             }
         });

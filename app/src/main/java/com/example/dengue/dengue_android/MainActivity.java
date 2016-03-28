@@ -15,7 +15,7 @@ public class MainActivity extends AppCompatActivity implements
         GoogleApiClient.ConnectionCallbacks,
         GoogleApiClient.OnConnectionFailedListener {
     // google api
-    protected static final String TAG = "MainActivity";
+    private static final String AppName = "Dengue";
     private GoogleApiClient mGoogleApiClient;
     private String Lat;
     private String Lon;
@@ -23,6 +23,7 @@ public class MainActivity extends AppCompatActivity implements
     private TelephonyManager TelManager;
     // view class;
     private goBack GoBack = new goBack(this);
+    private session Session = new session();
     private loginEvent Login = new loginEvent(this);
     private menuEvent Menu = new menuEvent(this);
     private reportListEvent ReportList = new reportListEvent(this);
@@ -37,16 +38,17 @@ public class MainActivity extends AppCompatActivity implements
         super.onCreate(savedInstanceState);
         TelManager = (TelephonyManager)getSystemService(Context.TELEPHONY_SERVICE);
         buildGoogleApiClient();
+        Session.setSession(getSharedPreferences(AppName, 0));
 
-        Login.setLoginView(TelManager, new Runnable() {
+        Login.setLoginView(TelManager, Session, new Runnable() {
             @Override
             public void run() {
                 final Runnable MenuEvent = this;
-                Menu.setMenuView(Login.getIsVillageChief(), new Runnable() {
+                Menu.setMenuView(Login.getIsVillageChief(), Session, new Runnable() {
                     // log out
                     @Override
                     public void run() {
-                        Login.setLoginView(TelManager, MenuEvent);
+                        Login.setLoginView(TelManager, Session, MenuEvent);
                     }
                 }, new Runnable() {
                     // report list
@@ -124,12 +126,12 @@ public class MainActivity extends AppCompatActivity implements
 
     @Override
     public void onConnectionSuspended(int i) {
-        Log.i(TAG, "Connection suspended");
+        Log.i(AppName, "Connection suspended");
         mGoogleApiClient.connect();
     }
 
     @Override
     public void onConnectionFailed(ConnectionResult result) {
-        Log.i(TAG, "Connection failed: ConnectionResult.getErrorCode() = " + result.getErrorCode());
+        Log.i(AppName, "Connection failed: ConnectionResult.getErrorCode() = " + result.getErrorCode());
     }
 }

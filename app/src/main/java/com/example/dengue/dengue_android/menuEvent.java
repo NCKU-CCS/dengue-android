@@ -11,6 +11,7 @@ import android.widget.TextView;
 public class menuEvent {
     private MainActivity Main;
     private boolean isVillageChief = false;
+    private session Session;
     private int [] Name;
     private int [] Img;
 
@@ -25,6 +26,7 @@ public class menuEvent {
     }
 
     public void setMenuView(boolean mIsVillageChief,
+                            session mSession,
                             Runnable mLogout,
                             Runnable mReportList,
                             Runnable mBreedingSourcesSubmit,
@@ -32,6 +34,7 @@ public class menuEvent {
                             Runnable mHospital
     ) {
         isVillageChief = mIsVillageChief;
+        Session = mSession;
         Logout = mLogout;
         ReportList = mReportList;
         BreedingSourcesSubmit = mBreedingSourcesSubmit;
@@ -61,6 +64,7 @@ public class menuEvent {
         logout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                Session.setData("isLogin", false);
                 Logout.run();
             }
         });
