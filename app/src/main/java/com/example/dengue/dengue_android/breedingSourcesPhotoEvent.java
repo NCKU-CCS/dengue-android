@@ -9,6 +9,7 @@ import android.graphics.BitmapFactory;
 import android.graphics.Matrix;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.Environment;
 import android.provider.MediaStore;
 import android.telephony.TelephonyManager;
 import android.util.DisplayMetrics;
@@ -37,7 +38,7 @@ public class breedingSourcesPhotoEvent extends Activity {
     private final static int CAMERA = 66;
     private final static int PHOTO = 99;
     private static Uri photoUri;
-    private View mV;
+    private static View mV;
 
     private MainActivity Main;
     private TelephonyManager TelManager;
@@ -79,11 +80,16 @@ public class breedingSourcesPhotoEvent extends Activity {
     {
         return mImg;
     }
+    public static View getView()
+    {
+        return mV;
+    }
+
 
     private void breedingSourcesTakePhoto() {
         //讀取手機解析度
         mPhone = new DisplayMetrics();
-        Main.getWindowManager().getDefaultDisplay().getMetrics(mPhone); //error1
+        Main.getWindowManager().getDefaultDisplay().getMetrics(mPhone);
 
         mImg = (ImageView) Main.findViewById(R.id.img);
         Button mCamera = (Button) Main.findViewById(R.id.camera);
@@ -99,9 +105,9 @@ public class breedingSourcesPhotoEvent extends Activity {
                 String filename = timeStampFormat.format(new Date());
                 ContentValues values = new ContentValues();
                 //value.put(MediaStore.Video.Media.MIME_TYPE, "image/jpeg");
-                values.put(MediaStore.Video.Media.TITLE, filename);
-                photoUri = Main.getContentResolver().insert(MediaStore.Video.Media.EXTERNAL_CONTENT_URI, values); //error2
-                //Toast.makeText(v.getContext(), photoUri.getPath(), Toast.LENGTH_LONG).show();
+                values.put(MediaStore.Images.Media.TITLE, filename);
+                photoUri = Main.getContentResolver().insert(MediaStore.Images.Media.EXTERNAL_CONTENT_URI, values);
+                //photoUri = Uri.parse("/sdcard/xxx.jpg");
                 intent.putExtra(MediaStore.EXTRA_OUTPUT, photoUri);
                 Main.startActivityForResult(intent, CAMERA);
                 //takingPhoto(intent, CAMERA);
@@ -113,11 +119,11 @@ public class breedingSourcesPhotoEvent extends Activity {
             @Override
             public void onClick(View v) {
                 //開啟相簿相片集，須由startActivityForResult且帶入requestCode進行呼叫，原因為點選相片後返回程式呼叫onActivityResult
+                Uri uri = Uri.parse(Environment.getExternalStorageDirectory().getPath());
                 Intent intent = new Intent();
                 intent.setType("image/*");
                 intent.setAction(Intent.ACTION_GET_CONTENT);
-                //Toast.makeText(v.getContext(), intent.getDataString(), Toast.LENGTH_LONG).show();
-
+                //intent.setDataAndType(uri, "jpg");
                 Main.startActivityForResult(intent, PHOTO);
                 //takingPhoto(intent, PHOTO);
             }

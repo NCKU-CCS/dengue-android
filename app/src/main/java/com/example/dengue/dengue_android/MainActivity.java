@@ -14,7 +14,9 @@ import android.support.v7.app.AppCompatActivity;
 import android.telephony.TelephonyManager;
 import android.util.DisplayMetrics;
 import android.util.Log;
+import android.view.View;
 import android.widget.ImageView;
+import android.widget.Toast;
 
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.api.GoogleApiClient;
@@ -52,7 +54,7 @@ public class MainActivity extends AppCompatActivity implements
     private hotEvent Hot = new hotEvent(this);
     private hospitalEvent Hospital = new hospitalEvent(this);
     private hospitalInfoEvent HospitalInfo = new hospitalInfoEvent(this);
-
+    private View mV;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -175,17 +177,22 @@ public class MainActivity extends AppCompatActivity implements
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         mPhone = new DisplayMetrics();
         getWindowManager().getDefaultDisplay().getMetrics(mPhone); //error1
+
         //藉由requestCode判斷是否為開啟相機或開啟相簿而呼叫的，且data不為null
-        if ((requestCode == CAMERA || requestCode == PHOTO) && data != null) {
+        if (requestCode == CAMERA || requestCode == PHOTO)  {
             //取得照片路徑uri
             Uri uri = null;
-            if (data == null) {
+            mV = breedingSourcesPhotoEvent.getView();
+            if (data == null || data.getData()==null) {
                 Uri photoUri = breedingSourcesPhotoEvent.getUri();
                 if (photoUri != null) {
                     uri = photoUri;
+                    //Toast.makeText(mV.getContext(),"from:data"+ uri.getPath(), Toast.LENGTH_LONG).show();
                 }
-            } else {
+            }
+            else {
                 uri = data.getData();
+                //Toast.makeText(mV.getContext(),"from:photo"+ uri.getPath(), Toast.LENGTH_LONG).show();
             }
             ContentResolver cr = this.getContentResolver();
 
