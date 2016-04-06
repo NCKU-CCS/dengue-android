@@ -12,14 +12,14 @@ import java.util.Locale;
 /**
  * Created by nana on 2016/3/30.
  */
-public class bittenByMosquito {
+public class bittenByMosquitoEvent {
     private MainActivity Main;
     private TelephonyManager TelManager;
     private double Lat;
     private double Lon;
     private gps gps;
 
-    bittenByMosquito(MainActivity mMain) {
+    bittenByMosquitoEvent(MainActivity mMain) {
         Main = mMain;
     }
 

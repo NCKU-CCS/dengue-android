@@ -23,7 +23,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textAppearance="?android:attr/textAppearanceLarge"
-            android:text="@string/breedingSources_submit_title"
+            android:text="@string/breedingSources_title"
             android:id="@+id/breedingSources_submit_title"
             android:paddingTop="10dp"
             android:paddingBottom="10dp"
@@ -46,8 +46,8 @@
 
                 <ImageView
                     android:layout_width="match_parent"
-                    android:layout_height="400dp"
-                    android:id="@+id/breedingSources_submit_imageView"
+                    android:layout_height="300dp"
+                    android:id="@+id/breedingSources_submit_img"
                     android:src="@drawable/img"
                     android:contentDescription="@string/img" />
 
@@ -72,6 +72,13 @@
                     android:id="@+id/breedingSources_submit_description_text"
                     android:layout_marginTop="20dp" />
 
+                <EditText
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:inputType="textMultiLine"
+                    android:ems="10"
+                    android:id="@+id/breedingSources_submit_description_value" />
+
                 <Button
                     android:layout_width="fill_parent"
                     android:layout_height="wrap_content"
@@ -92,13 +99,6 @@
                     android:id="@+id/breedingSources_submit_output"
                     android:gravity="center"
                     android:padding="20dp" />
-
-                <EditText
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:inputType="textMultiLine"
-                    android:ems="10"
-                    android:id="@+id/breedingSources_submit_description_value" />
             </LinearLayout>
         </ScrollView>
 

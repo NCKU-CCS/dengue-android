@@ -31,7 +31,10 @@
     <string name="reportList_check_no">不是孳生源</string>
     <string name="reportList_check_dialogTitle">處理方式</string>
 
-    <string name="breedingSources_submit_title">孳生源舉報</string>
+    <string name="breedingSources_title">孳生源舉報</string>
+    <string name="breedingSources_photo_camera">開啟相機</string>
+    <string name="breedingSources_photo_photo">開啟相簿</string>
+
     <string name="breedingSources_submit_button">上傳</string>
     <string name="breedingSources_submit_description">地點描述：</string>
     <string name="breedingSources_submit_type">孳生源類型：</string>

@@ -1,10 +1,12 @@
 package com.example.dengue.dengue_android;
 
+import android.graphics.Bitmap;
 import android.telephony.TelephonyManager;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.Spinner;
 import android.widget.TextView;
 
@@ -19,6 +21,7 @@ public class breedingSourcesSubmitEvent {
     private double Lat;
     private double Lon;
     private gps gps;
+    private Bitmap Img;
 
     breedingSourcesSubmitEvent(MainActivity mMain) {
         Main = mMain;
@@ -29,17 +32,25 @@ public class breedingSourcesSubmitEvent {
                                              double mLat,
                                              double mLon,
                                              gps mGps,
+                                             Bitmap mImg,
                                              Runnable goBack
     ) {
         TelManager = mTelManager;
         Lat = mLat;
         Lon = mLon;
         gps = mGps;
+        Img = mImg;
         Main.setContentView(R.layout.breeding_sources_submit);
 
         goBack.run();
+        breedingSourcesSubmitImg();
         breedingSourcesSubmitTypeList();
         breedingSourcesSubmitSubmit();
+    }
+
+    private void breedingSourcesSubmitImg() {
+        ImageView breedingSources_submit_img = (ImageView) Main.findViewById(R.id.breedingSources_submit_img);
+        breedingSources_submit_img.setImageBitmap(Img);
     }
 
     private void breedingSourcesSubmitTypeList() {

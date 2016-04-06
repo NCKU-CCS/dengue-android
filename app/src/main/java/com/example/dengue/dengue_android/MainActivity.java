@@ -1,9 +1,14 @@
 package com.example.dengue.dengue_android;
 
+import android.Manifest;
 import android.content.Context;
+import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.location.Geocoder;
 import android.location.Location;
+import android.net.Uri;
 import android.os.Bundle;
+import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.telephony.TelephonyManager;
 import android.util.Log;
@@ -17,6 +22,9 @@ import java.util.Locale;
 public class MainActivity extends AppCompatActivity implements
         GoogleApiClient.ConnectionCallbacks,
         GoogleApiClient.OnConnectionFailedListener {
+    //take photo
+    private final int CAMERA = 66;
+    private final int PHOTO = 99;
     // google api
     private static final String AppName = "Dengue";
     private GoogleApiClient mGoogleApiClient;
@@ -32,7 +40,7 @@ public class MainActivity extends AppCompatActivity implements
     private menuEvent Menu = new menuEvent(this);
     private reportListEvent ReportList = new reportListEvent(this);
     private reportListCheckEvent ReportListCheck = new reportListCheckEvent(this);
-    private bittenByMosquito BittenByMosquito = new bittenByMosquito(this);
+    private bittenByMosquitoEvent BittenByMosquito = new bittenByMosquitoEvent(this);
     private breedingSourcesPhotoEvent BreedingSourcesPhoto = new breedingSourcesPhotoEvent(this);
     private breedingSourcesSubmitEvent BreedingSourcesSubmit = new breedingSourcesSubmitEvent(this);
     private hotEvent Hot = new hotEvent(this);
@@ -42,7 +50,7 @@ public class MainActivity extends AppCompatActivity implements
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        TelManager = (TelephonyManager)getSystemService(Context.TELEPHONY_SERVICE);
+        TelManager = (TelephonyManager) getSystemService(Context.TELEPHONY_SERVICE);
         buildGoogleApiClient();
         Session.setSession(getSharedPreferences(AppName, 0));
         Gps.set(new Geocoder(this, Locale.TRADITIONAL_CHINESE));
@@ -81,15 +89,14 @@ public class MainActivity extends AppCompatActivity implements
                     @Override
                     public void run() {
                         final Runnable BreedingSource = this;
-                        BreedingSourcesPhoto.setBreedingSourcesPhotoView(TelManager, Lat, Lon, Gps, GoBack.run(MenuEvent),
-                                new Runnable() {
-                                    // breeding sources submitEvent
-                                    @Override
-                                    public void run() {
-                                        BreedingSourcesSubmit.setBreedingSourcesSubmitView(TelManager, Lat, Lon, Gps, GoBack.run(BreedingSource));
-                                    }
-                                }
-                        );
+                        BreedingSourcesPhoto.setBreedingSourcesPhotoView(CAMERA, PHOTO, GoBack.run(MenuEvent), new Runnable() {
+                            // breeding sources submitEvent
+                            @Override
+                            public void run() {
+                                BreedingSourcesSubmit.setBreedingSourcesSubmitView(TelManager, Lat, Lon, Gps, BreedingSourcesPhoto.getPic(), GoBack.run(BreedingSource));
+                            }
+
+                        });
                     }
                 }, new Runnable() {
                     // hot
@@ -139,6 +146,16 @@ public class MainActivity extends AppCompatActivity implements
 
     @Override
     public void onConnected(Bundle bundle) {
+        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+            // TODO: Consider calling
+            //    ActivityCompat#requestPermissions
+            // here to request the missing permissions, and then overriding
+            //   public void onRequestPermissionsResult(int requestCode, String[] permissions,
+            //                                          int[] grantResults)
+            // to handle the case where the user grants the permission. See the documentation
+            // for ActivityCompat#requestPermissions for more details.
+            return;
+        }
         Location mLastLocation = LocationServices.FusedLocationApi.getLastLocation(mGoogleApiClient);
         if (mLastLocation != null) {
             Lat = mLastLocation.getLatitude();
@@ -155,5 +172,26 @@ public class MainActivity extends AppCompatActivity implements
     @Override
     public void onConnectionFailed(ConnectionResult result) {
         Log.i(AppName, "Connection failed: ConnectionResult.getErrorCode() = " + result.getErrorCode());
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        //藉由requestCode判斷是否為開啟相機或開啟相簿而呼叫的，且data不為null
+        if (requestCode == CAMERA || requestCode == PHOTO)  {
+            //取得照片路徑uri
+            Uri uri = null;
+            if (data == null || data.getData() == null) {
+                Uri photoUri = breedingSourcesPhotoEvent.getUri();
+                if (photoUri != null) {
+                    uri = photoUri;
+                }
+            }
+            else {
+                uri = data.getData();
+            }
+            BreedingSourcesPhoto.setPic(uri);
+        }
+
+        super.onActivityResult(requestCode, resultCode, data);
     }
 }
