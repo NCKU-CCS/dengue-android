@@ -1,22 +1,36 @@
 package com.example.dengue.dengue_android;
 
+import android.content.ContentResolver;
 import android.content.Context;
+import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.graphics.Matrix;
 import android.location.Geocoder;
 import android.location.Location;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.telephony.TelephonyManager;
+import android.util.DisplayMetrics;
 import android.util.Log;
+import android.widget.ImageView;
 
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.location.LocationServices;
 
+import java.io.FileNotFoundException;
 import java.util.Locale;
 
 public class MainActivity extends AppCompatActivity implements
         GoogleApiClient.ConnectionCallbacks,
         GoogleApiClient.OnConnectionFailedListener {
+    //take photo
+    private ImageView mImg;
+    private DisplayMetrics mPhone;
+    private final static int CAMERA = 66;
+    private final static int PHOTO = 99;
     // google api
     private static final String AppName = "Dengue";
     private GoogleApiClient mGoogleApiClient;
@@ -155,5 +169,60 @@ public class MainActivity extends AppCompatActivity implements
     @Override
     public void onConnectionFailed(ConnectionResult result) {
         Log.i(AppName, "Connection failed: ConnectionResult.getErrorCode() = " + result.getErrorCode());
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        mPhone = new DisplayMetrics();
+        getWindowManager().getDefaultDisplay().getMetrics(mPhone); //error1
+        //藉由requestCode判斷是否為開啟相機或開啟相簿而呼叫的，且data不為null
+        if ((requestCode == CAMERA || requestCode == PHOTO) && data != null) {
+            //取得照片路徑uri
+            Uri uri = null;
+            if (data == null) {
+                Uri photoUri = breedingSourcesPhotoEvent.getUri();
+                if (photoUri != null) {
+                    uri = photoUri;
+                }
+            } else {
+                uri = data.getData();
+            }
+            ContentResolver cr = this.getContentResolver();
+
+            try {
+                //讀取照片，型態為Bitmap
+                Bitmap bitmap = BitmapFactory.decodeStream(cr.openInputStream(uri));
+
+                //判斷照片為橫向或者為直向，並進入ScalePic判斷圖片是否要進行縮放
+                if (bitmap.getWidth() > bitmap.getHeight()) ScalePic(bitmap, mPhone.heightPixels);
+                else ScalePic(bitmap, mPhone.widthPixels);
+            } catch (FileNotFoundException e) {
+            }
+        }
+
+        super.onActivityResult(requestCode, resultCode, data);
+    }
+
+    private void ScalePic(Bitmap bitmap, int phone) {
+        //縮放比例預設為1
+        float mScale = 1;
+        mImg =breedingSourcesPhotoEvent.getImg();
+        //如果圖片寬度大於手機寬度則進行縮放，否則直接將圖片放入ImageView內
+        if (bitmap.getWidth() > phone) {
+            //判斷縮放比例
+            mScale = (float) phone / (float) bitmap.getWidth();
+
+            Matrix mMat = new Matrix();
+            mMat.setScale(mScale, mScale);
+
+            Bitmap mScaleBitmap = Bitmap.createBitmap(bitmap,
+                    0,
+                    0,
+                    bitmap.getWidth(),
+                    bitmap.getHeight(),
+                    mMat,
+                    false);
+            mImg.setImageBitmap(mScaleBitmap);
+        } else mImg.setImageBitmap(bitmap);
     }
 }
