@@ -116,7 +116,8 @@ public class breedingSourcesPhotoEvent extends Activity {
                 Intent intent = new Intent();
                 intent.setType("image/*");
                 intent.setAction(Intent.ACTION_GET_CONTENT);
-                startActivityForResult(intent, PHOTO);
+                Main.startActivityForResult(intent, PHOTO);
+
             }
         });
     }
