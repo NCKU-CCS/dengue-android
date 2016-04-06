@@ -2,11 +2,13 @@ package com.example.dengue.dengue_android;
 
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
+import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.GridView;
 import android.widget.ImageButton;
 import android.widget.TextView;
+import android.widget.Toast;
 
 public class menuEvent {
     private MainActivity Main;
@@ -17,7 +19,8 @@ public class menuEvent {
 
     private Runnable Logout;
     private Runnable ReportList;
-    private Runnable BreedingSourcesSubmit;
+    private Runnable BittenByMosquito;
+    private Runnable BreedingSourcesPhoto;
     private Runnable Hot;
     private Runnable Hospital;
 
@@ -29,7 +32,8 @@ public class menuEvent {
                             session mSession,
                             Runnable mLogout,
                             Runnable mReportList,
-                            Runnable mBreedingSourcesSubmit,
+                            Runnable mBittenByMosquito,
+                            Runnable mBreedingSourcePhoto,
                             Runnable mHot,
                             Runnable mHospital
     ) {
@@ -37,7 +41,8 @@ public class menuEvent {
         Session = mSession;
         Logout = mLogout;
         ReportList = mReportList;
-        BreedingSourcesSubmit = mBreedingSourcesSubmit;
+        BittenByMosquito = mBittenByMosquito;
+        BreedingSourcesPhoto = mBreedingSourcePhoto;
         Hot = mHot;
         Hospital = mHospital;
         Main.setContentView(R.layout.menu);
@@ -116,9 +121,12 @@ public class menuEvent {
                         ReportList.run();
                         break;
                     case R.string.menu_bite:
+                        BittenByMosquito.run();
                         break;
                     case R.string.menu_breedingSources:
-                        BreedingSourcesSubmit.run();
+                        BreedingSourcesPhoto.run();
+
+                        //BreedingSourcesSubmit.run();
                         break;
                     case R.string.menu_hot:
                         Hot.run();

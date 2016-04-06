@@ -25,7 +25,13 @@ public class loginEvent {
         Session = mSession;
 
         if( Session.getBooleanData("isLogin") ) {
-            isVillageChief = Session.getStringData("phone").equals("0912345678");
+            String phone = Session.getStringData("phone");
+            if(phone != null) {
+                isVillageChief = phone.equals("0912345678");
+            }
+            else {
+                isVillageChief = false;
+            }
             Menu.run();
         }
         else {

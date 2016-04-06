@@ -32,6 +32,8 @@ public class MainActivity extends AppCompatActivity implements
     private menuEvent Menu = new menuEvent(this);
     private reportListEvent ReportList = new reportListEvent(this);
     private reportListCheckEvent ReportListCheck = new reportListCheckEvent(this);
+    private bittenByMosquito BittenByMosquito = new bittenByMosquito(this);
+    private breedingSourcesPhotoEvent BreedingSourcesPhoto = new breedingSourcesPhotoEvent(this);
     private breedingSourcesSubmitEvent BreedingSourcesSubmit = new breedingSourcesSubmitEvent(this);
     private hotEvent Hot = new hotEvent(this);
     private hospitalEvent Hospital = new hospitalEvent(this);
@@ -69,10 +71,25 @@ public class MainActivity extends AppCompatActivity implements
                         });
                     }
                 }, new Runnable() {
-                    // breeding sources submitEvent
+                    // bitten by mosquito buttonEvent
                     @Override
                     public void run() {
-                        BreedingSourcesSubmit.setBreedingSourcesSubmitView(TelManager, Lat, Lon, Gps, GoBack.run(MenuEvent));
+                        BittenByMosquito.setBittenByMosquitoView(TelManager, Lat, Lon, Gps, GoBack.run(MenuEvent));
+                    }
+                }, new Runnable() {
+                    // breeding sources PhotoEvent
+                    @Override
+                    public void run() {
+                        final Runnable BreedingSource = this;
+                        BreedingSourcesPhoto.setBreedingSourcesPhotoView(TelManager, Lat, Lon, Gps, GoBack.run(MenuEvent),
+                                new Runnable() {
+                                    // breeding sources submitEvent
+                                    @Override
+                                    public void run() {
+                                        BreedingSourcesSubmit.setBreedingSourcesSubmitView(TelManager, Lat, Lon, Gps, GoBack.run(BreedingSource));
+                                    }
+                                }
+                        );
                     }
                 }, new Runnable() {
                     // hot
