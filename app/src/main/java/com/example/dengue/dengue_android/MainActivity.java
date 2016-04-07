@@ -13,6 +13,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.telephony.TelephonyManager;
 import android.util.Log;
 import android.view.View;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.android.gms.common.ConnectionResult;
@@ -135,9 +136,17 @@ public class MainActivity extends AppCompatActivity implements
     @Override
     public void onBackPressed() {
         //返回鍵
-        //super.onBackPressed();
-        Runnable back = goBack.getRunnable();
-        back.run();
+        TextView Title = (TextView) findViewById(R.id.title);
+        if(Title == null) {
+            super.onBackPressed();
+        }
+        else if(Title.getText().toString().equals(getResources().getString(R.string.menu_title))){
+            super.onBackPressed();
+        }
+        else {
+            Runnable back = GoBack.getRunnable();
+            back.run();
+        }
     }
 
     @Override

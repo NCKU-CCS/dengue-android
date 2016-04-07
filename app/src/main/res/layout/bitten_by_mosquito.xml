@@ -23,7 +23,7 @@
             android:textAppearance="?android:attr/textAppearanceLarge"
             android:text="病蚊蟲叮咬"
 
-            android:id="@+id/bittenByMosquito_title"
+            android:id="@+id/title"
             android:paddingTop="10dp"
             android:paddingBottom="10dp"
             android:textColor="@color/colorText"
