@@ -12,6 +12,8 @@ import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.telephony.TelephonyManager;
 import android.util.Log;
+import android.view.View;
+import android.widget.Toast;
 
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.api.GoogleApiClient;
@@ -128,6 +130,14 @@ public class MainActivity extends AppCompatActivity implements
                 .addOnConnectionFailedListener(this)
                 .addApi(LocationServices.API)
                 .build();
+    }
+
+    @Override
+    public void onBackPressed() {
+        //返回鍵
+        //super.onBackPressed();
+        Runnable back = goBack.getRunnable();
+        back.run();
     }
 
     @Override

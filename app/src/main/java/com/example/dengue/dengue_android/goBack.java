@@ -4,13 +4,14 @@ import android.view.View;
 import android.widget.ImageButton;
 
 public class goBack {
+    private static Runnable run;
     private MainActivity Main;
-
     goBack(MainActivity mMain) {
         Main = mMain;
     }
 
     public Runnable run(final Runnable viewEvent) {
+         run =  viewEvent;
         return new Runnable() {
             @Override
             public void run() {
@@ -23,5 +24,9 @@ public class goBack {
                 });
             }
         };
+    }
+    public static Runnable getRunnable()
+    {
+        return run;
     }
 }
