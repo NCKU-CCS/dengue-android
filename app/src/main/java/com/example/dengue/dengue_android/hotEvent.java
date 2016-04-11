@@ -17,6 +17,7 @@ public class hotEvent {
     }
 
     private void hotWeb() {
+        //TODO: need a web
         WebView web = (WebView) Main.findViewById(R.id.hot_web);
         web.getSettings().setJavaScriptEnabled(true);
         web.requestFocus();

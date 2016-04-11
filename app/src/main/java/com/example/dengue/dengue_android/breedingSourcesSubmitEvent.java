@@ -1,7 +1,6 @@
 package com.example.dengue.dengue_android;
 
 import android.graphics.Bitmap;
-import android.telephony.TelephonyManager;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
@@ -17,7 +16,7 @@ import java.util.Locale;
 public class breedingSourcesSubmitEvent {
     private MainActivity Main;
     private String[] types;
-    private TelephonyManager TelManager;
+    private session Session;
     private double Lat;
     private double Lon;
     private gps gps;
@@ -28,14 +27,14 @@ public class breedingSourcesSubmitEvent {
         types = new String[] {"住家積水容器", "雜物堆積(髒亂)", "空地積水容器"};
     }
 
-    public void setBreedingSourcesSubmitView(TelephonyManager mTelManager,
+    public void setBreedingSourcesSubmitView(session mSession,
                                              double mLat,
                                              double mLon,
                                              gps mGps,
                                              Bitmap mImg,
                                              Runnable goBack
     ) {
-        TelManager = mTelManager;
+        Session = mSession;
         Lat = mLat;
         Lon = mLon;
         gps = mGps;
@@ -63,15 +62,15 @@ public class breedingSourcesSubmitEvent {
         breedingSources_submitButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View w) {
-                TextView output = (TextView) Main.findViewById(R.id.breedingSources_submit_output);
-
                 EditText description = (EditText) Main.findViewById(R.id.breedingSources_submit_description_value);
                 Spinner type = (Spinner) Main.findViewById(R.id.breedingSources_submit_type_value);
                 String now = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss", Locale.TRADITIONAL_CHINESE)
                         .format( new Date(System.currentTimeMillis()) );
 
+                //TODO: need to submit data to server
+                TextView output = (TextView) Main.findViewById(R.id.breedingSources_submit_output);
                 String data = "";
-                data += "id: " + TelManager.getLine1Number() + "\n";
+                data += "id: " + Session.getStringData("phone") + "\n";
                 data += "type:" + type.getSelectedItem().toString() + "\n";
                 data += "description: " + description.getText().toString() + "\n";
                 data += "date: " + now + "\n";

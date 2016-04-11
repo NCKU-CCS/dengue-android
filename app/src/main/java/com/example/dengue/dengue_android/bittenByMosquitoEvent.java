@@ -1,6 +1,5 @@
 package com.example.dengue.dengue_android;
 
-import android.telephony.TelephonyManager;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
@@ -9,12 +8,9 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Locale;
 
-/**
- * Created by nana on 2016/3/30.
- */
 public class bittenByMosquitoEvent {
     private MainActivity Main;
-    private TelephonyManager TelManager;
+    private session Session;
     private double Lat;
     private double Lon;
     private gps gps;
@@ -23,13 +19,13 @@ public class bittenByMosquitoEvent {
         Main = mMain;
     }
 
-    public void setBittenByMosquitoView(TelephonyManager mTelManager,
+    public void setBittenByMosquitoView(session mSession,
                                              double mLat,
                                              double mLon,
                                              gps mGps,
                                              Runnable goBack
     ) {
-        TelManager = mTelManager;
+        Session = mSession;
         Lat = mLat;
         Lon = mLon;
         gps = mGps;
@@ -46,12 +42,12 @@ public class bittenByMosquitoEvent {
             @Override
             public void onClick(View w) {
                 TextView output = (TextView) Main.findViewById(R.id.bittenByMosquito_output);
-
                 String now = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss", Locale.TRADITIONAL_CHINESE)
                         .format( new Date(System.currentTimeMillis()) );
 
+                //TODO: need to submit data to server
                 String data = "";
-                data += "id: " + TelManager.getLine1Number() + "\n";
+                data += "id: " + Session.getStringData("phone") + "\n";
                 data += "date: " + now + "\n";
                 data += "lat:" + Lat + "\n";
                 data += "lon:" + Lon + "\n";

@@ -9,7 +9,6 @@ import java.util.Random;
 
 public class loginEvent {
     private MainActivity Main;
-    private boolean isVillageChief = false;
     private TelephonyManager TelManager;
     private session Session;
 
@@ -25,13 +24,6 @@ public class loginEvent {
         Session = mSession;
 
         if( Session.getBooleanData("isLogin") ) {
-            String phone = Session.getStringData("phone");
-            if(phone != null) {
-                isVillageChief = phone.equals("0912345678");
-            }
-            else {
-                isVillageChief = false;
-            }
             Menu.run();
         }
         else {
@@ -39,16 +31,10 @@ public class loginEvent {
 
             EditText login_phoneValue = (EditText) Main.findViewById(R.id.login_phone_value);
             login_phoneValue.setText(Session.getStringData("phone"));
-            EditText login_passwordValue = (EditText) Main.findViewById(R.id.login_password_value);
-            login_passwordValue.setText(Session.getStringData("password"));
 
             normalLogin();
             quicklyLogin();
         }
-    }
-
-    public boolean getIsVillageChief () {
-        return isVillageChief;
     }
 
     private void normalLogin() {
@@ -56,15 +42,28 @@ public class loginEvent {
         login_normalButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View w) {
-                EditText phone = (EditText) Main.findViewById(R.id.login_phone_value);
-                Session.setData("phone", phone.getText().toString());
+                EditText phoneText = (EditText) Main.findViewById(R.id.login_phone_value);
+                final String phone = phoneText.getText().toString();
 
-                EditText password = (EditText) Main.findViewById(R.id.login_password_value);
-                Session.setData("password", password.getText().toString());
+                EditText passwordText = (EditText) Main.findViewById(R.id.login_password_value);
+                final String password = passwordText.getText().toString();
 
-                isVillageChief = phone.getText().toString().equals("0912345678");
-                Session.setData("isLogin", true);
-                Menu.run();
+                new request(Main, "http://140.116.247.113:11401/users/signin",
+                        "username=" + phone + "&password=" + password,
+                        new Runnable() {
+                            @Override
+                            public void run() {
+                                Session.setData("phone", phone);
+                                Session.setData("isLogin", true);
+                                Menu.run();
+                            }
+                        }, new Runnable() {
+                            @Override
+                            public void run() {
+
+                            }
+                        }
+                );
             }
         });
     }
@@ -75,12 +74,42 @@ public class loginEvent {
             @Override
             public void onClick(View w) {
                 Random random = new Random();
-                String phone = TelManager != null ? TelManager.getLine1Number() : String.valueOf(random.nextInt(10000));
+                final String phone = TelManager != null ? TelManager.getLine1Number() : String.valueOf(random.nextInt(10000));
+                final String password = String.valueOf(random.nextInt(10000));
 
                 Session.setData("phone", phone);
-                Session.setData("password", String.valueOf(random.nextInt(10000)));
+                Session.setData("password", password);
 
-                isVillageChief = false;
+                new request(Main, "http://140.116.247.113:11401/users/signup",
+                        "username=" + phone + "&password=" + password + "&is_random=True",
+                        new Runnable() {
+                            @Override
+                            public void run() {
+                                new request(Main, "http://140.116.247.113:11401/users/signin",
+                                        "username=" + phone + "&password=" + password,
+                                        new Runnable() {
+                                            @Override
+                                            public void run() {
+                                                Session.setData("phone", phone);
+                                                Session.setData("isLogin", true);
+                                                Menu.run();
+                                            }
+                                        }, new Runnable() {
+                                    @Override
+                                    public void run() {
+
+                                    }
+                                }
+                                );
+                            }
+                        },
+                        new Runnable() {
+                            @Override
+                            public void run() {
+
+                            }
+                        }
+                );
                 Session.setData("isLogin", true);
                 Menu.run();
             }

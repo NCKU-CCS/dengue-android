@@ -18,7 +18,7 @@ public class hospitalEvent {
     }
 
     public void sethospitalView(Runnable goBack, Runnable mhospitalInfo) {
-        // temp list
+        //TODO: need to get hospitals from server
         Name = new String[] {"醫院1", "醫院2", "醫院3"};
         number = Name.length;
         hospitalInfo = mhospitalInfo;

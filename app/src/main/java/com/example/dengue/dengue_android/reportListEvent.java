@@ -19,7 +19,7 @@ public class reportListEvent {
     }
 
     public void setReportListView(Runnable goBack, Runnable mReportListCheck) {
-        // temp list
+        //TODO: need to get report list from server
         Name = new String[]{"地點1", "地點2", "地點3"};
         IsDone = new String[]{"待處理", "待查", "待處理"};
         number = Name.length;

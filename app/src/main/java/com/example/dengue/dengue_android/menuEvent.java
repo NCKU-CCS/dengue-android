@@ -2,17 +2,15 @@ package com.example.dengue.dengue_android;
 
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
-import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.GridView;
 import android.widget.ImageButton;
 import android.widget.TextView;
-import android.widget.Toast;
 
 public class menuEvent {
     private MainActivity Main;
-    private boolean isVillageChief = false;
+    private boolean isVillageChief;
     private session Session;
     private int [] Name;
     private int [] Img;
@@ -28,8 +26,7 @@ public class menuEvent {
         Main = mMain;
     }
 
-    public void setMenuView(boolean mIsVillageChief,
-                            session mSession,
+    public void setMenuView(session mSession,
                             Runnable mLogout,
                             Runnable mReportList,
                             Runnable mBittenByMosquito,
@@ -37,7 +34,8 @@ public class menuEvent {
                             Runnable mHot,
                             Runnable mHospital
     ) {
-        isVillageChief = mIsVillageChief;
+        //TODO: need to get information from server
+        isVillageChief = false;
         Session = mSession;
         Logout = mLogout;
         ReportList = mReportList;
@@ -62,6 +60,7 @@ public class menuEvent {
             }
         });
 
+        // TODO: need to get information from server
         TextView username = (TextView) Main.findViewById(R.id.menu_username);
         username.setText("User name");
 
@@ -69,8 +68,20 @@ public class menuEvent {
         logout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Session.setData("isLogin", false);
-                Logout.run();
+                new request(Main, "http://140.116.247.113:11401/users/signout",
+                        new Runnable() {
+                            @Override
+                            public void run() {
+                                Session.setData("isLogin", false);
+                                Logout.run();
+                            }
+                        }, new Runnable() {
+                            @Override
+                            public void run() {
+
+                            }
+                        }
+                );
             }
         });
     }
@@ -125,8 +136,6 @@ public class menuEvent {
                         break;
                     case R.string.menu_breedingSources:
                         BreedingSourcesPhoto.run();
-
-                        //BreedingSourcesSubmit.run();
                         break;
                     case R.string.menu_hot:
                         Hot.run();

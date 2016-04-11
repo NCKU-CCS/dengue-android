@@ -12,9 +12,7 @@ import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.telephony.TelephonyManager;
 import android.util.Log;
-import android.view.View;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.api.GoogleApiClient;
@@ -62,7 +60,7 @@ public class MainActivity extends AppCompatActivity implements
             @Override
             public void run() {
                 final Runnable MenuEvent = this;
-                Menu.setMenuView(Login.getIsVillageChief(), Session, new Runnable() {
+                Menu.setMenuView(Session, new Runnable() {
                     // log out
                     @Override
                     public void run() {
@@ -85,7 +83,7 @@ public class MainActivity extends AppCompatActivity implements
                     // bitten by mosquito buttonEvent
                     @Override
                     public void run() {
-                        BittenByMosquito.setBittenByMosquitoView(TelManager, Lat, Lon, Gps, GoBack.run(MenuEvent));
+                        BittenByMosquito.setBittenByMosquitoView(Session, Lat, Lon, Gps, GoBack.run(MenuEvent));
                     }
                 }, new Runnable() {
                     // breeding sources PhotoEvent
@@ -96,7 +94,7 @@ public class MainActivity extends AppCompatActivity implements
                             // breeding sources submitEvent
                             @Override
                             public void run() {
-                                BreedingSourcesSubmit.setBreedingSourcesSubmitView(TelManager, Lat, Lon, Gps, BreedingSourcesPhoto.getPic(), GoBack.run(BreedingSource));
+                                BreedingSourcesSubmit.setBreedingSourcesSubmitView(Session, Lat, Lon, Gps, BreedingSourcesPhoto.getPic(), GoBack.run(BreedingSource));
                             }
 
                         });
