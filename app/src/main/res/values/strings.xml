@@ -10,12 +10,12 @@
     <string name="login_normal">登入</string>
     <string name="login_quickly">快速登入</string>
 
-    <string name="menu_title">登革熱防疫平台</string>
-    <string name="menu_reportList">舉報點清單</string>
-    <string name="menu_bite">蚊蟲叮咬舉報</string>
-    <string name="menu_breedingSources">孳生源舉報</string>
     <string name="menu_hot">熱區資訊</string>
-    <string name="menu_hospital">登革熱就醫資訊</string>
+    <string name="menu_hospital">快篩診所</string>
+    <string name="menu_breedingSources">舉報孳生源</string>
+    <string name="menu_bite">舉報蚊蟲叮咬</string>
+    <string name="menu_setting">個人設定</string>
+    <string name="menu_reportList">舉報點清單</string>
     <string name="menu_item_name">item</string>
 
     <string name="reportList_title">待檢查孳生源點</string>

@@ -1,17 +1,21 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:padding="20dp"
-    android:orientation="vertical">
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:background="@color/menuBackground"
+    android:paddingTop="10dp"
+    android:paddingBottom="10dp">
 
 
     <ImageView
-        android:layout_width="100dp"
-        android:layout_height="100dp"
+        android:layout_width="20dp"
+        android:layout_height="20dp"
         android:id="@+id/menu_item_img"
         android:contentDescription="@string/img"
-        android:layout_gravity="center_horizontal" />
+        android:layout_gravity="center_horizontal"
+        android:paddingTop="5dp"
+        android:paddingBottom="5dp" />
 
     <TextView
         android:layout_width="match_parent"
@@ -19,6 +23,7 @@
         android:textAppearance="?android:attr/textAppearanceMedium"
         android:text="@string/menu_item_name"
         android:id="@+id/menu_item_name"
-        android:gravity="center" />
+        android:gravity="center"
+        android:textSize="10dp" />
 
 </LinearLayout>
