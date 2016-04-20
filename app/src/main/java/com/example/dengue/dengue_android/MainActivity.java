@@ -9,8 +9,8 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.hot);
 
+        setContentView(R.layout.wellcome);
         Intent intent = new Intent();
         intent.setClass(this, hot.class);
         startActivity(intent);
