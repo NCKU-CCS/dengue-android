@@ -55,8 +55,16 @@ public class menu {
                         Main.startActivity(intent);
                         break;
                     case R.string.menu_breedingSources:
+                        if (Main.getComponentName().getClassName().equals("com.example.dengue.dengue_android.BreedingSources"))
+                            break;
+                        intent.setClass(Main, BreedingSource.class);
+                        Main.startActivity(intent);
                         break;
                     case R.string.menu_bite:
+                        if (Main.getComponentName().getClassName().equals("com.example.dengue.dengue_android.DrugBite"))
+                            break;
+                        intent.setClass(Main, DrugBite.class);
+                        Main.startActivity(intent);
                         break;
                     case R.string.menu_reportList:
                         break;

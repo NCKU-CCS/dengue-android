@@ -3,7 +3,6 @@ package com.example.dengue.dengue_android;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 
 import org.json.JSONObject;
@@ -13,7 +12,7 @@ import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends Activity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
