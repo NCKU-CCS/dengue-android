@@ -5,7 +5,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 
-public class Drugbite extends Activity {
+public class drugBite extends Activity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
