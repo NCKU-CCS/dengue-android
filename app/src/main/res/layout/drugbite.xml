@@ -1,14 +1,33 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical" android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:weightSum="1">
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/colorPrimary">
 
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceLarge"
+            android:text="病蚊蟲叮咬"
+            android:id="@+id/title"
+            android:paddingTop="10dp"
+            android:paddingBottom="10dp"
+            android:textColor="@color/colorText"
+            android:layout_alignParentEnd="false"
+            android:layout_centerHorizontal="true" />
+
+    </RelativeLayout>
     <ImageView
-        android:layout_width="310dp"
-        android:layout_height="459dp"
+        android:layout_width="264dp"
+        android:layout_height="347dp"
         android:id="@+id/imageView2"
         android:src="@drawable/img"
-        android:layout_gravity="center_horizontal" />
+        android:layout_gravity="center_horizontal"
+        android:layout_weight="0.89" />
 
     <Button
         android:layout_width="wrap_content"
@@ -16,4 +35,11 @@
         android:text="報告!這裡有蚊子"
         android:id="@+id/drugbite_button"
         android:layout_gravity="center_horizontal" />
+    <GridView
+        android:layout_width="wrap_content"
+        android:layout_height="50dp"
+        android:id="@+id/menu"
+        android:background="@color/menuBackground"
+        android:layout_alignParentBottom="true" />
+
 </LinearLayout>

@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+android:layout_width="match_parent"
+android:layout_height="match_parent"
+android:orientation="vertical">
+
+<RelativeLayout
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@color/colorPrimary">
+
+    <ImageButton
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/goback"
+        android:background="@color/colorPrimary"
+        android:src="@mipmap/go_back"
+        android:contentDescription="@string/goBack"
+        android:layout_marginLeft="20dp"
+        android:layout_centerVertical="true" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:text="@string/breedingSources_title"
+        android:id="@+id/title"
+        android:paddingTop="10dp"
+        android:paddingBottom="10dp"
+        android:textColor="@color/colorText"
+        android:layout_marginRight="55dp"
+        android:layout_centerHorizontal="true" />
+</RelativeLayout>
+
+<ScrollView
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:layout_gravity="center_vertical"
+    >
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:paddingLeft="20dp"
+        android:paddingRight="20dp"
+        android:orientation="vertical">
+
+        <ImageView
+            android:layout_width="241dp"
+            android:id="@+id/breedingSources_img"
+            android:layout_height="207dp"
+            android:layout_gravity="center"
+            android:contentDescription="@string/img" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceLarge"
+            android:text="@string/breedingSources_submit_type"
+            android:id="@+id/breedingSources_submit_type_text" />
+
+        <Spinner
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/breedingSources_submit_type_value"
+            android:spinnerMode="dropdown" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:textAppearance="?android:attr/textAppearanceLarge"
+            android:text="@string/breedingSources_submit_description"
+            android:id="@+id/breedingSources_submit_description_text"
+            android:layout_marginTop="20dp" />
+
+        <EditText
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:inputType="textMultiLine"
+            android:ems="10"
+            android:id="@+id/breedingSources_submit_description_value" />
+
+        <Button
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/breedingSources_submit_button"
+            android:id="@+id/breedingSources_submit_submit"
+            android:background="@color/colorPrimary"
+            android:textColor="@color/colorText"
+            android:gravity="center"
+            android:paddingLeft="20dp"
+            android:paddingRight="20dp"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginTop="40dp" />
+        <GridView
+            android:layout_width="wrap_content"
+            android:layout_height="50dp"
+            android:id="@+id/menu"
+            android:background="@color/menuBackground"
+            android:layout_alignParentBottom="true" />
+    </LinearLayout>
+</ScrollView>
+
+</LinearLayout>
