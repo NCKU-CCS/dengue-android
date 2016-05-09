@@ -9,8 +9,12 @@ import org.json.JSONObject;
 
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
+import java.net.CookieManager;
+import java.net.HttpCookie;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.util.List;
+import java.util.Map;
 
 public class MainActivity extends Activity {
     @Override
@@ -55,6 +59,25 @@ public class MainActivity extends Activity {
                         Session.setData("user_uuid", output.getString("user_uuid"));
                         Session.setData("isLogin", "true");
                         Session.setData("identity", "一般使用者");
+
+                        final String COOKIES_HEADER = "Set-Cookie";
+                        CookieManager msCookieManager = new CookieManager();
+                        Map<String, List<String>> headerFields = connect.getHeaderFields();
+                        List<String> cookiesHeader = headerFields.get(COOKIES_HEADER);
+                        if(cookiesHeader != null)
+                        {
+                            for (String cookie : cookiesHeader)
+                            {
+                                String str1 = HttpCookie.parse(cookie).get(0).toString();
+                                String str2 = "csrftoken=";
+                                if(str1.toLowerCase().contains(str2.toLowerCase())) {
+                                    continue;
+                                }
+                                msCookieManager.getCookieStore().add(null, HttpCookie.parse(cookie).get(0));
+                                Session.setData("cookie", HttpCookie.parse(cookie).get(0).toString());
+                            }
+                        }
+
                         Intent intent = new Intent();
                         intent.setClass(Main, welcome.class);
                         startActivity(intent);

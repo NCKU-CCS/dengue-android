@@ -9,10 +9,14 @@ import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.TextView;
 
+import org.json.JSONArray;
+import org.json.JSONObject;
+
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.util.ArrayList;
 
 public class hospital extends Activity {
     private CharSequence[] Name;
@@ -24,7 +28,8 @@ public class hospital extends Activity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        getData();
+        session Session = new session(this);
+        getData(Session);
 
         Name = new String[] {"成大醫院", "新樓醫院", "台南醫院"};
         Address = new String[] {"台南市北區勝利路138號", "台南市北區勝利路138號", "台南市北區勝利路138號"};
@@ -57,7 +62,7 @@ public class hospital extends Activity {
         });
     }
 
-    private void getData() {
+    private void getData(final session Session) {
         Thread thread = new Thread() {
             public void run() {
                 HttpURLConnection connect = null;
@@ -67,6 +72,7 @@ public class hospital extends Activity {
                     connect.setReadTimeout(10000);
                     connect.setConnectTimeout(15000);
                     connect.setRequestMethod("GET");
+                    connect.setRequestProperty("Cookie", Session.getData("cookie"));
                     connect.connect();
 
                     int responseCode = connect.getResponseCode();
@@ -78,7 +84,18 @@ public class hospital extends Activity {
                             sb.append(line).append("\n");
                         }
                         br.close();
-                        Log.i("test", sb.toString());
+
+                        JSONArray output = new JSONArray(sb.toString());
+                        ArrayList<String> phone_object = new ArrayList<>();
+                        ArrayList<String> address_object = new ArrayList<>();
+                        ArrayList<String> phone_object = new ArrayList<>();
+                        ArrayList<String> lng_object = new ArrayList<>();
+                        ArrayList<String> lat_object = new ArrayList<>();
+                        for(int i = 0; i < output.length(); i++){
+                            JSONObject object = output.get(i);
+                            phone_object.add(output.get(i))
+                            Log.i("test", output.get(i).toString());
+                        }
                     }
                     else {
                         //TODO: can not connect

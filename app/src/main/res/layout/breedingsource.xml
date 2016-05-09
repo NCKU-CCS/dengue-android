@@ -15,7 +15,7 @@ android:orientation="vertical">
         android:id="@+id/goback"
         android:background="@color/colorPrimary"
         android:src="@mipmap/go_back"
-        android:contentDescription="@string/goack"
+        android:contentDescription="@string/go_back"
         android:layout_marginLeft="20dp"
         android:layout_centerVertical="true" />
 
