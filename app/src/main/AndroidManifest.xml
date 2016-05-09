@@ -27,7 +27,7 @@
         </activity>
         <activity android:name=".Guild"></activity>
         <activity android:name=".hot"></activity>
-        <activity android:name=".DrugBite"></activity>
+        <activity android:name=".Drugbite"></activity>
         <activity android:name=".BreedingSource"></activity>
 
         <!-- ATTENTION: This was auto-generated to add Google Play services to your project for
