@@ -20,6 +20,7 @@ public class MainActivity extends Activity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
         session Session = new session(getApplicationContext());
 
         /*if( Session.getData("isLogin").equals("true") ) {

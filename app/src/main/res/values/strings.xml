@@ -29,9 +29,9 @@
     <string name="breedingSources_photo_camera">開啟相機</string>
     <string name="breedingSources_photo_photo">開啟相簿</string>
 
-    <string name="breedingSources_submit_button">上傳</string>
-    <string name="breedingSources_submit_description">地點描述：</string>
-    <string name="breedingSources_submit_type">孳生源類型：</string>
+    <string name="breedingSources_submit_button">舉報</string>
+    <string name="breedingSources_submit_description">*地點簡介</string>
+    <string name="breedingSources_submit_type">*孳生源類型：</string>
 
     <string name="hot_title">熱區顯示圖</string>
 
@@ -45,4 +45,6 @@
     <string name="hospital_info_address">院所地址：</string>
     <string name="hospital_info_openTime">院所開放時間：</string>
     <string name="hospital_info_tel">院所電話：</string>
+    <string name="action_settings">New Day</string>>
+
 </resources>

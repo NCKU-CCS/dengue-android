@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:weightSum="1">
+    <TextView
+        android:textSize = "36sp"
+        android:layout_width="395dp"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:text="即時熱區資訊"
+        android:id="@+id/intro1_title"
+        android:layout_gravity="center_horizontal"
+        android:gravity="center"
+        android:layout_weight="0.37" />
+
+    <ImageView
+        android:layout_width="239dp"
+        android:layout_height="261dp"
+        android:id="@+id/intro1_img"
+        android:src="@drawable/intro1"
+        android:layout_gravity="center_horizontal" />
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:id="@+id/intro1_text"
+        android:text="掌握即時登革熱熱區，\n了解哪些地區較危險需避開。"
+        android:textSize = "18sp"
+        android:gravity="center"
+        android:layout_gravity="center_horizontal"
+        android:layout_weight="0.15" />
+
+
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="48dp"
+        android:id="@+id/test"
+        android:layout_weight="0.51"></LinearLayout>
+
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="89dp"
+        android:gravity="center_horizontal">
+
+        <LinearLayout
+            android:orientation="vertical"
+            android:layout_width="160dp"
+            android:layout_height="match_parent"/>
+        <LinearLayout
+            android:orientation="vertical"
+            android:layout_width="50dp"
+            android:layout_height="match_parent"
+            android:id="@+id/circle"/>
+        <LinearLayout
+            android:orientation="vertical"
+            android:layout_width="30dp"
+            android:layout_height="match_parent"/>
+
+        <Button
+            android:layout_width="130dp"
+            android:layout_height="wrap_content"
+            android:text="直接開始"
+            android:id="@+id/button_start"
+            android:textSize = "25sp"
+            android:background="@drawable/button_start"
+            android:textColor="#ff0000"
+            android:layout_margin="10dp" />
+
+    </LinearLayout>
+
+</LinearLayout>

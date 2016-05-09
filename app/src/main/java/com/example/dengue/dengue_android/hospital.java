@@ -85,7 +85,7 @@ public class hospital extends Activity {
                         }
                         br.close();
 
-                        JSONArray output = new JSONArray(sb.toString());
+                        /*JSONArray output = new JSONArray(sb.toString());
                         ArrayList<String> phone_object = new ArrayList<>();
                         ArrayList<String> address_object = new ArrayList<>();
                         ArrayList<String> phone_object = new ArrayList<>();
@@ -93,9 +93,9 @@ public class hospital extends Activity {
                         ArrayList<String> lat_object = new ArrayList<>();
                         for(int i = 0; i < output.length(); i++){
                             JSONObject object = output.get(i);
-                            phone_object.add(output.get(i))
+                            phone_object.add(output.get(i));
                             Log.i("test", output.get(i).toString());
-                        }
+                        }*/
                     }
                     else {
                         //TODO: can not connect

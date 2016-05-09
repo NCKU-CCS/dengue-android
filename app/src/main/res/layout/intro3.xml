@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:weightSum="1">
+
+    <TextView
+        android:textSize = "36sp"
+        android:layout_width="395dp"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:text="舉報問題點"
+        android:id="@+id/intro3_title"
+        android:layout_gravity="center_horizontal"
+        android:gravity="center"
+        android:layout_weight="0.37" />
+
+    <ImageView
+        android:layout_width="239dp"
+        android:layout_height="261dp"
+        android:id="@+id/intro3_img"
+        android:src="@drawable/intro3"
+        android:layout_gravity="center_horizontal" />
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:id="@+id/intro3_text"
+        android:text="輕鬆通報周邊孳生源，讓防疫網\n能更加沒有漏洞，也能舉報蚊子\n叮咬，供自己記錄自身狀況。"
+        android:textSize = "18sp"
+        android:gravity="center"
+        android:layout_gravity="center_horizontal"
+        android:layout_weight="0.15" />
+
+</LinearLayout>

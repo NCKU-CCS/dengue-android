@@ -63,7 +63,7 @@ public class menu {
                     case R.string.menu_bite:
                         if (Main.getComponentName().getClassName().equals("com.example.dengue.dengue_android.DrugBite"))
                             break;
-                        intent.setClass(Main, DrugBite.class);
+                        intent.setClass(Main, Drugbite.class);
                         Main.startActivity(intent);
                         break;
                     case R.string.menu_reportList:
