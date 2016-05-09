@@ -1,34 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical" android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:weightSum="1">
-
-    <TextView
-        android:textSize = "44sp"
-        android:layout_width="238dp"
-        android:layout_height="wrap_content"
-        android:textAppearance="?android:attr/textAppearanceLarge"
-        android:text="登革熱防治"
-        android:gravity="center"
-        android:layout_gravity="center"
-        android:id="@+id/title"
-        android:layout_weight="0.51" />
+    android:layout_height="match_parent">
 
     <ImageView
-        android:layout_width="240dp"
-        android:layout_height="268dp"
-        android:id="@+id/imageView"
-        android:src="@drawable/start"
-        android:layout_gravity="center_horizontal" />
-
-    <TextView
-        android:layout_width="142dp"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:textAppearance="?android:attr/textAppearanceLarge"
-        android:text="Made by\nNCKU NETDB"
-        android:gravity="center"
-        android:id="@+id/author"
-        android:layout_gravity="center_horizontal"
-        android:layout_weight="0.32" />
+        android:id="@+id/imageView"
+        android:src="@drawable/img"
+        android:layout_gravity="center_horizontal" />
 </LinearLayout>

@@ -51,7 +51,7 @@ public class BreedingSource extends Activity implements
     private double Lat;
     private double Lon;
     private TelephonyManager TelManager;
-    private session Session = new session();
+    //private session Session = new session();
     private gps Gps = new gps();
     private GoogleApiClient client;
 
@@ -69,7 +69,7 @@ public class BreedingSource extends Activity implements
 
         TelManager = (TelephonyManager) getSystemService(Context.TELEPHONY_SERVICE);
         buildGoogleApiClient();
-        Session.setSession(getSharedPreferences(AppName, 0));
+        //Session.setSession(getSharedPreferences(AppName, 0));
         Gps.set(new Geocoder(this, Locale.TRADITIONAL_CHINESE));
 
         mPhone = new DisplayMetrics();

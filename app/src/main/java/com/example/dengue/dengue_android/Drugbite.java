@@ -12,7 +12,6 @@ import android.telephony.TelephonyManager;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
-import android.widget.TextView;
 
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.api.GoogleApiClient;
@@ -36,7 +35,7 @@ public class Drugbite extends Activity implements
     private double Lat;
     private double Lon;
     private TelephonyManager TelManager;
-    private session Session = new session();
+    //private session Session = new session();
     private gps Gps = new gps();
     private GoogleApiClient client;
 
@@ -47,7 +46,7 @@ public class Drugbite extends Activity implements
 
         TelManager = (TelephonyManager) getSystemService(Context.TELEPHONY_SERVICE);
         buildGoogleApiClient();
-        Session.setSession(getSharedPreferences(AppName, 0));
+        //Session.setSession(getSharedPreferences(AppName, 0));
         Gps.set(new Geocoder(this, Locale.TRADITIONAL_CHINESE));
 
         drugBiteClick();
