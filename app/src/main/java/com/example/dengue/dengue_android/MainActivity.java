@@ -9,9 +9,9 @@ public class MainActivity extends Activity{
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.wellcome);
+        setContentView(R.layout.hot);
         Intent intent = new Intent();
-        intent.setClass(this, hot.class);
+        intent.setClass(this, Guild.class);
         startActivity(intent);
     }
 }

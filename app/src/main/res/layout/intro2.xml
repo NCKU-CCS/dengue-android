@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:weightSum="1">
+
+    <TextView
+        android:textSize = "36sp"
+        android:layout_width="395dp"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:text="鄰近醫療院所"
+        android:id="@+id/intro2_title"
+        android:layout_gravity="center_horizontal"
+        android:gravity="center"
+        android:layout_weight="0.37" />
+
+    <ImageView
+        android:layout_width="239dp"
+        android:layout_height="261dp"
+        android:id="@+id/intro2_img"
+        android:src="@drawable/intro2"
+        android:layout_gravity="center_horizontal" />
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:id="@+id/intro2_text"
+        android:text="快速了解鄰近能快篩的醫療院所\n和相關資訊。"
+        android:textSize = "18sp"
+        android:gravity="center"
+        android:layout_gravity="center_horizontal"
+        android:layout_weight="0.15" />
+
+</LinearLayout>

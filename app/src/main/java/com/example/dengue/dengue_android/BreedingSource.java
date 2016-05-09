@@ -147,8 +147,8 @@ public class BreedingSource extends Activity implements
     }
 
     private void breedingSourcesSubmitTypeList() {
-        Spinner breedingSources_submit_spinner = (Spinner)findViewById(R.id.breedingSources_submit_type_value);
-        breedingSources_submit_spinner.setAdapter(new ArrayAdapter<>(this, android.R.layout.simple_spinner_item, types));
+        //Spinner breedingSources_submit_spinner = (Spinner)findViewById(R.id.breedingSources_submit_type_value);
+        //breedingSources_submit_spinner.setAdapter(new ArrayAdapter<>(this, android.R.layout.simple_spinner_item, types));
     }
 
     private void breedingSourcesSubmitSubmit() {
@@ -157,7 +157,7 @@ public class BreedingSource extends Activity implements
             @Override
             public void onClick(View w) {
                 EditText description = (EditText) findViewById(R.id.breedingSources_submit_description_value);
-                Spinner type = (Spinner) findViewById(R.id.breedingSources_submit_type_value);
+                // type = (Spinner) findViewById(R.id.breedingSources_submit_type_value);
                 String now = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss", Locale.TRADITIONAL_CHINESE)
                         .format(new Date(System.currentTimeMillis()));
 
