@@ -20,18 +20,19 @@ public class MainActivity extends Activity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        setContentView(R.layout.welcome);
 
         session Session = new session(getApplicationContext());
 
-        /*if( Session.getData("isLogin").equals("true") ) {
+        if( Session.getData("isLogin").equals("true") ) {
             getIdentity(this, Session);
             Intent intent = new Intent();
             intent.setClass(this, hot.class);
             startActivity(intent);
         }
-        else {*/
+        else {
             signUpFast(this, Session);
-        //}
+        }
     }
 
     private void signUpFast(final Activity Main, final session Session) {
@@ -80,7 +81,7 @@ public class MainActivity extends Activity {
                         }
 
                         Intent intent = new Intent();
-                        intent.setClass(Main, welcome.class);
+                        intent.setClass(Main, Guild.class);
                         startActivity(intent);
                     }
                     else {

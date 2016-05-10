@@ -23,6 +23,7 @@ import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.Spinner;
 import android.widget.TextView;
@@ -60,7 +61,7 @@ public class BreedingSource extends Activity implements
     private ImageView mImg;
     private DisplayMetrics mPhone;
     private String[] types = new String[] {"住家積水容器", "雜物堆積(髒亂)", "空地積水容器"};
-
+    private String type;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -149,6 +150,42 @@ public class BreedingSource extends Activity implements
     private void breedingSourcesSubmitTypeList() {
         //Spinner breedingSources_submit_spinner = (Spinner)findViewById(R.id.breedingSources_submit_type_value);
         //breedingSources_submit_spinner.setAdapter(new ArrayAdapter<>(this, android.R.layout.simple_spinner_item, types));
+        //final ImageButton imageView = (ImageButton) findViewById(R.id.button_hb);
+
+        final ImageButton btn_hb = (ImageButton)findViewById(R.id.button_hb);
+        final ImageButton btn_ob = (ImageButton)findViewById(R.id.button_ob);
+        final ImageButton btn_og = (ImageButton)findViewById(R.id.button_og);
+        btn_hb.setOnClickListener(new View.OnClickListener()
+        {
+            public void onClick(View v)
+            {
+                btn_ob.setImageResource(R.drawable.outdoor_bottle);
+                btn_hb.setImageResource(R.drawable.home_bottle_onclick);
+                btn_og.setImageResource(R.drawable.outdoor_grass);
+                type="住家容器";
+            }
+        });
+
+        btn_ob.setOnClickListener(new View.OnClickListener()
+        {
+            public void onClick(View v)
+            {
+                btn_ob.setImageResource(R.drawable.outdoor_bottle_onclick);
+                btn_hb.setImageResource(R.drawable.home_bottle);
+                btn_og.setImageResource(R.drawable.outdoor_grass);
+                type="戶外容器";
+            }
+        });
+        btn_og.setOnClickListener(new View.OnClickListener()
+        {
+            public void onClick(View v)
+            {
+                btn_ob.setImageResource(R.drawable.outdoor_bottle);
+                btn_hb.setImageResource(R.drawable.home_bottle);
+                btn_og.setImageResource(R.drawable.outdoor_grass_onclick);
+                type="戶外髒亂處";
+            }
+        });
     }
 
     private void breedingSourcesSubmitSubmit() {
@@ -166,7 +203,7 @@ public class BreedingSource extends Activity implements
                 /*String data = "";
                 data += "region=tainan&table=api_breedingsource";
                 data += "id: " + Session.getStringData("phone") + "\n";
-                data += "type:" + type.getSelectedItem().toString() + "\n";
+                data += "type:"+ type+"\n";
                 data += "description: " + description.getText().toString() + "\n";
                 data += "date: " + now + "\n";
                 data += "lat:" + Lat + "\n";

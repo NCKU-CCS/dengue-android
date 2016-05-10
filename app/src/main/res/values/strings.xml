@@ -3,6 +3,7 @@
     <string name="go_back">go back</string>
     <string name="menu">menu</string>
     <string name="img">image</string>
+    <string name="start_right_now">直接開始</string>
 
     <string name="menu_hot">熱區資訊</string>
     <string name="menu_hospital">快篩診所</string>
