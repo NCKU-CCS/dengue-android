@@ -37,14 +37,14 @@
 
             <TextView
                 android:textSize = "30sp"
-                android:layout_width="395dp"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:textAppearance="?android:attr/textAppearanceLarge"
                 android:text="我被蚊子叮了!!!"
                 android:id="@+id/bite_title"
                 android:layout_gravity="center_horizontal"
                 android:gravity="center"
-                android:layout_weight="1.03" />
+                android:layout_weight="0.68" />
 
             <ImageView
                 android:layout_width="151dp"
@@ -64,11 +64,11 @@
                 android:layout_gravity="center_horizontal"
                 android:layout_weight="0.10" />
 
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textSize = "50sp"
-                android:id="@+id/textView" />
+            <LinearLayout
+                android:orientation="vertical"
+                android:layout_width="match_parent"
+                android:layout_height="92dp"></LinearLayout>
+
         </LinearLayout>
 
         <GridView
