@@ -81,7 +81,7 @@ public class MainActivity extends Activity {
                         }
 
                         Intent intent = new Intent();
-                        intent.setClass(Main, Guild.class);
+                        intent.setClass(Main, welcome.class);
                         startActivity(intent);
                     }
                     else {

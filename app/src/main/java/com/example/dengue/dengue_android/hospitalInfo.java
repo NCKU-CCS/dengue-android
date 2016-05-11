@@ -1,8 +1,5 @@
 package com.example.dengue.dengue_android;
 
-
-import android.app.Activity;
-import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
 
@@ -23,21 +20,17 @@ public class hospitalInfo extends FragmentActivity implements OnMapReadyCallback
                 .findFragmentById(R.id.hospital_info_map);
         mapFragment.getMapAsync(this);
         new menu(this);
-        final Activity Main = this;
-        new goBack(this, new Runnable() {
-            @Override
-            public void run() {
-                Intent intent = new Intent();
-                intent.setClass(Main, hospital.class);
-                Main.startActivity(intent);
-            }
-        });
+        new goBack(this);
     }
 
     @Override
     public void onMapReady(GoogleMap map) {
-        LatLng sydney = new LatLng(-34, 151);
-        map.addMarker(new MarkerOptions().position(sydney).title("Marker in Sydney"));
-        map.moveCamera(CameraUpdateFactory.newLatLng(sydney));
+        session Session = new session(this);
+        String Lng = Session.getData("hospital_lng");
+        String Lat = Session.getData("hospital_lat");
+
+        LatLng sydney = new LatLng(Float.parseFloat(Lat), Float.parseFloat(Lng));
+        map.addMarker(new MarkerOptions().position(sydney));
+        map.moveCamera(CameraUpdateFactory.newLatLngZoom(sydney, 15.0f));
     }
 }

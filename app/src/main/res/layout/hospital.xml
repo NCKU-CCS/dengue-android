@@ -7,7 +7,7 @@
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="66dp"
-        android:background="#ff0000">
+        android:background="@color/colorPrimary">
 
         <TextView
             android:layout_width="wrap_content"
@@ -62,9 +62,10 @@
                         android:textAppearance="?android:attr/textAppearanceSmall"
                         android:text="全部"
                         android:gravity="center"
-                        android:background="@drawable/hospital_choice_border"
+                        android:background="@drawable/hospital_choice_border_clicked"
                         android:paddingTop="10dp"
-                        android:paddingBottom="10dp" />
+                        android:paddingBottom="10dp"
+                        android:id="@+id/hospital_choice_all" />
 
                     <TextView
                         android:layout_width="50dp"
@@ -74,7 +75,8 @@
                         android:gravity="center"
                         android:background="@drawable/hospital_choice_border"
                         android:paddingTop="10dp"
-                        android:paddingBottom="10dp" />
+                        android:paddingBottom="10dp"
+                        android:id="@+id/hospital_choice_1" />
 
                     <TextView
                         android:layout_width="50dp"
@@ -84,7 +86,8 @@
                         android:gravity="center"
                         android:background="@drawable/hospital_choice_border"
                         android:paddingTop="10dp"
-                        android:paddingBottom="10dp" />
+                        android:paddingBottom="10dp"
+                        android:id="@+id/hospital_choice_2" />
 
                 </LinearLayout>
 

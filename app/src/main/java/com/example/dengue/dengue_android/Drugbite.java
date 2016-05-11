@@ -2,13 +2,10 @@ package com.example.dengue.dengue_android;
 
 import android.Manifest;
 import android.app.Activity;
-import android.content.Context;
 import android.content.pm.PackageManager;
-import android.location.Geocoder;
 import android.location.Location;
 import android.os.Bundle;
 import android.support.v4.app.ActivityCompat;
-import android.telephony.TelephonyManager;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
@@ -20,11 +17,6 @@ import com.google.android.gms.location.LocationServices;
 import java.io.OutputStream;
 import java.net.HttpURLConnection;
 import java.net.URL;
-import java.text.SimpleDateFormat;
-import java.util.Date;
-import java.util.Locale;
-
-import javax.net.ssl.HttpsURLConnection;
 
 public class Drugbite extends Activity implements
         GoogleApiClient.ConnectionCallbacks,
@@ -34,22 +26,14 @@ public class Drugbite extends Activity implements
     private GoogleApiClient mGoogleApiClient;
     private double Lat;
     private double Lon;
-    private TelephonyManager TelManager;
-    //private session Session = new session();
-    private gps Gps = new gps();
-    private GoogleApiClient client;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
         setContentView(R.layout.drugbite);
-
-        TelManager = (TelephonyManager) getSystemService(Context.TELEPHONY_SERVICE);
         buildGoogleApiClient();
-        //Session.setSession(getSharedPreferences(AppName, 0));
-        Gps.set(new Geocoder(this, Locale.TRADITIONAL_CHINESE));
 
-        drugBiteClick();
         new menu(this);
     }
 
@@ -58,19 +42,7 @@ public class Drugbite extends Activity implements
         bittenByMosquito_Button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View w) {
-                //TextView output = (TextView)findViewById(R.id.drugbite_output);
-                String now = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss", Locale.TRADITIONAL_CHINESE)
-                        .format( new Date(System.currentTimeMillis()) );
-
-                //TODO: need to submit data to server
-                String data = "database=tainan&lng=120&lon=23";
-                //data += "id=" + Session.getStringData("phone") + "&";
-                //data += "date= " + now + "&";
-                //data += "lng=" + Lon + "&";
-                //data += "lat=" + Lat;
-                //data += "address=" + gps.get(Lat, Lon) + "&";
-                //data += "done=false";
-                //output.setText(data);
+                String data = "database=tainan&lng="+Lon+"&lat="+Lat;
                 sendPost(data);
 
             }
@@ -108,6 +80,7 @@ public class Drugbite extends Activity implements
         if (mLastLocation != null) {
             Lat = mLastLocation.getLatitude();
             Lon = mLastLocation.getLongitude();
+            drugBiteClick();
         }
     }
 
@@ -124,6 +97,7 @@ public class Drugbite extends Activity implements
 
     // HTTP POST request
     public void sendPost(final String data){
+        final session Session = new session(this);
         Thread thread = new Thread() {
             public void run() {
                 String url = "http://140.116.247.113:11401/bite/insert/";
@@ -137,9 +111,9 @@ public class Drugbite extends Activity implements
                     con.setReadTimeout(10000);
                     con.setConnectTimeout(15000);
                     con.setRequestMethod("POST");
-                    con.setRequestProperty("Content-Type", "application/form-data");
+                    con.setRequestProperty("Content-Type", "application/x-www-form-urlencoded");
+                    con.setRequestProperty("Cookie", Session.getData("cookie"));
                     con.connect();
-                    Log.i(AppName, data);
 
                     OutputStream output = con.getOutputStream();
                     output.write(data.getBytes());
@@ -147,8 +121,6 @@ public class Drugbite extends Activity implements
                     output.close();
 
                     int responseCode = con.getResponseCode();
-                    Log.i(AppName, String.valueOf(responseCode));
-
                     if (responseCode == HttpURLConnection.HTTP_OK) {
                         Log.i(AppName, "post success");
                     } else {

@@ -6,7 +6,7 @@
 
     <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="66dp"
         android:background="@color/colorPrimary">
 
         <TextView
@@ -14,11 +14,12 @@
             android:layout_height="wrap_content"
             android:textAppearance="?android:attr/textAppearanceLarge"
             android:text="@string/hospital_title"
+            android:textColor="#ffffff"
+            android:textSize = "24sp"
             android:id="@+id/title"
             android:paddingTop="10dp"
             android:paddingBottom="10dp"
-            android:textColor="@color/colorText"
-            android:layout_alignParentEnd="false"
+            android:layout_centerVertical="true"
             android:layout_centerHorizontal="true" />
 
         <ImageView
@@ -28,7 +29,7 @@
             android:background="@mipmap/go_back"
             android:contentDescription="@string/go_back"
             android:layout_alignParentRight="false"
-            android:layout_marginTop="13dp"
+            android:layout_marginTop="20dp"
             android:layout_marginLeft="10dp" />
     </RelativeLayout>
 

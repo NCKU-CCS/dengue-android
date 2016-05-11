@@ -1,18 +1,11 @@
 package com.example.dengue.dengue_android;
 
-import android.content.Context;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
-
-/**
- * Created by nana on 2016/5/4.
- */
 
 public class Guild extends AppCompatActivity{
     TestFragmentAdapter mAdapter;
