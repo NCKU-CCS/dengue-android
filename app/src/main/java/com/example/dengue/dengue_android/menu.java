@@ -7,6 +7,7 @@ import android.widget.AdapterView;
 import android.widget.GridView;
 
 public class menu {
+    private static final String AppName = "Dengue";
     private int [] Name = new int[] {
             R.string.menu_hot,
             R.string.menu_hospital,
@@ -23,7 +24,7 @@ public class menu {
     };
 
     menu(final Activity Main) {
-        session Session = new session(Main.getApplicationContext());
+        session Session = new session(Main.getSharedPreferences(AppName, 0));
         if( Session.getData("isLogin").equals("里長") ) {
             Name = new int[] {
                     R.string.menu_hot,

@@ -38,6 +38,7 @@
         <activity android:name=".hospitalInfo"/>
         <activity android:name=".Drugbite"></activity>
         <activity android:name=".BreedingSource"></activity>
+        <activity android:name=".BreedingSourceSubmit"></activity>
 
         <!-- ATTENTION: This was auto-generated to add Google Play services to your project for
              App Indexing.  See https://g.co/AppIndexing/AndroidStudio for more information. -->

@@ -97,7 +97,7 @@ public class Drugbite extends Activity implements
 
     // HTTP POST request
     public void sendPost(final String data){
-        final session Session = new session(this);
+        final session Session = new session(getSharedPreferences(AppName, 0));
         Thread thread = new Thread() {
             public void run() {
                 String url = "http://140.116.247.113:11401/bite/insert/";

@@ -17,14 +17,15 @@ import java.util.List;
 import java.util.Map;
 
 public class MainActivity extends Activity {
+    private static final String AppName = "Dengue";
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
         setContentView(R.layout.welcome);
-
-        session Session = new session(getApplicationContext());
-
-        if( Session.getData("isLogin").equals("true") ) {
+        session Session = new session(getSharedPreferences(AppName, 0));
+        if( Session.getData("isLogin") != null && Session.getData("isLogin").equals("true") ) {
             getIdentity(this, Session);
             Intent intent = new Intent();
             intent.setClass(this, hot.class);

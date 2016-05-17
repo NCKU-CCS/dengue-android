@@ -40,10 +40,6 @@ import android.view.animation.Interpolator;
 import java.util.Arrays;
 
 
-/**
- * Created by David Pacioianu on 11/11/15.
- */
-
 
 public class InkPageIndicator extends View implements ViewPager.OnPageChangeListener,
         View.OnAttachStateChangeListener {

@@ -30,7 +30,7 @@
     <string name="breedingSources_photo_camera">開啟相機</string>
     <string name="breedingSources_photo_photo">開啟相簿</string>
 
-    <string name="breedingSources_submit_button">舉報</string>
+    <string name="breedingSources_submit_button">上傳</string>
     <string name="breedingSources_submit_description">*地點簡介</string>
     <string name="breedingSources_submit_type">*孳生源類型：</string>
 

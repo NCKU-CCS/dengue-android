@@ -154,8 +154,6 @@ public class hospital extends Activity implements
                 HttpURLConnection connect = null;
                 try {
                     URL connect_url = new URL("http://140.116.247.113:11401/hospital/nearby/?database=tainan&lng="+Location_lon+"&lat="+Location_lat);
-                    Log.i("test", String.valueOf(Location_lon));
-                    Log.i("test", String.valueOf(Location_lat));
                     connect = (HttpURLConnection) connect_url.openConnection();
                     connect.setReadTimeout(10000);
                     connect.setConnectTimeout(15000);
@@ -262,7 +260,7 @@ public class hospital extends Activity implements
         if (mLastLocation != null) {
             Location_lat = mLastLocation.getLatitude();
             Location_lon = mLastLocation.getLongitude();
-            session Session = new session(this);
+            session Session = new session(getSharedPreferences(AppName, 0));
             getData(Session, this);
         }
     }

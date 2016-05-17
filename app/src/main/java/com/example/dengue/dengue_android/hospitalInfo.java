@@ -11,6 +11,8 @@ import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
 
 public class hospitalInfo extends FragmentActivity implements OnMapReadyCallback {
+    private static final String AppName = "Dengue";
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -25,7 +27,7 @@ public class hospitalInfo extends FragmentActivity implements OnMapReadyCallback
 
     @Override
     public void onMapReady(GoogleMap map) {
-        session Session = new session(this);
+        session Session = new session(getSharedPreferences(AppName, 0));
         String Lng = Session.getData("hospital_lng");
         String Lat = Session.getData("hospital_lat");
 
