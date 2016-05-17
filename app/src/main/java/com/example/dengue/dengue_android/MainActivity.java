@@ -25,7 +25,7 @@ public class MainActivity extends Activity {
 
         setContentView(R.layout.welcome);
         session Session = new session(getSharedPreferences(AppName, 0));
-        if( Session.getData("isLogin") != null && Session.getData("isLogin").equals("true") ) {
+        if( Session.getData("isFirst") != null && Session.getData("isFirst").equals("false") ) {
             getIdentity(this, Session);
             Intent intent = new Intent();
             intent.setClass(this, hot.class);
@@ -60,8 +60,9 @@ public class MainActivity extends Activity {
 
                         JSONObject output = new JSONObject(sb.toString());
                         Session.setData("user_uuid", output.getString("user_uuid"));
-                        Session.setData("isLogin", "true");
+                        Session.setData("isFirst", "false");
                         Session.setData("identity", "一般使用者");
+                        Session.setData("isLogin", "false");
 
                         final String COOKIES_HEADER = "Set-Cookie";
                         CookieManager msCookieManager = new CookieManager();
@@ -113,9 +114,11 @@ public class MainActivity extends Activity {
                     connect.setReadTimeout(10000);
                     connect.setConnectTimeout(15000);
                     connect.setRequestMethod("GET");
+                    connect.setRequestProperty("Cookie", Session.getData("cookie"));
                     connect.connect();
 
                     int responseCode = connect.getResponseCode();
+                    Log.i("dengue", String.valueOf(responseCode));
                     if(responseCode == HttpURLConnection.HTTP_OK) {
                         BufferedReader br = new BufferedReader(new InputStreamReader(connect.getInputStream()));
                         StringBuilder sb = new StringBuilder();
@@ -127,6 +130,10 @@ public class MainActivity extends Activity {
 
                         JSONObject output = new JSONObject(sb.toString());
                         Session.setData("identity", output.getString("identity"));
+                        Session.setData("score", output.getString("score"));
+                        Session.setData("breeding_source_count", output.getString("breeding_source_count"));
+                        Session.setData("bites_count", output.getString("bites_count"));
+
                         Intent intent = new Intent();
                         intent.setClass(Main, hot.class);
                         startActivity(intent);

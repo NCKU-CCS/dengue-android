@@ -31,10 +31,8 @@ public class BreedingSource extends Activity {
             startActivity(intent);
         } else if (resultCode == RESULT_CANCELED) {
             onBackPressed();
-            Log.i("test", "1");
         } else {
             onBackPressed();
-            Log.i("test", "2");
         }
     }
 }

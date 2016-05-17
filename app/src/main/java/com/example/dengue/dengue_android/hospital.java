@@ -45,7 +45,9 @@ public class hospital extends Activity implements
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
+        setContentView(R.layout.hospital);
         buildGoogleApiClient();
+        new menu(this);
     }
 
     private void hospitalNumber() {
@@ -148,7 +150,7 @@ public class hospital extends Activity implements
         hospitalList(Session, temp_name, temp_address, temp_phone, temp_lng, temp_lat);
     }
 
-    private void getData(final session Session, final Activity Main) {
+    private void getData(final session Session) {
         Thread thread = new Thread() {
             public void run() {
                 HttpURLConnection connect = null;
@@ -196,11 +198,9 @@ public class hospital extends Activity implements
                         runOnUiThread(new Runnable() {
                             @Override
                             public void run() {
-                                setContentView(R.layout.hospital);
                                 hospitalNumber();
                                 hospitalList(Session, Name, Address, Phone, Lng, Lat);
                                 bindClick(Session);
-                                new menu(Main);
                             }
                         });
                     }
@@ -261,7 +261,7 @@ public class hospital extends Activity implements
             Location_lat = mLastLocation.getLatitude();
             Location_lon = mLastLocation.getLongitude();
             session Session = new session(getSharedPreferences(AppName, 0));
-            getData(Session, this);
+            getData(Session);
         }
     }
 

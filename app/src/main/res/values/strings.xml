@@ -14,7 +14,7 @@
     <string name="menu_item_name">item</string>
 
     <string name="reportList_title">待檢查孳生源點</string>
-    <string name="reportList_number">還有 個點待查</string>
+    <string name="reportList_number">您有 個待查點</string>
     <string name="reportList_item_name">Name</string>
     <string name="reportList_item_isDone">完成</string>
     <string name="reportList_item_next"><![CDATA[>]]></string>
@@ -22,9 +22,13 @@
     <string name="reportList_check_description">補充：</string>
     <string name="reportList_check_type">地點描述：</string>
     <string name="reportList_check_date">通報時間：</string>
-    <string name="reportList_check_yes">是孳生源</string>
-    <string name="reportList_check_no">不是孳生源</string>
+    <string name="reportList_check_yes"> V 已處理</string>
+    <string name="reportList_check_wait"> V 通報處理</string>
+    <string name="reportList_check_no"> X 非孳生源</string>
     <string name="reportList_check_dialogTitle">處理方式</string>
+    <string name="reportList_type_not">未處理</string>
+    <string name="reportList_type_wait">待處理</string>
+    <string name="reportList_type_done">已處理</string>
 
     <string name="breedingSources_title">孳生源舉報</string>
     <string name="breedingSources_photo_camera">開啟相機</string>
@@ -47,5 +51,10 @@
     <string name="hospital_info_openTime">院所開放時間：</string>
     <string name="hospital_info_tel">院所電話：</string>
     <string name="action_settings">New Day</string>>
+    
+    <string name="user_setting_title">個人設定</string>
+    <string name="user_signup_title">註冊新會員</string>
+    <string name="user_login_title">會員登入</string>
+    <string name="user_profile_title">個人檔案</string>
 
 </resources>
