@@ -19,7 +19,7 @@ public class session {
             FileOutputStream file = context.openFileOutput(FileName, Context.MODE_PRIVATE);
             file.write(data.getBytes());
         } catch (FileNotFoundException e) {
-            Log.i("Dengue", "can not save data.");
+            Log.i("Dengue", data+"can not save data.");
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -35,7 +35,7 @@ public class session {
             }
             return new String(sb);
         } catch (FileNotFoundException e) {
-            Log.i("Dengue", "can not save data.");
+            Log.i("Dengue", "can not get data."+FileName);
         } catch (IOException e) {
             e.printStackTrace();
         }

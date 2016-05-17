@@ -38,6 +38,11 @@
         <activity android:name=".hospitalInfo"/>
         <activity android:name=".Drugbite"></activity>
         <activity android:name=".BreedingSource"></activity>
+        <activity android:name=".UserSetting"></activity>
+        <activity android:name=".UserSignup"></activity>
+        <activity android:name=".UserLogin"></activity>
+        <activity android:name=".Report"></activity>
+
 
         <!-- ATTENTION: This was auto-generated to add Google Play services to your project for
              App Indexing.  See https://g.co/AppIndexing/AndroidStudio for more information. -->

@@ -24,7 +24,7 @@ public class menu {
 
     menu(final Activity Main) {
         session Session = new session(Main.getApplicationContext());
-        if( Session.getData("isLogin").equals("里長") ) {
+        if( Session.getData("identity").equals("里長") ) {
             Name = new int[] {
                     R.string.menu_hot,
                     R.string.menu_hospital,
@@ -67,6 +67,16 @@ public class menu {
                         Main.startActivity(intent);
                         break;
                     case R.string.menu_reportList:
+                        if (Main.getComponentName().getClassName().equals("com.example.dengue.dengue_android.Report"))
+                            break;
+                        intent.setClass(Main, Report.class);
+                        Main.startActivity(intent);
+                        break;
+                    case R.string.menu_setting:
+                        if (Main.getComponentName().getClassName().equals("com.example.dengue.dengue_android.UserSetting"))
+                            break;
+                        intent.setClass(Main, UserSetting.class);
+                        Main.startActivity(intent);
                         break;
                 }
             }
