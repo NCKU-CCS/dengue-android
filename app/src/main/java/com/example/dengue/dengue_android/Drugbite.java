@@ -34,7 +34,7 @@ public class Drugbite extends Activity implements
         setContentView(R.layout.drugbite);
         buildGoogleApiClient();
 
-        new menu(this);
+        new menu(this,3);
     }
 
     private void drugBiteClick() {

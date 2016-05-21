@@ -23,7 +23,6 @@ public class MainActivity extends Activity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        setContentView(R.layout.welcome);
         session Session = new session(getSharedPreferences(AppName, 0));
         if( Session.getData("isFirst") != null && Session.getData("isFirst").equals("false") ) {
             getIdentity(this, Session);
@@ -82,9 +81,16 @@ public class MainActivity extends Activity {
                             }
                         }
 
-                        Intent intent = new Intent();
-                        intent.setClass(Main, welcome.class);
-                        startActivity(intent);
+                        if (Session.getData("isLogout")!=null && Session.getData("isLogout").equals("true")) {
+                            Intent intent = new Intent();
+                            intent.setClass(Main, UserSetting.class);
+                            startActivity(intent);
+                        }
+                        else {
+                            Intent intent = new Intent();
+                            intent.setClass(Main, welcome.class);
+                            startActivity(intent);
+                        }
                     }
                     else {
                         //TODO: can not connect

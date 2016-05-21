@@ -9,6 +9,7 @@ import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
@@ -37,10 +38,9 @@ public class Report extends Activity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
         session Session = new session(getSharedPreferences(AppName, 0));
         setContentView(R.layout.report_list);
-        new menu(this);
+        new menu(this,4);
         getData(Session);
     }
 
@@ -168,7 +168,7 @@ public class Report extends Activity {
         for(int i = 0; i <Status.length; i++) {
             for(int j = 0; j<token.length ; j++)
             {
-                if(Status[i].toString().contains(token[j])) {
+                if(Status[i].toString().equals(token[j])) {
                     temp_Id.add(Id[i].toString());
                     temp_Url.add(Url[i].toString());
                     temp_Type.add(Type[i].toString());
@@ -198,15 +198,17 @@ public class Report extends Activity {
             public void run() {
                 HttpURLConnection connect = null;
                 try {
-                    URL connect_url = new URL("http://140.116.247.113:11401/breeding_source/get/?database=tainan&status=未處理,已處理,通報處理,非孳生源");
+                    URL connect_url = new URL("http://140.116.247.113:11401/breeding_source/get/?database=tainan&status=已處理,非孳生源,未處理,通報處理");
                     connect = (HttpURLConnection) connect_url.openConnection();
                     connect.setReadTimeout(10000);
                     connect.setConnectTimeout(15000);
                     connect.setRequestMethod("GET");
                     connect.setRequestProperty("Cookie", Session.getData("cookie"));
                     connect.connect();
-
+                    Log.i("Dengue", "here.");
                     int responseCode = connect.getResponseCode();
+                    Log.i("Dengue", String.valueOf(responseCode));
+
                     if(responseCode == HttpURLConnection.HTTP_OK) {
                         BufferedReader br = new BufferedReader(new InputStreamReader(connect.getInputStream()));
                         StringBuilder sb = new StringBuilder();

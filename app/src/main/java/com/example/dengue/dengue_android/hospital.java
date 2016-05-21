@@ -47,7 +47,7 @@ public class hospital extends Activity implements
 
         setContentView(R.layout.hospital);
         buildGoogleApiClient();
-        new menu(this);
+        new menu(this,1);
     }
 
     private void hospitalNumber() {

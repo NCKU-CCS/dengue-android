@@ -43,7 +43,7 @@ public class UserSignup extends Activity {
                 signup(Main, output);
             }
         });
-        new menu(this);
+        new menu(this,4);
     }
 
     private void signup(final Activity Main, final String data)

@@ -17,14 +17,14 @@ public class menu {
             R.string.menu_setting,
     };
     private int [] Img = new int[] {
-            R.drawable.img,
-            R.drawable.img,
-            R.drawable.img,
-            R.drawable.img,
-            R.drawable.img
+            R.drawable.notification_on,
+            R.drawable.hospital_off,
+            R.drawable.source_checkin_off,
+            R.drawable.mosquito_checkin_off,
+            R.drawable.setting_off
     };
 
-    menu(final Activity Main) {
+    menu(final Activity Main,int index) {
         session Session = new session(Main.getSharedPreferences(AppName, 0));
         if( Session.getData("identity").equals("里長") ) {
             Name = new int[] {
@@ -34,6 +34,44 @@ public class menu {
                     R.string.menu_bite,
                     R.string.menu_reportList,
             };
+        }
+        switch(index)
+        {
+            case 0:
+                Img[0] = R.drawable.notification_on;
+                Img[1] = R.drawable.hospital_off;
+                Img[2] = R.drawable.source_checkin_off;
+                Img[3] = R.drawable.mosquito_checkin_off;
+                Img[4] = R.drawable.setting_off;
+                break;
+            case 1:
+                Img[0] = R.drawable.notification_off;
+                Img[1] = R.drawable.hospital_on;
+                Img[2] = R.drawable.source_checkin_off;
+                Img[3] = R.drawable.mosquito_checkin_off;
+                Img[4] = R.drawable.setting_off;
+                break;
+            case 2:
+                Img[0] = R.drawable.notification_off;
+                Img[1] = R.drawable.hospital_off;
+                Img[2] = R.drawable.source_checkin_on;
+                Img[3] = R.drawable.mosquito_checkin_off;
+                Img[4] = R.drawable.setting_off;
+                break;
+            case 3:
+                Img[0] = R.drawable.notification_off;
+                Img[1] = R.drawable.hospital_off;
+                Img[2] = R.drawable.source_checkin_off;
+                Img[3] = R.drawable.mosquito_checkin_on;
+                Img[4] = R.drawable.setting_off;
+                break;
+            case 4:
+                Img[0] = R.drawable.notification_off;
+                Img[1] = R.drawable.hospital_off;
+                Img[2] = R.drawable.source_checkin_off;
+                Img[3] = R.drawable.mosquito_checkin_off;
+                Img[4] = R.drawable.setting_on;
+                break;
         }
 
         final Intent intent = new Intent();
@@ -63,6 +101,7 @@ public class menu {
                         Main.startActivity(intent);
                         break;
                     case R.string.menu_bite:
+
                         if (Main.getComponentName().getClassName().equals("com.example.dengue.dengue_android.DrugBite"))
                             break;
                         intent.setClass(Main, Drugbite.class);

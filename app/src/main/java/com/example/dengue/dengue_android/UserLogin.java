@@ -8,6 +8,10 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 
+import org.json.JSONObject;
+
+import java.io.BufferedReader;
+import java.io.InputStreamReader;
 import java.io.OutputStream;
 import java.net.CookieManager;
 import java.net.HttpCookie;
@@ -37,7 +41,10 @@ public class UserLogin extends Activity {
                 signin(output);
             }
         });
-        new menu(this);
+        session Session = new session(getSharedPreferences(AppName, 0));
+        getIdentity(this, Session);
+
+        new menu(this,4);
     }
 
     private void signin(final String data) {
@@ -109,4 +116,51 @@ public class UserLogin extends Activity {
         };
         thread.start();
     }
+    private void getIdentity(final Activity Main, final session Session) {
+        Thread thread = new Thread() {
+            public void run() {
+                HttpURLConnection connect = null;
+                try {
+                    URL connect_url = new URL("http://140.116.247.113:11401/users/info/");
+                    connect = (HttpURLConnection) connect_url.openConnection();
+                    connect.setReadTimeout(10000);
+                    connect.setConnectTimeout(15000);
+                    connect.setRequestMethod("GET");
+                    connect.setRequestProperty("Cookie", Session.getData("cookie"));
+                    connect.connect();
+
+                    int responseCode = connect.getResponseCode();
+                    if(responseCode == HttpURLConnection.HTTP_OK) {
+                        BufferedReader br = new BufferedReader(new InputStreamReader(connect.getInputStream()));
+                        StringBuilder sb = new StringBuilder();
+                        String line;
+                        while ((line = br.readLine()) != null) {
+                            sb.append(line).append("\n");
+                        }
+                        br.close();
+
+                        JSONObject output = new JSONObject(sb.toString());
+                        Session.setData("identity", output.getString("identity"));
+                        Session.setData("score", output.getString("score"));
+                        Session.setData("breeding_source_count", output.getString("breeding_source_count"));
+                        Session.setData("bites_count", output.getString("bites_count"));
+                    }
+                    else {
+                        //TODO: can not connect
+                        Log.i("Dengue", "can not get identity");
+                    }
+                }
+                catch (Exception e) {
+                    e.printStackTrace();
+                }
+                finally {
+                    if (connect != null) {
+                        connect.disconnect();
+                    }
+                }
+            }
+        };
+        thread.start();
+    }
+
 }

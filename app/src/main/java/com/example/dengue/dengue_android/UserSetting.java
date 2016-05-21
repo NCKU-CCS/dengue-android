@@ -24,24 +24,23 @@ public class UserSetting extends Activity {
 
         final session Session = new session(getSharedPreferences(AppName, 0));
         if(Session.getData("isLogin").equals("true")) {
-            setContentView(R.layout.user_profile);
-
-            getProfile(Session);
-            Button logout_button = (Button)findViewById(R.id.logout_btn);
-            logout_button.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View w) {
-                    logout(Session);
-
-                }
-            });
+            //getProfile(Session);
+            if(Session.getData("identity").equals("里長"))
+            {
+                Intent intent = new Intent();
+                intent.setClass(UserSetting.this, Report.class);
+                startActivity(intent);
+            }
+            else{
+                setContentView(R.layout.user_profile);
+                getInfo(Session);
+            }
         }
-        else if(Session.getData("isLogin").equals("false")) {
+        else{
             setContentView(R.layout.user_setting);
             settingBtn(this);
         }
-
-        new menu(this);
+        new menu(this,4);
     }
 
     private void settingBtn(final Activity Main) {
@@ -105,6 +104,7 @@ public class UserSetting extends Activity {
                         br.close();
 
                         JSONObject output = new JSONObject(sb.toString());
+                        Session.setData("identity", output.getString("identity"));
                         Session.setData("score", output.getString("score").equals("") ? "0" : output.getString("score"));
                         Session.setData("breeding_source_count", output.getString("breeding_source_count"));
                         Session.setData("bites_count", output.getString("bites_count"));
@@ -117,9 +117,15 @@ public class UserSetting extends Activity {
 
                                 TextView breeding_source_count = (TextView) findViewById(R.id.user_breeding_source_count);
                                 breeding_source_count.setText(Session.getData("breeding_source_count"));
-
                                 TextView bites_count = (TextView) findViewById(R.id.user_bites_count);
                                 bites_count.setText(Session.getData("bites_count"));
+                                Button logout_button = (Button) findViewById(R.id.logout_btn);
+                                logout_button.setOnClickListener(new View.OnClickListener() {
+                                    @Override
+                                    public void onClick(View w) {
+                                        logout(Session);
+                                    }
+                                });
                             }
                         });
                     }
@@ -160,6 +166,7 @@ public class UserSetting extends Activity {
                         Log.i("Dengue", "logout success");
                         Session.setData("isLogin", "false");
                         Session.setData("isFirst", "true");
+                        Session.setData("isLogout", "true");
 
                         Intent intent = new Intent();
                         intent.setClass(UserSetting.this, MainActivity.class);

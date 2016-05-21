@@ -21,7 +21,7 @@ public class hospitalInfo extends FragmentActivity implements OnMapReadyCallback
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
                 .findFragmentById(R.id.hospital_info_map);
         mapFragment.getMapAsync(this);
-        new menu(this);
+        new menu(this,1);
         new goBack(this);
     }
 

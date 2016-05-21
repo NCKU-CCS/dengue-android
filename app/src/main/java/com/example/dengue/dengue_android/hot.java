@@ -11,7 +11,7 @@ public class hot extends Activity {
 
         setContentView(R.layout.hot);
         setWeb();
-        new menu(this);
+        new menu(this,0);
     }
 
     private void setWeb() {
