@@ -6,18 +6,20 @@ import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.location.Location;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.v4.app.ActivityCompat;
-import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.location.LocationServices;
 
 import org.json.JSONArray;
+import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.BufferedReader;
@@ -29,12 +31,13 @@ import java.util.ArrayList;
 public class hospital extends Activity implements
         GoogleApiClient.ConnectionCallbacks,
         GoogleApiClient.OnConnectionFailedListener {
-    private CharSequence[] Name;
-    private CharSequence[] Address;
-    private CharSequence[] Phone;
-    private CharSequence[] Lng;
-    private CharSequence[] Lat;
-    private int number;
+    private CharSequence[] Name = new CharSequence[]{};
+    private CharSequence[] Address = new CharSequence[]{};
+    private CharSequence[] Phone = new CharSequence[]{};
+    private CharSequence[] Lng = new CharSequence[]{};
+    private CharSequence[] Lat = new CharSequence[]{};
+
+    private int number = 0;
     private static final String AppName = "Dengue";
     private GoogleApiClient mGoogleApiClient;
     private double Location_lat;
@@ -46,17 +49,17 @@ public class hospital extends Activity implements
         super.onCreate(savedInstanceState);
 
         setContentView(R.layout.hospital);
+        new menu(this, 1);
         buildGoogleApiClient();
-        new menu(this,1);
     }
 
     private void hospitalNumber() {
         TextView hospital_number = (TextView) findViewById(R.id.hospital_number);
-        String output_number = "您附近有 " + number + " 個醫療院所";
+        String output_number = "您附近有 " + number + " 家醫療院所";
         hospital_number.setText(output_number);
     }
 
-    private void hospitalList(final session Session, CharSequence[] name, CharSequence[] address,
+    private void hospitalList(CharSequence[] name, CharSequence[] address,
                               CharSequence[] phone, final CharSequence[] lng, final CharSequence[] lat) {
         final Activity main = this;
         ListView hospital_list = (ListView) findViewById(R.id.hospital_list);
@@ -64,17 +67,19 @@ public class hospital extends Activity implements
         hospital_list.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                Session.setData("hospital_lng", lng[position].toString());
-                Session.setData("hospital_lat", lat[position].toString());
+                Bundle bundle = new Bundle();
+                bundle.putString("hospital_lng", lng[position].toString());
+                bundle.putString("hospital_lat", lat[position].toString());
 
                 Intent intent = new Intent();
+                intent.putExtras(bundle);
                 intent.setClass(main, hospitalInfo.class);
                 main.startActivity(intent);
             }
         });
     }
 
-    private void bindClick(final session Session) {
+    private void bindClick() {
         final TextView hospital_choice_all = (TextView) findViewById(R.id.hospital_choice_all);
         final TextView hospital_choice_1 = (TextView) findViewById(R.id.hospital_choice_1);
         final TextView hospital_choice_2 = (TextView) findViewById(R.id.hospital_choice_2);
@@ -86,7 +91,7 @@ public class hospital extends Activity implements
                     now_choice = 0;
                     number = Name.length;
                     hospitalNumber();
-                    hospitalList(Session, Name, Address, Phone, Lng, Lat);
+                    hospitalList(Name, Address, Phone, Lng, Lat);
 
                     hospital_choice_all.setBackgroundResource(R.drawable.hospital_choice_border_clicked);
                     hospital_choice_1.setBackgroundResource(R.drawable.hospital_choice_border);
@@ -100,7 +105,7 @@ public class hospital extends Activity implements
             public void onClick(View v) {
                 if (now_choice != 1) {
                     now_choice = 1;
-                    filterData(Session, "醫院");
+                    filterData("醫院");
 
                     hospital_choice_all.setBackgroundResource(R.drawable.hospital_choice_border);
                     hospital_choice_1.setBackgroundResource(R.drawable.hospital_choice_border_clicked);
@@ -114,7 +119,7 @@ public class hospital extends Activity implements
             public void onClick(View v) {
                 if (now_choice != 2) {
                     now_choice = 2;
-                    filterData(Session, "診所");
+                    filterData("診所");
 
                     hospital_choice_all.setBackgroundResource(R.drawable.hospital_choice_border);
                     hospital_choice_1.setBackgroundResource(R.drawable.hospital_choice_border);
@@ -124,7 +129,7 @@ public class hospital extends Activity implements
         });
     }
 
-    private void filterData(session Session, String token) {
+    private void filterData(String token) {
         ArrayList<String> temp_Name = new ArrayList<>();
         ArrayList<String> temp_Address  = new ArrayList<>();
         ArrayList<String> temp_Phone  = new ArrayList<>();
@@ -147,13 +152,46 @@ public class hospital extends Activity implements
 
         number = temp_name.length;
         hospitalNumber();
-        hospitalList(Session, temp_name, temp_address, temp_phone, temp_lng, temp_lat);
+        hospitalList(temp_name, temp_address, temp_phone, temp_lng, temp_lat);
     }
 
-    private void getData(final session Session) {
+    private void parseData(String data) throws JSONException {
+        if(data.equals("")) {
+            return;
+        }
+
+        JSONArray output = new JSONArray(data);
+        ArrayList<String> name_object = new ArrayList<>();
+        ArrayList<String> address_object = new ArrayList<>();
+        ArrayList<String> phone_object = new ArrayList<>();
+        ArrayList<String> lng_object = new ArrayList<>();
+        ArrayList<String> lat_object = new ArrayList<>();
+
+        for(int i = 0; i < output.length(); i++){
+            JSONObject object = new JSONObject(output.get(i).toString());
+            name_object.add(object.getString("name"));
+            address_object.add(object.getString("address"));
+            phone_object.add(object.getString("phone"));
+            lng_object.add(object.getString("lng"));
+            lat_object.add(object.getString("lat"));
+        }
+
+        Name = name_object.toArray(new String[name_object.size()]);
+        Address = address_object.toArray(new String[address_object.size()]);
+        Phone = phone_object.toArray(new String[phone_object.size()]);
+        Lng = lng_object.toArray(new String[lng_object.size()]);
+        Lat = lat_object.toArray(new String[lat_object.size()]);
+        number = Name.length;
+    }
+
+    private void getData() {
+        final session Session = new session(getSharedPreferences(AppName, 0));
+        final Activity Main = this;
+
         Thread thread = new Thread() {
             public void run() {
                 HttpURLConnection connect = null;
+
                 try {
                     URL connect_url = new URL("http://140.116.247.113:11401/hospital/nearby/?database=tainan&lng="+Location_lon+"&lat="+Location_lat);
                     connect = (HttpURLConnection) connect_url.openConnection();
@@ -173,44 +211,45 @@ public class hospital extends Activity implements
                         }
                         br.close();
 
-                        JSONArray output = new JSONArray(sb.toString());
-                        ArrayList<String> name_object = new ArrayList<>();
-                        ArrayList<String> address_object = new ArrayList<>();
-                        ArrayList<String> phone_object = new ArrayList<>();
-                        ArrayList<String> lng_object = new ArrayList<>();
-                        ArrayList<String> lat_object = new ArrayList<>();
-                        for(int i = 0; i < output.length(); i++){
-                            JSONObject object = new JSONObject(output.get(i).toString());
-                            name_object.add(object.getString("name"));
-                            address_object.add(object.getString("address"));
-                            phone_object.add(object.getString("phone"));
-                            lng_object.add(object.getString("lng"));
-                            lat_object.add(object.getString("lat"));
-                        }
-
-                        Name = name_object.toArray(new String[name_object.size()]);
-                        Address = address_object.toArray(new String[address_object.size()]);
-                        Phone = phone_object.toArray(new String[phone_object.size()]);
-                        Lng = lng_object.toArray(new String[lng_object.size()]);
-                        Lat = lat_object.toArray(new String[lat_object.size()]);
-                        number = Name.length;
+                        parseData(sb.toString());
+                        Session.setData("hospital", sb.toString());
 
                         runOnUiThread(new Runnable() {
                             @Override
                             public void run() {
                                 hospitalNumber();
-                                hospitalList(Session, Name, Address, Phone, Lng, Lat);
-                                bindClick(Session);
+                                hospitalList(Name, Address, Phone, Lng, Lat);
+                                bindClick();
                             }
                         });
                     }
                     else {
-                        //TODO: can not connect
-                        Log.i("Dengue", "can not get data");
+                        parseData(Session.getData("hospital"));
+                        runOnUiThread(new Runnable() {
+                            @Override
+                            public void run() {
+                                hospitalNumber();
+                                hospitalList(Name, Address, Phone, Lng, Lat);
+                                bindClick();
+                                Toast.makeText(Main, "無法連接資料庫！", Toast.LENGTH_SHORT).show();
+                            }
+                        });
                     }
                 }
                 catch (Exception e) {
-                    e.printStackTrace();
+                    try {
+                        parseData(Session.getData("hospital"));
+                        runOnUiThread(new Runnable() {
+                            @Override
+                            public void run() {
+                                hospitalNumber();
+                                hospitalList(Name, Address, Phone, Lng, Lat);
+                                bindClick();
+                                Toast.makeText(Main, "確認網路連線以更新資料！", Toast.LENGTH_SHORT).show();
+                            }
+                        });
+                    } catch (JSONException ignored) {
+                    }
                 }
                 finally {
                     if (connect != null) {
@@ -248,31 +287,24 @@ public class hospital extends Activity implements
     public void onConnected(Bundle bundle) {
         if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
             // TODO: Consider calling
-            //    ActivityCompat#requestPermissions
-            // here to request the missing permissions, and then overriding
-            //   public void onRequestPermissionsResult(int requestCode, String[] permissions,
-            //                                          int[] grantResults)
-            // to handle the case where the user grants the permission. See the documentation
-            // for ActivityCompat#requestPermissions for more details.
             return;
         }
+
         Location mLastLocation = LocationServices.FusedLocationApi.getLastLocation(mGoogleApiClient);
         if (mLastLocation != null) {
             Location_lat = mLastLocation.getLatitude();
             Location_lon = mLastLocation.getLongitude();
-            session Session = new session(getSharedPreferences(AppName, 0));
-            getData(Session);
+            getData();
         }
     }
 
     @Override
     public void onConnectionSuspended(int i) {
-        Log.i(AppName, "Connection suspended");
         mGoogleApiClient.connect();
     }
 
     @Override
-    public void onConnectionFailed(ConnectionResult result) {
-        Log.i(AppName, "Connection failed: ConnectionResult.getErrorCode() = " + result.getErrorCode());
+    public void onConnectionFailed(@NonNull ConnectionResult result) {
+        Toast.makeText(this, "無法連接google play！", Toast.LENGTH_SHORT).show();
     }
 }

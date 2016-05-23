@@ -31,18 +31,19 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".Guild"></activity>
+        <activity android:name=".guild"/>
         <activity android:name=".welcome"/>
         <activity android:name=".hot"/>
         <activity android:name=".hospital"/>
         <activity android:name=".hospitalInfo"/>
-        <activity android:name=".Drugbite"></activity>
-        <activity android:name=".BreedingSource"></activity>
-        <activity android:name=".BreedingSourceSubmit"></activity>
-        <activity android:name=".UserSetting"></activity>
-        <activity android:name=".UserSignup"></activity>
-        <activity android:name=".UserLogin"></activity>
-        <activity android:name=".Report"></activity>
+        <activity android:name=".drugBite"/>
+        <activity android:name=".BreedingSource"/>
+        <activity android:name=".BreedingSourceSubmit"/>
+        <activity android:name=".userSetting"/>
+        <activity android:name=".userSignUp"/>
+        <activity android:name=".userLogin"/>
+        <activity android:name=".userProfile"/>
+        <activity android:name=".report"/>
 
         <!-- ATTENTION: This was auto-generated to add Google Play services to your project for
              App Indexing.  See https://g.co/AppIndexing/AndroidStudio for more information. -->

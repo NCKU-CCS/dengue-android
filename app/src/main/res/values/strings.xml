@@ -14,7 +14,7 @@
     <string name="menu_item_name">item</string>
 
     <string name="reportList_title">待檢查孳生源點</string>
-    <string name="reportList_number">您有 個待查點</string>
+    <string name="reportList_number">您有 0 個待查點</string>
     <string name="reportList_item_name">Name</string>
     <string name="reportList_item_isDone">完成</string>
     <string name="reportList_item_next"><![CDATA[>]]></string>
@@ -41,7 +41,7 @@
     <string name="hot_title">熱區顯示圖</string>
 
     <string name="hospital_title">鄰近醫療院所</string>
-    <string name="hospital_number">您附近有 家醫療院所</string>
+    <string name="hospital_number">您附近有 0 家醫療院所</string>
     <string name="hospital_item_name">醫院</string>
     <string name="hospital_item_address">地址</string>
     <string name="hospital_item_phone">電話</string>

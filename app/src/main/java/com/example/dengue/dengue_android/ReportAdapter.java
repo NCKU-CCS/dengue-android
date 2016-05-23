@@ -9,7 +9,7 @@ import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-public class ReportAdapter extends BaseAdapter {
+public class reportAdapter extends BaseAdapter {
 
     private LayoutInflater reportListInflater;
 
@@ -23,7 +23,7 @@ public class ReportAdapter extends BaseAdapter {
     private Activity Main;
 
 
-    public ReportAdapter(Context context, CharSequence[] id,CharSequence[] url,CharSequence[] type,CharSequence[] address,CharSequence[] description,CharSequence[] date,CharSequence[] status, Activity mMain){
+    public reportAdapter(Context context, CharSequence[] id, CharSequence[] url, CharSequence[] type, CharSequence[] address, CharSequence[] description, CharSequence[] date, CharSequence[] status, Activity mMain){
         reportListInflater = LayoutInflater.from(context);
         this.id = id;
         this.url = url;

@@ -11,8 +11,6 @@ import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
 
 public class hospitalInfo extends FragmentActivity implements OnMapReadyCallback {
-    private static final String AppName = "Dengue";
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -21,15 +19,17 @@ public class hospitalInfo extends FragmentActivity implements OnMapReadyCallback
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
                 .findFragmentById(R.id.hospital_info_map);
         mapFragment.getMapAsync(this);
-        new menu(this,1);
+        new menu(this, 1);
         new goBack(this);
     }
 
     @Override
     public void onMapReady(GoogleMap map) {
-        session Session = new session(getSharedPreferences(AppName, 0));
-        String Lng = Session.getData("hospital_lng");
-        String Lat = Session.getData("hospital_lat");
+        Bundle position = this.getIntent().getExtras();
+        String Lat = position.getString("hospital_lat");
+        String Lng = position.getString("hospital_lng");
+        assert Lat != null;
+        assert Lng != null;
 
         LatLng sydney = new LatLng(Float.parseFloat(Lat), Float.parseFloat(Lng));
         map.addMarker(new MarkerOptions().position(sydney));
