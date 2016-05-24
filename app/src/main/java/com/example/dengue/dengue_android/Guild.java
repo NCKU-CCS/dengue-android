@@ -7,7 +7,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 
-public class Guild extends AppCompatActivity{
+public class guild extends AppCompatActivity{
     TestFragmentAdapter mAdapter;
     ViewPager mPager;
     InkPageIndicator mIndicator;
@@ -30,7 +30,7 @@ public class Guild extends AppCompatActivity{
             @Override
             public void onClick(View rootView) {
                 Intent intent = new Intent();
-                intent.setClass(Guild.this, hot.class);
+                intent.setClass(guild.this, hot.class);
                 startActivity(intent);
             }
         });

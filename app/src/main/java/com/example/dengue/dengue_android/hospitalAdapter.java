@@ -13,7 +13,7 @@ public class hospitalAdapter extends BaseAdapter {
     private CharSequence[] address;
     private CharSequence[] phone;
 
-    public hospitalAdapter(Context context, CharSequence[] name, CharSequence[] address, CharSequence[] phone){
+    public hospitalAdapter(Context context, CharSequence[] name, CharSequence[] address, CharSequence[] phone) {
         hospitalListInflater = LayoutInflater.from(context);
         this.name = name;
         this.address = address;

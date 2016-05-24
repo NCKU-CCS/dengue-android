@@ -4,12 +4,9 @@ import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
-import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.LinearLayout;
-import android.widget.TextView;
 
 
 class TestFragmentAdapter extends FragmentPagerAdapter {
@@ -70,8 +67,7 @@ class TestFragmentAdapter extends FragmentPagerAdapter {
         @Override
         public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
             View rootView;
-            switch (mContent)
-            {
+            switch (mContent) {
                 case "intro1":
                     rootView = inflater.inflate(R.layout.intro1, container, false);
                     break;

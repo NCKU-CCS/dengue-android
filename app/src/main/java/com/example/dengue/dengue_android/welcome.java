@@ -18,7 +18,7 @@ public class welcome extends Activity {
             @Override
             public void run() {
                 Intent intent = new Intent();
-                intent.setClass(welcome.this, Guild.class);
+                intent.setClass(welcome.this, guild.class);
                 startActivity(intent);
             }
         };

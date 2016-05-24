@@ -1,91 +1,127 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical" android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:background="#EEEEEE">
 
     <LinearLayout
-        android:orientation="horizontal"
+        android:orientation="vertical"
         android:layout_width="match_parent"
-        android:layout_height="189dp">
+        android:layout_height="wrap_content"
+        android:background="@drawable/report_item_border"
+        android:layout_marginTop="2dp"
+        android:layout_marginBottom="2dp">
 
         <LinearLayout
-            android:orientation="vertical"
-            android:layout_width="249dp"
-            android:layout_height="match_parent"
-            android:weightSum="1">
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
 
-            <LinearLayout
-                android:orientation="horizontal"
-                android:layout_width="216dp"
-                android:layout_height="109dp">
-
-                <ImageView
-                    android:layout_width="60dp"
-                    android:layout_height="60dp"
-                    android:src="@drawable/outdoor_bottle"
-                    android:layout_margin="10dp"
-                    android:layout_gravity="center_vertical"
-                    android:id="@+id/reportList_check_type" />
-
-                <TextView
-                    android:layout_width="156dp"
-                    android:layout_height="match_parent"
-                    android:text="台南市\n長榮路三段156號"
-                    android:textSize="25dp"
-                    android:id="@+id/reportList_check_location" />
-            </LinearLayout>
-
-            <TextView
+            <RelativeLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="巷口過去第三家種花的住家"
-                android:layout_margin="10dp"
-                android:id="@+id/reportList_check_description"
-                android:layout_weight="0.77" />
+                android:layout_height="match_parent">
 
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/reportList_check_date"
-                android:layout_margin="10dp"
-                android:id="@+id/reportList_check_date" />
+                <LinearLayout
+                    android:orientation="vertical"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:weightSum="1"
+                    android:layout_toLeftOf="@+id/reportList_check_img"
+                    android:layout_alignParentLeft="true"
+                    android:layout_alignParentStart="true"
+                    android:padding="10dp">
 
+                    <RelativeLayout
+                        android:orientation="horizontal"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:id="@+id/relativeLayout">
+
+                        <ImageView
+                            android:layout_width="60dp"
+                            android:layout_height="60dp"
+                            android:src="@drawable/outdoor_bottle"
+                            android:layout_margin="10dp"
+                            android:layout_gravity="center_vertical"
+                            android:id="@+id/reportList_check_type"
+                            android:contentDescription="@string/img" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:textSize="25sp"
+                            android:id="@+id/reportList_check_location"
+                            android:layout_alignTop="@+id/reportList_check_type"
+                            android:layout_toRightOf="@+id/reportList_check_type"
+                            android:layout_toEndOf="@+id/reportList_check_type"
+                            android:textStyle="bold"
+                            android:textIsSelectable="false"
+                            android:textColor="#000000" />
+                    </RelativeLayout>
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="100dp"
+                        android:id="@+id/reportList_check_description" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/reportList_check_date"
+                        android:id="@+id/reportList_check_date" />
+
+                </LinearLayout>
+
+                <WebView
+                    android:layout_width="150dp"
+                    android:layout_height="wrap_content"
+                    android:src="@drawable/img"
+                    android:id="@+id/reportList_check_img"
+                    android:contentDescription="@string/img"
+                    android:layout_centerVertical="true"
+                    android:layout_alignParentRight="true"
+                    android:layout_alignParentEnd="true"
+                    android:layout_marginTop="3dp" />
+            </RelativeLayout>
         </LinearLayout>
 
-        <ImageView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:src="@drawable/img"
-            android:id="@+id/reportList_check_img" />
-    </LinearLayout>
+        <LinearLayout
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1">
 
-    <LinearLayout
-        android:orientation="horizontal"
-        android:layout_width="match_parent"
-        android:layout_height="61dp">
+            <Button
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:background="@drawable/report_item_button_border"
+                android:text="@string/reportList_check_yes"
+                android:id="@+id/reportList_check_yes"
+                android:textSize="14sp"
+                android:textColor="#c3c7cb" />
 
-        <Button
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:background="#00000000"
-            android:text="@string/reportList_check_yes"
-            android:id="@+id/reportList_check_yes" />
-        <Button
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:background="#00000000"
-            android:text="@string/reportList_check_wait"
-            android:id="@+id/reportList_check_wait" />
-        <Button
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:background="#00000000"
-            android:text="@string/reportList_check_no"
-            android:id="@+id/reportList_check_no" />
+            <Button
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:background="@drawable/report_item_button_border"
+                android:text="@string/reportList_check_wait"
+                android:id="@+id/reportList_check_wait"
+                android:textSize="14sp"
+                android:textColor="#c3c7cb" />
 
+            <Button
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:background="@drawable/report_item_button_border"
+                android:text="@string/reportList_check_no"
+                android:id="@+id/reportList_check_no"
+                android:textSize="14sp"
+                android:textColor="#c3c7cb" />
+
+        </LinearLayout>
     </LinearLayout>
 
 </LinearLayout>

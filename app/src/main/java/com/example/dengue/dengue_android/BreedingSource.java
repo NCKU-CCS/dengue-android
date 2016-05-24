@@ -6,21 +6,22 @@ import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
-import android.util.Log;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.Locale;
 
 public class BreedingSource extends Activity {
     private static final String AppName = "Dengue";
     private Uri photoUri;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
         //TODO: need to rewrite
         Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-        SimpleDateFormat timeStampFormat = new SimpleDateFormat("yyyy_MM_dd_HH_mm_ss");
+        SimpleDateFormat timeStampFormat = new SimpleDateFormat("yyyy_MM_dd_HH_mm_ss", Locale.TAIWAN);
         String filename = timeStampFormat.format(new Date());
         ContentValues values = new ContentValues();
         values.put(MediaStore.Video.Media.TITLE, filename);

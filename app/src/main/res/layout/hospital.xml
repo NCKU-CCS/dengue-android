@@ -62,7 +62,7 @@
                         android:textAppearance="?android:attr/textAppearanceSmall"
                         android:text="全部"
                         android:gravity="center"
-                        android:background="@drawable/hospital_choice_border_clicked"
+                        android:background="@drawable/choice_border_clicked"
                         android:paddingTop="10dp"
                         android:paddingBottom="10dp"
                         android:id="@+id/hospital_choice_all" />
@@ -73,7 +73,7 @@
                         android:textAppearance="?android:attr/textAppearanceSmall"
                         android:text="醫院"
                         android:gravity="center"
-                        android:background="@drawable/hospital_choice_border"
+                        android:background="@drawable/choice_border"
                         android:paddingTop="10dp"
                         android:paddingBottom="10dp"
                         android:id="@+id/hospital_choice_1" />
@@ -84,7 +84,7 @@
                         android:textAppearance="?android:attr/textAppearanceSmall"
                         android:text="診所"
                         android:gravity="center"
-                        android:background="@drawable/hospital_choice_border"
+                        android:background="@drawable/choice_border"
                         android:paddingTop="10dp"
                         android:paddingBottom="10dp"
                         android:id="@+id/hospital_choice_2" />
