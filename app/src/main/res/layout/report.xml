@@ -52,38 +52,38 @@
 
                 <LinearLayout
                     android:orientation="horizontal"
-                    android:layout_width="150dp"
+                    android:layout_width="210dp"
                     android:layout_height="match_parent">
 
                     <TextView
-                        android:layout_width="50dp"
+                        android:layout_width="70dp"
                         android:layout_height="wrap_content"
                         android:textAppearance="?android:attr/textAppearanceSmall"
                         android:text="未處理"
                         android:gravity="center"
-                        android:background="@drawable/hospital_choice_border_clicked"
+                        android:background="@drawable/choice_border_clicked"
                         android:paddingTop="10dp"
                         android:paddingBottom="10dp"
                         android:id="@+id/reportList_type_not" />
 
                     <TextView
-                        android:layout_width="50dp"
+                        android:layout_width="70dp"
                         android:layout_height="wrap_content"
                         android:textAppearance="?android:attr/textAppearanceSmall"
                         android:text="處理中"
                         android:gravity="center"
-                        android:background="@drawable/hospital_choice_border"
+                        android:background="@drawable/choice_border"
                         android:paddingTop="10dp"
                         android:paddingBottom="10dp"
                         android:id="@+id/reportList_type_wait" />
 
                     <TextView
-                        android:layout_width="50dp"
+                        android:layout_width="70dp"
                         android:layout_height="wrap_content"
                         android:textAppearance="?android:attr/textAppearanceSmall"
                         android:text="已處理"
                         android:gravity="center"
-                        android:background="@drawable/hospital_choice_border"
+                        android:background="@drawable/choice_border"
                         android:paddingTop="10dp"
                         android:paddingBottom="10dp"
                         android:id="@+id/reportList_type_done" />
@@ -100,7 +100,8 @@
             android:id="@+id/reportList_list"
             android:layout_gravity="center_horizontal"
             android:layout_above="@+id/menu"
-            android:layout_below="@+id/reportList_info" />
+            android:layout_below="@+id/reportList_info"
+            android:focusable="false" />
 
         <GridView
             android:layout_width="wrap_content"

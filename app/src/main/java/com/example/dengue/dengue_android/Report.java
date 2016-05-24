@@ -3,8 +3,6 @@ package com.example.dengue.dengue_android;
 import android.app.Activity;
 import android.os.Bundle;
 import android.view.View;
-import android.widget.AdapterView;
-import android.widget.Button;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -15,7 +13,6 @@ import org.json.JSONObject;
 
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
-import java.io.OutputStream;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.ArrayList;
@@ -28,6 +25,8 @@ public class report extends Activity {
     private CharSequence[] Description = new CharSequence[]{};
     private CharSequence[] Date = new CharSequence[]{};
     private CharSequence[] Status = new CharSequence[]{};
+    private CharSequence[] Lat = new CharSequence[]{};
+    private CharSequence[] Lon = new CharSequence[]{};
 
     private int number;
     private static final String AppName = "Dengue";
@@ -62,37 +61,12 @@ public class report extends Activity {
 
     private void reportList(CharSequence[] id, CharSequence[] url, CharSequence[] type,
                             CharSequence[] address, CharSequence[] description, CharSequence[] date,
-                            final CharSequence[] status) {
+                            CharSequence[] status, CharSequence[] lat, CharSequence[] lon) {
         final Activity Main = this;
         ListView report_list = (ListView) findViewById(R.id.reportList_list);
-        report_list.setAdapter(new reportAdapter(this, id, url, type, address, description, date, status, Main));
-        report_list.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, final int position, final long id) {
-                final Button check_yes = (Button) findViewById(R.id.reportList_check_yes);
-                final Button check_wait = (Button) findViewById(R.id.reportList_check_wait);
-                final Button check_no = (Button) findViewById(R.id.reportList_check_no);
-
-                check_yes.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        updateData(Id[position].toString(), "已處理");
-                    }
-                });
-                check_wait.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        updateData(Id[position].toString(), "通報處理");
-                    }
-                });
-                check_no.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        updateData(Id[position].toString(), "非孳生源");
-                    }
-                });
-            }
-        });
+        report_list.setDivider(null);
+        report_list.setAdapter(new reportAdapter(this, id, url, type, address,
+                description, date, status, lat, lon, Main));
     }
 
     private void bindClick() {
@@ -105,13 +79,11 @@ public class report extends Activity {
             public void onClick(View v) {
                 if (now_choice != 0) {
                     now_choice = 0;
-                    String[] token = new String[] {"未處理"};
-                    filterData(token);
-                    reportListNumber();
+                    filterData(new String[] {"未處理"});
 
-                    report_not.setBackgroundResource(R.drawable.hospital_choice_border_clicked);
-                    report_wait.setBackgroundResource(R.drawable.hospital_choice_border);
-                    report_done.setBackgroundResource(R.drawable.hospital_choice_border);
+                    report_not.setBackgroundResource(R.drawable.choice_border_clicked);
+                    report_wait.setBackgroundResource(R.drawable.choice_border);
+                    report_done.setBackgroundResource(R.drawable.choice_border);
                 }
             }
         });
@@ -121,13 +93,11 @@ public class report extends Activity {
             public void onClick(View v) {
                 if (now_choice != 1) {
                     now_choice = 1;
-                    String[] token = new String[]{"通報處理"};
-                    filterData(token);
-                    reportListNumber();
+                    filterData(new String[]{"通報處理"});
 
-                    report_not.setBackgroundResource(R.drawable.hospital_choice_border);
-                    report_wait.setBackgroundResource(R.drawable.hospital_choice_border_clicked);
-                    report_done.setBackgroundResource(R.drawable.hospital_choice_border);
+                    report_not.setBackgroundResource(R.drawable.choice_border);
+                    report_wait.setBackgroundResource(R.drawable.choice_border_clicked);
+                    report_done.setBackgroundResource(R.drawable.choice_border);
                 }
             }
         });
@@ -137,13 +107,11 @@ public class report extends Activity {
             public void onClick(View v) {
                 if (now_choice != 2) {
                     now_choice = 2;
-                    String[] token = new String[]{"已處理", "非孳生源"};
-                    filterData(token);
-                    reportListNumber();
+                    filterData(new String[]{"已處理", "非孳生源"});
 
-                    report_not.setBackgroundResource(R.drawable.hospital_choice_border);
-                    report_wait.setBackgroundResource(R.drawable.hospital_choice_border);
-                    report_done.setBackgroundResource(R.drawable.hospital_choice_border_clicked);
+                    report_not.setBackgroundResource(R.drawable.choice_border);
+                    report_wait.setBackgroundResource(R.drawable.choice_border);
+                    report_done.setBackgroundResource(R.drawable.choice_border_clicked);
                 }
             }
         });
@@ -157,6 +125,8 @@ public class report extends Activity {
         ArrayList<String> temp_Description  = new ArrayList<>();
         ArrayList<String> temp_Date  = new ArrayList<>();
         ArrayList<String> temp_Status = new ArrayList<>();
+        ArrayList<String> temp_Lat = new ArrayList<>();
+        ArrayList<String> temp_Lon = new ArrayList<>();
 
         for(int i = 0; i < Status.length; i++) {
             for (String aToken : token) {
@@ -168,7 +138,8 @@ public class report extends Activity {
                     temp_Description.add(Description[i].toString());
                     temp_Date.add(Date[i].toString());
                     temp_Status.add(Status[i].toString());
-
+                    temp_Lat.add(Lat[i].toString());
+                    temp_Lon.add(Lon[i].toString());
                 }
             }
         }
@@ -180,10 +151,13 @@ public class report extends Activity {
         CharSequence[] temp_description = temp_Description.toArray(new String[temp_Description.size()]);
         CharSequence[] temp_date = temp_Date.toArray(new String[temp_Date.size()]);
         CharSequence[] temp_status = temp_Status.toArray(new String[temp_Status.size()]);
+        CharSequence[] temp_lat = temp_Lat.toArray(new String[temp_Lat.size()]);
+        CharSequence[] temp_lon = temp_Lon.toArray(new String[temp_Lon.size()]);
 
         number = temp_id.length;
         reportListNumber();
-        reportList(temp_id, temp_url, temp_type, temp_address, temp_description, temp_date, temp_status);
+        reportList(temp_id, temp_url, temp_type, temp_address, temp_description,
+                temp_date, temp_status, temp_lat, temp_lon);
     }
 
     private void parseData(String data) throws JSONException {
@@ -199,6 +173,8 @@ public class report extends Activity {
         ArrayList<String> description_object = new ArrayList<>();
         ArrayList<String> date_object = new ArrayList<>();
         ArrayList<String> status_object = new ArrayList<>();
+        ArrayList<String> lat_object = new ArrayList<>();
+        ArrayList<String> lon_object = new ArrayList<>();
 
         for(int i = 0; i < output.length(); i++){
             JSONObject object = new JSONObject(output.get(i).toString());
@@ -209,6 +185,8 @@ public class report extends Activity {
             description_object.add(object.getString("description"));
             date_object.add(object.getString("created_at"));
             status_object.add(object.getString("status"));
+            lat_object.add(object.getString("lat"));
+            lon_object.add(object.getString("lng"));
         }
 
         Id = id_object.toArray(new String[id_object.size()]);
@@ -218,6 +196,8 @@ public class report extends Activity {
         Description =description_object.toArray(new String[description_object.size()]);
         Date = date_object.toArray(new String[date_object.size()]);
         Status = status_object.toArray(new String[status_object.size()]);
+        Lat = lat_object.toArray(new String[lat_object.size()]);
+        Lon = lon_object.toArray(new String[lon_object.size()]);
         number = Id.length;
     }
 
@@ -228,8 +208,9 @@ public class report extends Activity {
         Thread thread = new Thread() {
             public void run() {
                 HttpURLConnection connect = null;
+
                 try {
-                    URL connect_url = new URL("http://140.116.247.113:11401/breeding_source/get/?database=tainan&status=已處理,非孳生源,未處理,通報處理");
+                    URL connect_url = new URL("http://140.116.247.113:11401/breeding_source/get/?database=tainan");
                     connect = (HttpURLConnection) connect_url.openConnection();
                     connect.setReadTimeout(10000);
                     connect.setConnectTimeout(15000);
@@ -253,8 +234,7 @@ public class report extends Activity {
                         runOnUiThread(new Runnable() {
                             @Override
                             public void run() {
-                                reportListNumber();
-                                reportList(Id, Url, Type, Address, Description, Date, Status);
+                                filterData(new String[]{"未處理"});
                                 bindClick();
                             }
                         });
@@ -264,8 +244,7 @@ public class report extends Activity {
                         runOnUiThread(new Runnable() {
                             @Override
                             public void run() {
-                                reportListNumber();
-                                reportList(Id, Url, Type, Address, Description, Date, Status);
+                                filterData(new String[]{"未處理"});
                                 bindClick();
                                 Toast.makeText(Main, "無法連接資料庫！", Toast.LENGTH_SHORT).show();
                             }
@@ -278,8 +257,7 @@ public class report extends Activity {
                         runOnUiThread(new Runnable() {
                             @Override
                             public void run() {
-                                reportListNumber();
-                                reportList(Id, Url, Type, Address, Description, Date, Status);
+                                filterData(new String[]{"未處理"});
                                 bindClick();
                                 Toast.makeText(Main, "確認網路連線以更新資料！", Toast.LENGTH_SHORT).show();
                             }
@@ -296,64 +274,4 @@ public class report extends Activity {
         };
         thread.start();
     }
-
-    public void updateData(String id, final String status) {
-        final session Session = new session(getSharedPreferences(AppName, 0));
-        final String data = "database=tainan&source_id="+id+"&status="+status;
-        final Activity Main = this;
-
-        Thread thread = new Thread() {
-            public void run() {
-                HttpURLConnection con = null;
-
-                try {
-                    URL connect_url = new URL("http://140.116.247.113:11401/breeding_source/update/");
-                    con = (HttpURLConnection) connect_url.openConnection();
-                    con.setDoInput(true);
-                    con.setDoOutput(true);
-                    con.setReadTimeout(10000);
-                    con.setConnectTimeout(15000);
-                    con.setRequestMethod("POST");
-                    con.setRequestProperty("Content-Type", "application/x-www-form-urlencoded");
-                    con.setRequestProperty("Cookie", Session.getData("cookie"));
-                    con.connect();
-
-                    OutputStream output = con.getOutputStream();
-                    output.write(data.getBytes());
-                    output.flush();
-                    output.close();
-
-                    int responseCode = con.getResponseCode();
-                    if (responseCode == HttpURLConnection.HTTP_OK) {
-                        runOnUiThread(new Runnable() {
-                            @Override
-                            public void run() {
-                                Toast.makeText(Main, status, Toast.LENGTH_SHORT).show();
-                            }
-                        });
-                    } else {
-                        runOnUiThread(new Runnable() {
-                            @Override
-                            public void run() {
-                                Toast.makeText(Main, "無法連接資料庫！", Toast.LENGTH_SHORT).show();
-                            }
-                        });
-                    }
-                } catch (Exception e) {
-                    runOnUiThread(new Runnable() {
-                        @Override
-                        public void run() {
-                            Toast.makeText(Main, "無法連接資料庫！請確認網路連線", Toast.LENGTH_SHORT).show();
-                        }
-                    });
-                } finally {
-                    if (con != null) {
-                        con.disconnect();
-                    }
-                }
-            }
-        };
-        thread.start();
-    }
-
 }

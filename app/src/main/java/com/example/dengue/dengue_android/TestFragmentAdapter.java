@@ -67,8 +67,7 @@ class TestFragmentAdapter extends FragmentPagerAdapter {
         @Override
         public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
             View rootView;
-            switch (mContent)
-            {
+            switch (mContent) {
                 case "intro1":
                     rootView = inflater.inflate(R.layout.intro1, container, false);
                     break;

@@ -63,6 +63,7 @@ public class hospital extends Activity implements
                               CharSequence[] phone, final CharSequence[] lng, final CharSequence[] lat) {
         final Activity main = this;
         ListView hospital_list = (ListView) findViewById(R.id.hospital_list);
+        hospital_list.setDivider(null);
         hospital_list.setAdapter(new hospitalAdapter(this, name, address, phone));
         hospital_list.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
@@ -93,9 +94,9 @@ public class hospital extends Activity implements
                     hospitalNumber();
                     hospitalList(Name, Address, Phone, Lng, Lat);
 
-                    hospital_choice_all.setBackgroundResource(R.drawable.hospital_choice_border_clicked);
-                    hospital_choice_1.setBackgroundResource(R.drawable.hospital_choice_border);
-                    hospital_choice_2.setBackgroundResource(R.drawable.hospital_choice_border);
+                    hospital_choice_all.setBackgroundResource(R.drawable.choice_border_clicked);
+                    hospital_choice_1.setBackgroundResource(R.drawable.choice_border);
+                    hospital_choice_2.setBackgroundResource(R.drawable.choice_border);
                 }
             }
         });
@@ -107,9 +108,9 @@ public class hospital extends Activity implements
                     now_choice = 1;
                     filterData("醫院");
 
-                    hospital_choice_all.setBackgroundResource(R.drawable.hospital_choice_border);
-                    hospital_choice_1.setBackgroundResource(R.drawable.hospital_choice_border_clicked);
-                    hospital_choice_2.setBackgroundResource(R.drawable.hospital_choice_border);
+                    hospital_choice_all.setBackgroundResource(R.drawable.choice_border);
+                    hospital_choice_1.setBackgroundResource(R.drawable.choice_border_clicked);
+                    hospital_choice_2.setBackgroundResource(R.drawable.choice_border);
                 }
             }
         });
@@ -121,9 +122,9 @@ public class hospital extends Activity implements
                     now_choice = 2;
                     filterData("診所");
 
-                    hospital_choice_all.setBackgroundResource(R.drawable.hospital_choice_border);
-                    hospital_choice_1.setBackgroundResource(R.drawable.hospital_choice_border);
-                    hospital_choice_2.setBackgroundResource(R.drawable.hospital_choice_border_clicked);
+                    hospital_choice_all.setBackgroundResource(R.drawable.choice_border);
+                    hospital_choice_1.setBackgroundResource(R.drawable.choice_border);
+                    hospital_choice_2.setBackgroundResource(R.drawable.choice_border_clicked);
                 }
             }
         });
@@ -135,6 +136,7 @@ public class hospital extends Activity implements
         ArrayList<String> temp_Phone  = new ArrayList<>();
         ArrayList<String> temp_Lng  = new ArrayList<>();
         ArrayList<String> temp_Lat  = new ArrayList<>();
+
         for(int i = 0; i < Name.length; i++) {
             if(Name[i].toString().contains(token)) {
                 temp_Name.add(Name[i].toString());
@@ -144,6 +146,7 @@ public class hospital extends Activity implements
                 temp_Lat.add(Lat[i].toString());
             }
         }
+
         CharSequence[] temp_name = temp_Name.toArray(new String[temp_Name.size()]);
         CharSequence[] temp_address = temp_Address.toArray(new String[temp_Address.size()]);
         CharSequence[] temp_phone = temp_Phone.toArray(new String[temp_Phone.size()]);
