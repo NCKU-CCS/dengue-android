@@ -4,13 +4,14 @@ import android.Manifest;
 import android.app.Activity;
 import android.content.ContentResolver;
 import android.content.pm.PackageManager;
+import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Matrix;
 import android.location.Location;
-import android.media.audiofx.Equalizer;
 import android.net.Uri;
 import android.os.Bundle;
+import android.provider.MediaStore;
 import android.support.v4.app.ActivityCompat;
 import android.util.Base64;
 import android.util.DisplayMetrics;
@@ -20,37 +21,21 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.Toast;
-
 import org.apache.http.HttpResponse;
 import org.apache.http.client.HttpClient;
 import org.apache.http.client.methods.HttpPost;
-import org.apache.http.entity.mime.HttpMultipartMode;
 import org.apache.http.entity.mime.MultipartEntity;
+import org.apache.http.entity.mime.content.ContentBody;
 import org.apache.http.entity.mime.content.FileBody;
 import org.apache.http.impl.client.DefaultHttpClient;
-import org.apache.http.protocol.BasicHttpContext;
-import org.apache.http.protocol.HttpContext;
-import org.apache.http.util.EntityUtils;
-
+import org.apache.http.params.HttpConnectionParams;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.location.LocationServices;
-
-import org.apache.http.HttpEntity;
-import org.apache.http.HttpResponse;
-import org.apache.http.HttpVersion;
-import org.apache.http.entity.ContentType;
-import org.apache.http.entity.mime.HttpMultipartMode;
-import org.apache.http.entity.mime.MultipartEntity;
-import org.apache.http.entity.mime.MultipartEntityBuilder;
 import org.apache.http.entity.mime.content.ByteArrayBody;
-import org.apache.http.entity.mime.content.FileBody;
 import org.apache.http.entity.mime.content.StringBody;
 import org.apache.http.params.BasicHttpParams;
-import org.apache.http.params.CoreProtocolPNames;
 import org.apache.http.params.HttpParams;
-import org.apache.http.util.EntityUtils;
-
 import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -58,8 +43,6 @@ import java.io.IOException;
 import java.io.OutputStream;
 import java.net.HttpURLConnection;
 import java.net.URL;
-import java.nio.charset.Charset;
-
 
 public class BreedingSourceSubmit extends Activity implements
         GoogleApiClient.ConnectionCallbacks,
@@ -89,8 +72,6 @@ public class BreedingSourceSubmit extends Activity implements
             //loadBitmap(Session.getData(img));
             //Log.i(AppName, img);
         }*/
-
-
         breedingSourcesSubmitTypeList();
 
         new menu(this,2);
@@ -131,7 +112,9 @@ public class BreedingSourceSubmit extends Activity implements
     }
 
     private void loadBitmap(String url) {
+
         Uri uri =  Uri.parse(url);
+
         ContentResolver cr = this.getContentResolver();
         DisplayMetrics mPhone = new DisplayMetrics();
         getWindowManager().getDefaultDisplay().getMetrics(mPhone);
@@ -168,11 +151,16 @@ public class BreedingSourceSubmit extends Activity implements
     }
 
     private void breedingSourcesSubmitSubmit() {
+        session Session = new session(getSharedPreferences(AppName, 0));
+        Uri uri = Uri.parse(Session.getData("breadingSource_img"));
+        final String img = getRealPath(uri);
+        Log.i("PhotoPath",img);
+
         Button breedingSources_submitButton = (Button)findViewById(R.id.breedingSources_submit_submit);
         breedingSources_submitButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View w) {
-                if(type.equals("")) {
+                if (type.equals("")) {
                     Log.i(AppName, "No type");
                 }
 
@@ -183,6 +171,9 @@ public class BreedingSourceSubmit extends Activity implements
                 ByteArrayOutputStream baos = new ByteArrayOutputStream();
                 bitmap.compress(Bitmap.CompressFormat.JPEG, 100, baos);
                 byte[] byteArray = baos.toByteArray();
+                ContentBody mimePart = new ByteArrayBody(baos.toByteArray(), "filename");
+
+
                 String data = "database=tainan";
                 data += "&photo=" + Base64.encodeToString(byteArray, Base64.DEFAULT);
                 data += "&source_type=" + type;
@@ -191,78 +182,99 @@ public class BreedingSourceSubmit extends Activity implements
                 data += "&description=" + descript.getText().toString();
                 description = descript.getText().toString();
                 data += "&status=未處理";
-                sendImg(byteArray);
 
+
+                try {
+                    sendImg(img);
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+
+                //sendImg(byteArray);
+                //sendImg(mimePart);
                 //sendPost(data);
             }
         });
     }
-    public void sendImg(final byte[] imageBytes){
+    public void sendImg(final String img) throws IOException {
         final session Session = new session(getSharedPreferences(AppName, 0));
 
         final Thread thread = new Thread() {
             public void run() {
-                String url = "http://140.116.247.113:11401/breeding_source/insert/";
-                HttpClient httpclient = new DefaultHttpClient();
-                HttpPost httpPost = new HttpPost(url);
-                HttpContext localContext = new BasicHttpContext();
-                String boundary = "-------------" + System.currentTimeMillis();
-                httpPost.setHeader("Content-type", "multipart/form-data; boundary=" + boundary);
 
-                StringBody db = new StringBody("tainan", ContentType.TEXT_PLAIN);
-                ByteArrayBody img = new ByteArrayBody(imageBytes, "pic.png");
-                StringBody sourceType = new StringBody(type, ContentType.TEXT_PLAIN);
-                StringBody lon = new StringBody(String.valueOf(Lon), ContentType.TEXT_PLAIN);
-                StringBody lat = new StringBody(String.valueOf(Lat), ContentType.TEXT_PLAIN);
-                StringBody dc = new StringBody(description, ContentType.TEXT_PLAIN);
-                StringBody status = new StringBody("未處理", ContentType.TEXT_PLAIN);
+                String url = "http://140.116.247.113:11401/breeding_source/insert/";
+                //CloseableHttpClient httpClient = HttpClients.createDefault();
+                HttpParams httpParams = new BasicHttpParams();
+                HttpConnectionParams.setConnectionTimeout(httpParams, 10000);
+                HttpConnectionParams.setSoTimeout(httpParams, 10000);
+                HttpClient httpClient = new DefaultHttpClient(httpParams);
+                //HttpClient httpClient = HttpClients.createDefault();
+                //HttpClient httpClient = HttpClientBuilder.create().build();
+
+                HttpPost httpPostRequest = new HttpPost(url);
+                //File f = new File("storage/emulated/0/Pictures/1464101518083.jpg");
+                File f = new File(img);
 
                 try {
-                    MultipartEntity entity = new MultipartEntity(HttpMultipartMode.BROWSER_COMPATIBLE);
-                    //entity.setBoundary(boundary);
-                    entity.addPart("database", db);
-                    entity.addPart("photo", img);
-                    entity.addPart("source_type", sourceType);
-                    entity.addPart("lng", lon);
-                    entity.addPart("lat", lat);
-                    entity.addPart("description", dc);
-                    entity.addPart("status", status);
-                    httpPost.setEntity(entity);
-                    HttpResponse response = httpclient.execute(httpPost, localContext);
+                    StringBody db = new StringBody("tainan");
+                    FileBody imgFile = new FileBody(f);
+                    StringBody sourceType = new StringBody(type);
+                    StringBody lon = new StringBody(String.valueOf(Lon));
+                    StringBody lat = new StringBody(String.valueOf(Lat));
+                    StringBody dc = new StringBody(description);
+                    StringBody status = new StringBody("未處理");
 
-                    String requestCode = String.valueOf(response.getStatusLine().getStatusCode());
-                    Log.i("Dengue",requestCode);
+                    MultipartEntity multiPartEntityBuilder = new MultipartEntity();
 
-                } catch (IOException e) {
-                    e.printStackTrace();
-                    Log.i("Dengue",e.toString());
+                    multiPartEntityBuilder.addPart("database", db);
+                    multiPartEntityBuilder.addPart("photo", imgFile);
+                    multiPartEntityBuilder.addPart("source_type", sourceType);
+                    multiPartEntityBuilder.addPart("lng", lon);
+                    multiPartEntityBuilder.addPart("lat", lat);
+                    multiPartEntityBuilder.addPart("description", dc);
+                    multiPartEntityBuilder.addPart("status", status);
 
+                   /* httpPostRequest.setHeader("Accept", "application/json");
+                    httpPostRequest.setHeader("Content-type", "application/json");
+                    httpPostRequest.setHeader("enctype", "multipart/form-data");
+                    httpPostRequest.setHeader("accept-charset", "UTF-8");*/
+                    httpPostRequest.setHeader("Cookie", Session.getData("cookie"));
+
+
+                    httpPostRequest.setEntity(multiPartEntityBuilder);
+                }
+                catch (IOException ex) {
+                    Log.i("Dengue", "you got error:" + ex.toString());
+                }
+
+                try {
+                    HttpResponse httpResponse = httpClient.execute(httpPostRequest);
+
+                    int status = httpResponse.getStatusLine().getStatusCode();
+                    String str = httpResponse.getStatusLine().getReasonPhrase();
+                    Log.i("Dengue:STATUS CODE", status+" "+str);
+
+                } catch (IOException ex) {
+                    Log.i("Dengue", "you got error: http" + ex.toString());
                 }
             }
     };
     thread.start();
-        /*
-        HttpEntity entity = MultipartEntityBuilder.create()
-                .setMode(HttpMultipartMode.BROWSER_COMPATIBLE)
-                .setBoundary(boundary)
-                .addPart("database", db)
-                .addPart("photo", img)
-                .addPart("source_type", sourceType)
-                .addPart("lng", lon)
-                .addPart("lat", lat)
-                .addPart("description", dc)
-                .addPart("status", status)
-                .build();
-        httpPost.setEntity(entity);
-
-        try {
-            HttpResponse response = httpclient.execute(httpPost);
-            Log.e("Dengue",response.toString());
-        } catch (Exception e) {
-            Log.e("Exception",e.toString());
-        }*/
-
     }
+    private String getRealPath(Uri contentURI) {
+        String result;
+        Cursor cursor = getContentResolver().query(contentURI, null, null, null, null);
+        if (cursor == null) {
+            result = contentURI.getPath();
+        } else {
+            cursor.moveToFirst();
+            int idx = cursor.getColumnIndex(MediaStore.Images.ImageColumns.DATA);
+            result = cursor.getString(idx);
+            cursor.close();
+        }
+        return result;
+    }
+
     public void sendPost(final String data){
         final session Session = new session(getSharedPreferences(AppName, 0));
         Log.i(AppName, data);
