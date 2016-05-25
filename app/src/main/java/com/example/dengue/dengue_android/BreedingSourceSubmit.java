@@ -12,6 +12,7 @@ import android.location.Location;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
+import android.support.annotation.NonNull;
 import android.support.v4.app.ActivityCompat;
 import android.util.DisplayMetrics;
 import android.view.View;
@@ -26,13 +27,10 @@ import org.apache.http.client.methods.HttpPost;
 import org.apache.http.entity.mime.MultipartEntity;
 import org.apache.http.entity.mime.content.FileBody;
 import org.apache.http.impl.client.DefaultHttpClient;
-import org.apache.http.params.HttpConnectionParams;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.location.LocationServices;
 import org.apache.http.entity.mime.content.StringBody;
-import org.apache.http.params.BasicHttpParams;
-import org.apache.http.params.HttpParams;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
@@ -164,10 +162,7 @@ public class breedingSourceSubmit extends Activity implements
         final Thread thread = new Thread() {
             public void run() {
                 String url = "http://140.116.247.113:11401/breeding_source/insert/";
-                HttpParams httpParams = new BasicHttpParams();
-                HttpConnectionParams.setConnectionTimeout(httpParams, 10000);
-                HttpConnectionParams.setSoTimeout(httpParams, 10000);
-                HttpClient httpClient = new DefaultHttpClient(httpParams);
+                HttpClient httpClient = new DefaultHttpClient();
 
                 HttpPost httpPostRequest = new HttpPost(url);
                 File f = new File(img);
@@ -299,7 +294,7 @@ public class breedingSourceSubmit extends Activity implements
     }
 
     @Override
-    public void onConnectionFailed(ConnectionResult result) {
+    public void onConnectionFailed(@NonNull ConnectionResult result) {
         Toast.makeText(this, "無法連接google play！", Toast.LENGTH_SHORT).show();
     }
 }
