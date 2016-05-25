@@ -37,8 +37,8 @@
         <activity android:name=".hospital"/>
         <activity android:name=".hospitalInfo"/>
         <activity android:name=".drugBite"/>
-        <activity android:name=".BreedingSource"/>
-        <activity android:name=".BreedingSourceSubmit"/>
+        <activity android:name=".breedingSource"/>
+        <activity android:name=".breedingSourceSubmit"/>
         <activity android:name=".userSetting"/>
         <activity android:name=".userSignUp"/>
         <activity android:name=".userLogin"/>

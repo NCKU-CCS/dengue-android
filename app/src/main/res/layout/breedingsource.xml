@@ -56,8 +56,7 @@ android:orientation="vertical">
                     android:layout_height="200dp"
                     android:id="@+id/breedingSources_img"
                     android:contentDescription="@string/img"
-                    android:layout_gravity="center_horizontal"
-                    android:src="@drawable/img" />
+                    android:layout_gravity="center_horizontal" />
 
                 <TextView
                     android:layout_width="match_parent"
@@ -129,7 +128,9 @@ android:orientation="vertical">
                     android:gravity="center"
                     android:paddingLeft="20dp"
                     android:paddingRight="20dp"
-                    android:layout_gravity="center_horizontal" />
+                    android:layout_gravity="center_horizontal"
+                    android:layout_marginTop="20dp"
+                    android:layout_marginBottom="20dp" />
             </LinearLayout>
         </ScrollView>
 
