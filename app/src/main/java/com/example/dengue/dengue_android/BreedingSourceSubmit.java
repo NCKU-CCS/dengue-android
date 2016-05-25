@@ -48,6 +48,7 @@ public class breedingSourceSubmit extends Activity implements
     private String type = "";
     private String description;
     private boolean isFinish = true;
+    private boolean isGet = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -143,7 +144,7 @@ public class breedingSourceSubmit extends Activity implements
         breedingSources_submitButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View w) {
-                if(isFinish) {
+                if(isFinish && isGet) {
                     EditText description_text = (EditText) findViewById(R.id.breedingSources_submit_description_value);
                     description = description_text.getText().toString();
                     sendImg(img);
@@ -234,6 +235,7 @@ public class breedingSourceSubmit extends Activity implements
     private String getRealPath(Uri contentURI) {
         String result;
         Cursor cursor = getContentResolver().query(contentURI, null, null, null, null);
+        
         if (cursor == null) {
             result = contentURI.getPath();
         } else {
@@ -243,6 +245,7 @@ public class breedingSourceSubmit extends Activity implements
             cursor.close();
         }
 
+        isGet = true;
         return result;
     }
 
