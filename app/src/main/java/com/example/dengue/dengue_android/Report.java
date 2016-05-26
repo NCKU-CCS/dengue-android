@@ -13,8 +13,10 @@ import org.json.JSONObject;
 
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
+import java.io.UnsupportedEncodingException;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.net.URLEncoder;
 import java.util.ArrayList;
 
 public class Report extends Activity {
@@ -208,9 +210,14 @@ public class Report extends Activity {
         Thread thread = new Thread() {
             public void run() {
                 HttpURLConnection connect = null;
+                String query = "";
+                try {
+                    query = URLEncoder.encode("已處理,非孳生源,未處理,通報處理", "utf-8");
+                } catch (UnsupportedEncodingException ignored) {
+                }
 
                 try {
-                    URL connect_url = new URL("http://140.116.247.113:11401/breeding_source/get/?database=tainan");
+                    URL connect_url = new URL("http://140.116.247.113:11401/breeding_source/get/?database=tainan&status="+query);
                     connect = (HttpURLConnection) connect_url.openConnection();
                     connect.setReadTimeout(10000);
                     connect.setConnectTimeout(15000);
