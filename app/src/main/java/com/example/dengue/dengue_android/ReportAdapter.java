@@ -21,7 +21,7 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Locale;
 
-public class reportAdapter extends BaseAdapter {
+public class ReportAdapter extends BaseAdapter {
     private static final String AppName = "Dengue";
     private LayoutInflater reportListInflater;
 
@@ -36,7 +36,7 @@ public class reportAdapter extends BaseAdapter {
     private CharSequence[] lon;
     private Activity Main;
 
-    public reportAdapter(Context context, CharSequence[] id, CharSequence[] url,
+    public ReportAdapter(Context context, CharSequence[] id, CharSequence[] url,
                          CharSequence[] type, CharSequence[] address,
                          CharSequence[] description, CharSequence[] date, CharSequence[] status,
                          CharSequence[] lat, CharSequence[] lon,
@@ -245,7 +245,7 @@ public class reportAdapter extends BaseAdapter {
                             public void run() {
                                 Toast.makeText(Main, update_status, Toast.LENGTH_SHORT).show();
                                 Intent intent = new Intent();
-                                intent.setClass(Main, report.class);
+                                intent.setClass(Main, Report.class);
                                 Main.startActivity(intent);
                             }
                         });

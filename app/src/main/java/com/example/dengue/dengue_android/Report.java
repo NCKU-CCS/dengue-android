@@ -17,7 +17,7 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.ArrayList;
 
-public class report extends Activity {
+public class Report extends Activity {
     private CharSequence[] Id = new CharSequence[]{};
     private CharSequence[] Url = new CharSequence[]{};
     private CharSequence[] Type = new CharSequence[]{};
@@ -65,7 +65,7 @@ public class report extends Activity {
         final Activity Main = this;
         ListView report_list = (ListView) findViewById(R.id.reportList_list);
         report_list.setDivider(null);
-        report_list.setAdapter(new reportAdapter(this, id, url, type, address,
+        report_list.setAdapter(new ReportAdapter(this, id, url, type, address,
                 description, date, status, lat, lon, Main));
     }
 

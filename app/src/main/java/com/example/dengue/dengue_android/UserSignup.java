@@ -16,7 +16,7 @@ import java.net.URL;
 import java.util.List;
 import java.util.Map;
 
-public class userSignUp extends Activity {
+public class UserSignup extends Activity {
     private static final String AppName = "Dengue";
 
     @Override

@@ -6,7 +6,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 
-public class userSetting extends Activity {
+public class UserSetting extends Activity {
     private static final String AppName = "Dengue";
 
     @Override
@@ -17,7 +17,7 @@ public class userSetting extends Activity {
         if(Session.getData("isLogin").equals("true")) {
             if(Session.getData("identity").equals("里長")) {
                 Intent intent = new Intent();
-                intent.setClass(this, report.class);
+                intent.setClass(this, Report.class);
                 startActivity(intent);
             }
             else {
@@ -41,7 +41,7 @@ public class userSetting extends Activity {
             @Override
             public void onClick(View w) {
                 Intent intent = new Intent();
-                intent.setClass(Main, userSignUp.class);
+                intent.setClass(Main, UserSignup.class);
                 startActivity(intent);
             }
         });
@@ -51,7 +51,7 @@ public class userSetting extends Activity {
             @Override
             public void onClick(View w) {
                 Intent intent = new Intent();
-                intent.setClass(Main, userLogin.class);
+                intent.setClass(Main, UserLogin.class);
                 startActivity(intent);
             }
         });

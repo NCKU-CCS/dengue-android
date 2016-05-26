@@ -58,8 +58,8 @@
                 android:layout_height="wrap_content"
                 android:text="報告!這裡有蚊子"
                 android:id="@+id/drugbite_button"
-                android:textSize = "25sp"
-                android:background="#ff0000"
+                android:textSize = "20sp"
+                android:background="#ff6633"
                 android:textColor="#ffffff"
                 android:layout_gravity="center_horizontal"
                 android:layout_weight="0.10" />

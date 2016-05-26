@@ -9,12 +9,14 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Matrix;
 import android.location.Location;
+import android.media.ExifInterface;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
 import android.support.annotation.NonNull;
 import android.support.v4.app.ActivityCompat;
 import android.util.DisplayMetrics;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -35,7 +37,7 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 
-public class breedingSourceSubmit extends Activity implements
+public class BreedingSourceSubmit extends Activity implements
         GoogleApiClient.ConnectionCallbacks,
         GoogleApiClient.OnConnectionFailedListener {
 
@@ -74,10 +76,8 @@ public class breedingSourceSubmit extends Activity implements
             }
         });
 
-        btn_ob.setOnClickListener(new View.OnClickListener()
-        {
-            public void onClick(View v)
-            {
+        btn_ob.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
                 btn_ob.setImageResource(R.drawable.outdoor_bottle_onclick);
                 btn_hb.setImageResource(R.drawable.home_bottle);
                 btn_og.setImageResource(R.drawable.outdoor_grass);
@@ -95,21 +95,34 @@ public class breedingSourceSubmit extends Activity implements
         });
     }
 
-    private void loadBitmap(String url) {
-        Uri uri =  Uri.parse(url);
+    private void loadBitmap(String url,int degree) {
+        //Uri uri =  Uri.parse(url);
+        //Uri uri = Uri.fromFile(new File(url));
 
         ContentResolver cr = this.getContentResolver();
         DisplayMetrics mPhone = new DisplayMetrics();
         getWindowManager().getDefaultDisplay().getMetrics(mPhone);
 
         try {
-            Bitmap bitmap = BitmapFactory.decodeStream(cr.openInputStream(uri));
-
-            if (bitmap.getWidth() > bitmap.getHeight()) ScalePic(bitmap, mPhone.heightPixels);
-            else ScalePic(bitmap, mPhone.widthPixels);
-        } catch (FileNotFoundException e) {
-            Toast.makeText(this, "無法取得照片!", Toast.LENGTH_SHORT).show();
+            //Bitmap bitmap = BitmapFactory.decodeStream(cr.openInputStream(uri));
+            Bitmap bitmap = BitmapFactory.decodeFile(url);
+            rotate(bitmap,degree);
+            /*if (bitmap.getWidth() > bitmap.getHeight()) ScalePic(bitmap, mPhone.heightPixels);
+            else ScalePic(bitmap, mPhone.widthPixels);*/
+        } catch (Exception e) {
+            Toast.makeText(this, /*"無法取得照片!"*/e.toString(), Toast.LENGTH_SHORT).show();
         }
+    }
+    private void rotate(Bitmap bitmap,int degree){
+        int w = bitmap.getWidth();
+        int h = bitmap.getHeight();
+
+        Matrix mtx = new Matrix();
+        mtx.postRotate(degree);
+
+        Bitmap rotatedBMP = Bitmap.createBitmap(bitmap, 0, 0, w, h, mtx, true);
+        ImageView mImg = (ImageView) findViewById(R.id.breedingSources_img);
+        mImg.setImageBitmap(rotatedBMP);
     }
 
     private void ScalePic(Bitmap bitmap, int phone) {
@@ -133,19 +146,23 @@ public class breedingSourceSubmit extends Activity implements
         } else mImg.setImageBitmap(bitmap);
     }
 
-    private void breedingSourcesSubmitSubmit(String imgUri) {
-        Uri uri = Uri.parse(imgUri);
+    private void breedingSourcesSubmitSubmit(final String imgUri) {
+        //Uri uri = Uri.parse(imgUri);
+        //final String img = getRealPath(uri);
+        /*Uri uri = Uri.fromFile(new File(imgUri));
         final String img = getRealPath(uri);
+        Log.i("path",img);*/
+
         final Activity Main = this;
 
         Button breedingSources_submitButton = (Button)findViewById(R.id.breedingSources_submit_submit);
         breedingSources_submitButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View w) {
-                if(isFinish && isGet) {
+                if(isFinish /*&& isGet*/) {
                     EditText description_text = (EditText) findViewById(R.id.breedingSources_submit_description_value);
                     description = description_text.getText().toString();
-                    sendImg(img);
+                    sendImg(imgUri);
                     isFinish = false;
                 }
                 else {
@@ -278,13 +295,18 @@ public class breedingSourceSubmit extends Activity implements
             Lon = mLastLocation.getLongitude();
 
             Bundle imgBundle = getIntent().getExtras();
+
             if (imgBundle != null && imgBundle.getString("img") != null) {
                 String img = imgBundle.getString("img");
+                int degree = imgBundle.getInt("degree");
+
                 if(img != null) {
-                    loadBitmap(img);
+                    loadBitmap(img,degree);
                     breedingSourcesSubmitSubmit(img);
                 }
             }
+
+
         }
     }
 
