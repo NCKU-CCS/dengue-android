@@ -1,0 +1,112 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <SurfaceView
+            android:id="@+id/sfv_preview"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="1" />
+
+        <LinearLayout
+            android:orientation="vertical"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="66dp"
+                android:background="@color/colorPrimary">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textAppearance="?android:attr/textAppearanceLarge"
+                    android:text="@string/breedingSources_title"
+                    android:textColor="#ffffff"
+                    android:textSize = "24sp"
+                    android:id="@+id/title"
+                    android:paddingTop="10dp"
+                    android:paddingBottom="10dp"
+                    android:layout_centerVertical="true"
+                    android:layout_centerHorizontal="true" />
+
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_alignParentTop="true"
+                    android:layout_above="@+id/menu">
+
+                    <RelativeLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="70dp"
+                        android:layout_alignParentBottom="true"
+                        android:layout_alignParentLeft="true"
+                        android:layout_alignParentStart="true"
+                        android:background="#af000000">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:textAppearance="?android:attr/textAppearanceLarge"
+                            android:text="取消"
+                            android:id="@+id/take_photo_choice"
+                            android:layout_centerVertical="true"
+                            android:layout_alignParentLeft="true"
+                            android:layout_alignParentStart="true"
+                            android:layout_marginLeft="39dp"
+                            android:layout_marginStart="39dp"
+                            android:textColor="#ffffff"
+                            android:textSize="12sp" />
+
+                        <RelativeLayout
+                            android:layout_width="50dp"
+                            android:layout_height="50dp"
+                            android:layout_centerVertical="true"
+                            android:layout_centerHorizontal="true">
+
+                            <Button
+                                android:id="@+id/button"
+                                android:layout_width="50dp"
+                                android:layout_height="50dp"
+                                android:background="@drawable/take_photo_border"
+                                android:layout_centerVertical="true"
+                                android:layout_centerHorizontal="true"
+                                android:textSize="12sp" />
+
+                            <Button
+                                android:id="@+id/btn_take"
+                                android:layout_width="40dp"
+                                android:layout_height="40dp"
+                                android:background="@drawable/take_photo_border"
+                                android:textSize="12sp"
+                                android:layout_centerVertical="true"
+                                android:layout_centerHorizontal="true" />
+                        </RelativeLayout>
+
+                    </RelativeLayout>
+                </RelativeLayout>
+
+                <GridView
+                    android:layout_width="wrap_content"
+                    android:layout_height="60dp"
+                    android:id="@+id/menu"
+                    android:background="@color/menuBackground"
+                    android:layout_alignParentBottom="true" />
+
+            </RelativeLayout>
+        </LinearLayout>
+    </RelativeLayout>
+</LinearLayout>

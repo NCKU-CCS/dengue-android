@@ -3,10 +3,12 @@ package com.example.dengue.dengue_android;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.util.Base64;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.webkit.WebView;
 import android.widget.BaseAdapter;
 import android.widget.Button;
 import android.widget.ImageView;
@@ -21,12 +23,12 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Locale;
 
-public class reportAdapter extends BaseAdapter {
+public class ReportAdapter extends BaseAdapter {
     private static final String AppName = "Dengue";
     private LayoutInflater reportListInflater;
 
     private CharSequence[] id;
-    private CharSequence[] url;
+    private CharSequence[] img;
     private CharSequence[] type;
     private CharSequence[] address;
     private CharSequence[] description;
@@ -36,14 +38,14 @@ public class reportAdapter extends BaseAdapter {
     private CharSequence[] lon;
     private Activity Main;
 
-    public reportAdapter(Context context, CharSequence[] id, CharSequence[] url,
+    public ReportAdapter(Context context, CharSequence[] id, CharSequence[] img,
                          CharSequence[] type, CharSequence[] address,
                          CharSequence[] description, CharSequence[] date, CharSequence[] status,
                          CharSequence[] lat, CharSequence[] lon,
                          Activity mMain) {
         reportListInflater = LayoutInflater.from(context);
         this.id = id;
-        this.url = url;
+        this.img = img;
         this.type = type;
         this.address = address;
         this.description = description;
@@ -79,7 +81,7 @@ public class reportAdapter extends BaseAdapter {
                     (TextView) convertView.findViewById(R.id.reportList_check_location),
                     (TextView) convertView.findViewById(R.id.reportList_check_description),
                     (TextView) convertView.findViewById(R.id.reportList_check_date),
-                    (WebView) convertView.findViewById(R.id.reportList_check_img),
+                    (ImageView) convertView.findViewById(R.id.reportList_check_img),
                     (Button) convertView.findViewById(R.id.reportList_check_yes),
                     (Button) convertView.findViewById(R.id.reportList_check_wait),
                     (Button) convertView.findViewById(R.id.reportList_check_no)
@@ -106,13 +108,13 @@ public class reportAdapter extends BaseAdapter {
         TextView address;
         TextView description;
         TextView date;
-        WebView img;
+        ImageView img;
         Button button_yes;
         Button button_wait;
         Button button_no;
 
         public Item(ImageView type, TextView address, TextView description,
-                    TextView date, WebView img, Button button_yes, Button button_wait, Button button_no){
+                    TextView date, ImageView img, Button button_yes, Button button_wait, Button button_no){
             this.type = type;
             this.address = address;
             this.description = description;
@@ -207,10 +209,10 @@ public class reportAdapter extends BaseAdapter {
         }
     }
 
-    private void setImg(int position, WebView Img) {
-        String data="<html><head><title>Example</title></head>";
-        data = data+"<body style=\"margin: 0px;\"><center><img width=\"100%\" src=\""+url[position].toString()+"\" /></center></body></html>";
-        Img.loadData(data, "text/html", null);
+    private void setImg(int position, ImageView Img) {
+        byte[] decodedString = Base64.decode(img[position].toString(), Base64.DEFAULT);
+        Bitmap decodedByte = BitmapFactory.decodeByteArray(decodedString, 0, decodedString.length);
+        Img.setImageBitmap(decodedByte);
     }
 
     public void updateData(int position, final String update_status) {
@@ -245,7 +247,7 @@ public class reportAdapter extends BaseAdapter {
                             public void run() {
                                 Toast.makeText(Main, update_status, Toast.LENGTH_SHORT).show();
                                 Intent intent = new Intent();
-                                intent.setClass(Main, report.class);
+                                intent.setClass(Main, Report.class);
                                 Main.startActivity(intent);
                             }
                         });

@@ -76,7 +76,7 @@ public class userProfile extends Activity {
                         if(Session.getData("identity").equals("里長")) {
                             Session.setData("report", "");
                             Intent intent = new Intent();
-                            intent.setClass(Main, report.class);
+                            intent.setClass(Main, Report.class);
                             startActivity(intent);
                         }
 
@@ -147,7 +147,7 @@ public class userProfile extends Activity {
                         Session.setData("cookie", "");
 
                         Intent intent = new Intent();
-                        intent.setClass(Main, userSetting.class);
+                        intent.setClass(Main, UserSetting.class);
                         startActivity(intent);
                     }
                     else {

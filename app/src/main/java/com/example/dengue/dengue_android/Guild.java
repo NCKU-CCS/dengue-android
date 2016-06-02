@@ -7,11 +7,10 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 
-public class guild extends AppCompatActivity{
+public class Guild extends AppCompatActivity{
     TestFragmentAdapter mAdapter;
     ViewPager mPager;
     InkPageIndicator mIndicator;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -30,7 +29,7 @@ public class guild extends AppCompatActivity{
             @Override
             public void onClick(View rootView) {
                 Intent intent = new Intent();
-                intent.setClass(guild.this, hot.class);
+                intent.setClass(Guild.this, hot.class);
                 startActivity(intent);
             }
         });

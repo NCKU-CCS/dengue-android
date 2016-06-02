@@ -2,6 +2,7 @@ package com.example.dengue.dengue_android;
 
 import android.app.Activity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -19,9 +20,9 @@ import java.net.URL;
 import java.net.URLEncoder;
 import java.util.ArrayList;
 
-public class report extends Activity {
+public class Report extends Activity {
     private CharSequence[] Id = new CharSequence[]{};
-    private CharSequence[] Url = new CharSequence[]{};
+    private CharSequence[] Img = new CharSequence[]{};
     private CharSequence[] Type = new CharSequence[]{};
     private CharSequence[] Address = new CharSequence[]{};
     private CharSequence[] Description = new CharSequence[]{};
@@ -67,7 +68,7 @@ public class report extends Activity {
         final Activity Main = this;
         ListView report_list = (ListView) findViewById(R.id.reportList_list);
         report_list.setDivider(null);
-        report_list.setAdapter(new reportAdapter(this, id, url, type, address,
+        report_list.setAdapter(new ReportAdapter(this, id, url, type, address,
                 description, date, status, lat, lon, Main));
     }
 
@@ -121,7 +122,7 @@ public class report extends Activity {
 
     private void filterData(String[] token) {
         ArrayList<String> temp_Id = new ArrayList<>();
-        ArrayList<String> temp_Url = new ArrayList<>();
+        ArrayList<String> temp_Img = new ArrayList<>();
         ArrayList<String> temp_Type = new ArrayList<>();
         ArrayList<String> temp_Address = new ArrayList<>();
         ArrayList<String> temp_Description  = new ArrayList<>();
@@ -134,7 +135,7 @@ public class report extends Activity {
             for (String aToken : token) {
                 if (Status[i].toString().equals(aToken)) {
                     temp_Id.add(Id[i].toString());
-                    temp_Url.add(Url[i].toString());
+                    temp_Img.add(Img[i].toString());
                     temp_Type.add(Type[i].toString());
                     temp_Address.add(Address[i].toString());
                     temp_Description.add(Description[i].toString());
@@ -147,7 +148,7 @@ public class report extends Activity {
         }
 
         CharSequence[] temp_id = temp_Id.toArray(new String[temp_Id.size()]);
-        CharSequence[] temp_url = temp_Url.toArray(new String[temp_Url.size()]);
+        CharSequence[] temp_img = temp_Img.toArray(new String[temp_Img.size()]);
         CharSequence[] temp_type = temp_Type.toArray(new String[temp_Type.size()]);
         CharSequence[] temp_address = temp_Address.toArray(new String[temp_Address.size()]);
         CharSequence[] temp_description = temp_Description.toArray(new String[temp_Description.size()]);
@@ -158,7 +159,7 @@ public class report extends Activity {
 
         number = temp_id.length;
         reportListNumber();
-        reportList(temp_id, temp_url, temp_type, temp_address, temp_description,
+        reportList(temp_id, temp_img, temp_type, temp_address, temp_description,
                 temp_date, temp_status, temp_lat, temp_lon);
     }
 
@@ -169,7 +170,7 @@ public class report extends Activity {
 
         JSONArray output = new JSONArray(data);
         ArrayList<String> id_object = new ArrayList<>();
-        ArrayList<String> url_object = new ArrayList<>();
+        ArrayList<String> img_object = new ArrayList<>();
         ArrayList<String> type_object = new ArrayList<>();
         ArrayList<String> address_object = new ArrayList<>();
         ArrayList<String> description_object = new ArrayList<>();
@@ -181,7 +182,7 @@ public class report extends Activity {
         for(int i = 0; i < output.length(); i++){
             JSONObject object = new JSONObject(output.get(i).toString());
             id_object.add(object.getString("source_id"));
-            url_object.add(object.getString("photo_url"));
+            img_object.add(object.getString("photo_base64"));
             type_object.add(object.getString("source_type"));
             address_object.add(object.getString("address"));
             description_object.add(object.getString("description"));
@@ -192,7 +193,7 @@ public class report extends Activity {
         }
 
         Id = id_object.toArray(new String[id_object.size()]);
-        Url = url_object.toArray(new String[url_object.size()]);
+        Img = img_object.toArray(new String[img_object.size()]);
         Type = type_object.toArray(new String[type_object.size()]);
         Address = address_object.toArray(new String[address_object.size()]);
         Description =description_object.toArray(new String[description_object.size()]);

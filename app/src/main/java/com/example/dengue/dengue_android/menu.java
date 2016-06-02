@@ -2,6 +2,7 @@ package com.example.dengue.dengue_android;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.GridView;
@@ -46,39 +47,44 @@ public class menu {
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 switch (Name[position]) {
                     case R.string.menu_hot:
-                        if (Main.getComponentName().getClassName().equals("com.example.dengue.dengue_android.hot"))
+                        if (Main.getComponentName().getClassName().equals(hot.class.getName()))
                             break;
                         intent.setClass(Main, hot.class);
                         Main.startActivity(intent);
                         break;
                     case R.string.menu_hospital:
-                        if (Main.getComponentName().getClassName().equals("com.example.dengue.dengue_android.hospital"))
+                        if (Main.getComponentName().getClassName().equals(hospital.class.getName()) ||
+                                Main.getComponentName().getClassName().equals(hospitalInfo.class.getName()))
                             break;
                         intent.setClass(Main, hospital.class);
                         Main.startActivity(intent);
                         break;
                     case R.string.menu_breedingSources:
-                        if (Main.getComponentName().getClassName().equals("com.example.dengue.dengue_android.BreedingSources"))
+                        if (Main.getComponentName().getClassName().equals(BreedingSource.class.getName()) ||
+                                Main.getComponentName().getClassName().equals(BreedingSourceSubmit.class.getName()))
                             break;
-                        intent.setClass(Main, breedingSource.class);
+                        intent.setClass(Main, BreedingSource.class);
                         Main.startActivity(intent);
                         break;
                     case R.string.menu_bite:
-                        if (Main.getComponentName().getClassName().equals("com.example.dengue.dengue_android.DrugBite"))
+                        if (Main.getComponentName().getClassName().equals(Drugbite.class.getName()))
                             break;
-                        intent.setClass(Main, drugBite.class);
+                        intent.setClass(Main, Drugbite.class);
                         Main.startActivity(intent);
                         break;
                     case R.string.menu_reportList:
-                        if (Main.getComponentName().getClassName().equals("com.example.dengue.dengue_android.report"))
+                        if (Main.getComponentName().getClassName().equals(Report.class.getName()))
                             break;
-                        intent.setClass(Main, report.class);
+                        intent.setClass(Main, Report.class);
                         Main.startActivity(intent);
                         break;
                     case R.string.menu_setting:
-                        if (Main.getComponentName().getClassName().equals("com.example.dengue.dengue_android.userSetting"))
+                        if (Main.getComponentName().getClassName().equals(UserLogin.class.getName()) ||
+                                Main.getComponentName().getClassName().equals(UserSetting.class.getName()) ||
+                                Main.getComponentName().getClassName().equals(UserSignup.class.getName()) ||
+                                Main.getComponentName().getClassName().equals(userProfile.class.getName()))
                             break;
-                        intent.setClass(Main, userSetting.class);
+                        intent.setClass(Main, UserSetting.class);
                         Main.startActivity(intent);
                         break;
                 }
