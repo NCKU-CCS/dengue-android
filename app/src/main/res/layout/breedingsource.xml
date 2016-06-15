@@ -116,7 +116,8 @@ android:orientation="vertical">
                     android:layout_height="wrap_content"
                     android:inputType="textMultiLine"
                     android:ems="10"
-                    android:id="@+id/breedingSources_submit_description_value" />
+                    android:id="@+id/breedingSources_submit_description_value"
+                    android:windowSoftInputMode="stateHidden" />
 
                 <Button
                     android:layout_width="118dp"

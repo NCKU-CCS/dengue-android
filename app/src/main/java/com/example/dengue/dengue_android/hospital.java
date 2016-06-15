@@ -9,6 +9,7 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v4.app.ActivityCompat;
 import android.view.View;
+import android.widget.AbsListView;
 import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -27,6 +28,7 @@ import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.ArrayList;
+import java.util.Date;
 
 public class hospital extends Activity implements
         GoogleApiClient.ConnectionCallbacks,
@@ -43,6 +45,8 @@ public class hospital extends Activity implements
     private double Location_lat;
     private double Location_lon;
     private int now_choice = 0;
+    private boolean refresh = false;
+    private Long update_time;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -51,6 +55,9 @@ public class hospital extends Activity implements
         setContentView(R.layout.hospital);
         new menu(this, 1);
         buildGoogleApiClient();
+
+        Date curDate = new Date(System.currentTimeMillis()) ;
+        update_time = curDate.getTime();
     }
 
     private void hospitalNumber() {
@@ -62,7 +69,7 @@ public class hospital extends Activity implements
     private void hospitalList(CharSequence[] name, CharSequence[] address,
                               CharSequence[] phone, final CharSequence[] lng, final CharSequence[] lat) {
         final Activity main = this;
-        ListView hospital_list = (ListView) findViewById(R.id.hospital_list);
+        final ListView hospital_list = (ListView) findViewById(R.id.hospital_list);
         hospital_list.setDivider(null);
         hospital_list.setAdapter(new hospitalAdapter(this, name, address, phone));
         hospital_list.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -76,6 +83,44 @@ public class hospital extends Activity implements
                 intent.putExtras(bundle);
                 intent.setClass(main, hospitalInfo.class);
                 main.startActivity(intent);
+            }
+        });
+
+        hospital_list.setOnScrollListener(new AbsListView.OnScrollListener() {
+            @Override
+            public void onScrollStateChanged(AbsListView view, int scrollState) {
+
+            }
+
+            @Override
+            public void onScroll(AbsListView view, int firstVisibleItem, int visibleItemCount, int totalItemCount) {
+                if (firstVisibleItem == 0) {
+                    View v = hospital_list.getChildAt(0);
+                    int offset = (v == null) ? 0 : v.getTop();
+                    if (offset == 0) {
+                        Date curDate = new Date(System.currentTimeMillis());
+                        Long now = curDate.getTime();
+                        Long diffTime = (now - update_time) / (1000 * 60);
+                        if (diffTime > 1 && refresh) {
+                            findViewById(R.id.loadingPanel).setVisibility(View.VISIBLE);
+                            refresh = false;
+                            getData();
+                        }
+                    }
+                } else if (totalItemCount - visibleItemCount == firstVisibleItem) {
+                    View v = hospital_list.getChildAt(totalItemCount - 1);
+                    int offset = (v == null) ? 0 : v.getTop();
+                    if (offset == 0) {
+                        Date curDate = new Date(System.currentTimeMillis());
+                        Long now = curDate.getTime();
+                        Long diffTime = (now - update_time) / (1000 * 60);
+                        if (diffTime > 1) {
+                            findViewById(R.id.loadingPanel).setVisibility(View.VISIBLE);
+                            refresh = false;
+                            getData();
+                        }
+                    }
+                }
             }
         });
     }
@@ -223,6 +268,11 @@ public class hospital extends Activity implements
                                 hospitalNumber();
                                 hospitalList(Name, Address, Phone, Lng, Lat);
                                 bindClick();
+
+                                Date curDate = new Date(System.currentTimeMillis()) ;
+                                update_time = curDate.getTime();
+                                refresh = true;
+                                Main.findViewById(R.id.loadingPanel).setVisibility(View.GONE);
                             }
                         });
                     }
@@ -235,6 +285,9 @@ public class hospital extends Activity implements
                                 hospitalList(Name, Address, Phone, Lng, Lat);
                                 bindClick();
                                 Toast.makeText(Main, "無法連接資料庫！", Toast.LENGTH_SHORT).show();
+
+                                refresh = true;
+                                Main.findViewById(R.id.loadingPanel).setVisibility(View.GONE);
                             }
                         });
                     }
@@ -249,6 +302,9 @@ public class hospital extends Activity implements
                                 hospitalList(Name, Address, Phone, Lng, Lat);
                                 bindClick();
                                 Toast.makeText(Main, "確認網路連線以更新資料！", Toast.LENGTH_SHORT).show();
+
+                                refresh = true;
+                                Main.findViewById(R.id.loadingPanel).setVisibility(View.GONE);
                             }
                         });
                     } catch (JSONException ignored) {
@@ -297,6 +353,10 @@ public class hospital extends Activity implements
         if (mLastLocation != null) {
             Location_lat = mLastLocation.getLatitude();
             Location_lon = mLastLocation.getLongitude();
+            getData();
+        }
+        else {
+            Toast.makeText(this, "請打開定位", Toast.LENGTH_SHORT).show();
             getData();
         }
     }

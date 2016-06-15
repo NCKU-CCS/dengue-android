@@ -2,7 +2,6 @@ package com.example.dengue.dengue_android;
 
 import android.app.Activity;
 import android.content.Intent;
-import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.GridView;
@@ -52,6 +51,7 @@ public class menu {
                         intent.setClass(Main, hot.class);
                         Main.startActivity(intent);
                         break;
+
                     case R.string.menu_hospital:
                         if (Main.getComponentName().getClassName().equals(hospital.class.getName()) ||
                                 Main.getComponentName().getClassName().equals(hospitalInfo.class.getName()))
@@ -59,6 +59,7 @@ public class menu {
                         intent.setClass(Main, hospital.class);
                         Main.startActivity(intent);
                         break;
+
                     case R.string.menu_breedingSources:
                         if (Main.getComponentName().getClassName().equals(BreedingSource.class.getName()) ||
                                 Main.getComponentName().getClassName().equals(BreedingSourceSubmit.class.getName()))
@@ -66,18 +67,21 @@ public class menu {
                         intent.setClass(Main, BreedingSource.class);
                         Main.startActivity(intent);
                         break;
+
                     case R.string.menu_bite:
                         if (Main.getComponentName().getClassName().equals(Drugbite.class.getName()))
                             break;
                         intent.setClass(Main, Drugbite.class);
                         Main.startActivity(intent);
                         break;
+
                     case R.string.menu_reportList:
                         if (Main.getComponentName().getClassName().equals(Report.class.getName()))
                             break;
                         intent.setClass(Main, Report.class);
                         Main.startActivity(intent);
                         break;
+
                     case R.string.menu_setting:
                         if (Main.getComponentName().getClassName().equals(UserLogin.class.getName()) ||
                                 Main.getComponentName().getClassName().equals(UserSetting.class.getName()) ||

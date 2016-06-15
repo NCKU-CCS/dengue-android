@@ -142,6 +142,9 @@ public class Drugbite extends Activity implements
             Lon = mLastLocation.getLongitude();
             drugBiteClick();
         }
+        else {
+            Toast.makeText(this, "請打開定位", Toast.LENGTH_SHORT).show();
+        }
     }
 
     @Override

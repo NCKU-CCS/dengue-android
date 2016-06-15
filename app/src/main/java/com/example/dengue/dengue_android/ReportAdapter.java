@@ -167,7 +167,7 @@ public class ReportAdapter extends BaseAdapter {
         button_yes.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(status[position].toString().equals("未處理")) {
+                if(!status[position].toString().equals("已處理")) {
                     updateData(position, "已處理");
                 }
             }
@@ -176,7 +176,7 @@ public class ReportAdapter extends BaseAdapter {
         button_wait.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (status[position].toString().equals("未處理")) {
+                if(!status[position].toString().equals("通報處理")) {
                     updateData(position, "通報處理");
                 }
             }
@@ -185,7 +185,7 @@ public class ReportAdapter extends BaseAdapter {
         button_no.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (status[position].toString().equals("未處理")) {
+                if(!status[position].toString().equals("非孳生源")) {
                     updateData(position, "非孳生源");
                 }
             }

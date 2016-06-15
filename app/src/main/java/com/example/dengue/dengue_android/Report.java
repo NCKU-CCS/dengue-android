@@ -2,8 +2,8 @@ package com.example.dengue.dengue_android;
 
 import android.app.Activity;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
+import android.widget.AbsListView;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -19,6 +19,7 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 import java.net.URLEncoder;
 import java.util.ArrayList;
+import java.util.Date;
 
 public class Report extends Activity {
     private CharSequence[] Id = new CharSequence[]{};
@@ -34,6 +35,9 @@ public class Report extends Activity {
     private int number;
     private static final String AppName = "Dengue";
     private int now_choice = 0;
+    private boolean refresh = false;
+    private Long update_time;
+    private String now_type = "未處理";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -41,7 +45,11 @@ public class Report extends Activity {
 
         setContentView(R.layout.report);
         new menu(this, 4);
-        getData();
+        getData("未處理");
+        getNumber("未處理");
+
+        Date curDate = new Date(System.currentTimeMillis()) ;
+        update_time = curDate.getTime();
     }
 
     private void reportListNumber() {
@@ -62,14 +70,50 @@ public class Report extends Activity {
         reportList_number.setText(output_number);
     }
 
-    private void reportList(CharSequence[] id, CharSequence[] url, CharSequence[] type,
-                            CharSequence[] address, CharSequence[] description, CharSequence[] date,
-                            CharSequence[] status, CharSequence[] lat, CharSequence[] lon) {
+    private void reportList() {
         final Activity Main = this;
-        ListView report_list = (ListView) findViewById(R.id.reportList_list);
+        final ListView report_list = (ListView) findViewById(R.id.reportList_list);
         report_list.setDivider(null);
-        report_list.setAdapter(new ReportAdapter(this, id, url, type, address,
-                description, date, status, lat, lon, Main));
+        report_list.setAdapter(new ReportAdapter(this, Id, Img, Type, Address,
+                Description, Date, Status, Lat, Lon, Main));
+
+        report_list.setOnScrollListener(new AbsListView.OnScrollListener() {
+            @Override
+            public void onScrollStateChanged(AbsListView view, int scrollState) {
+
+            }
+
+            @Override
+            public void onScroll(AbsListView view, int firstVisibleItem, int visibleItemCount, int totalItemCount) {
+                if (firstVisibleItem == 0) {
+                    View v = report_list.getChildAt(0);
+                    int offset = (v == null) ? 0 : v.getTop();
+                    if (offset == 0) {
+                        Date curDate = new Date(System.currentTimeMillis());
+                        Long now = curDate.getTime();
+                        Long diffTime = (now - update_time) / (1000 * 60);
+                        if (diffTime > 1 && refresh) {
+                            findViewById(R.id.loadingPanel).setVisibility(View.VISIBLE);
+                            refresh = false;
+                            getData(now_type);
+                        }
+                    }
+                } else if (totalItemCount - visibleItemCount == firstVisibleItem) {
+                    View v = report_list.getChildAt(totalItemCount - 1);
+                    int offset = (v == null) ? 0 : v.getTop();
+                    if (offset == 0) {
+                        Date curDate = new Date(System.currentTimeMillis());
+                        Long now = curDate.getTime();
+                        Long diffTime = (now - update_time) / (1000 * 60);
+                        if (diffTime > 1) {
+                            findViewById(R.id.loadingPanel).setVisibility(View.VISIBLE);
+                            refresh = false;
+                            getData(now_type);
+                        }
+                    }
+                }
+            }
+        });
     }
 
     private void bindClick() {
@@ -82,7 +126,9 @@ public class Report extends Activity {
             public void onClick(View v) {
                 if (now_choice != 0) {
                     now_choice = 0;
-                    filterData(new String[] {"未處理"});
+                    getData("未處理");
+                    getNumber("未處理");
+                    findViewById(R.id.loadingPanel).setVisibility(View.VISIBLE);
 
                     report_not.setBackgroundResource(R.drawable.choice_border_clicked);
                     report_wait.setBackgroundResource(R.drawable.choice_border);
@@ -96,7 +142,9 @@ public class Report extends Activity {
             public void onClick(View v) {
                 if (now_choice != 1) {
                     now_choice = 1;
-                    filterData(new String[]{"通報處理"});
+                    getData("通報處理");
+                    getNumber("通報處理");
+                    findViewById(R.id.loadingPanel).setVisibility(View.VISIBLE);
 
                     report_not.setBackgroundResource(R.drawable.choice_border);
                     report_wait.setBackgroundResource(R.drawable.choice_border_clicked);
@@ -110,7 +158,9 @@ public class Report extends Activity {
             public void onClick(View v) {
                 if (now_choice != 2) {
                     now_choice = 2;
-                    filterData(new String[]{"已處理", "非孳生源"});
+                    getData("已處理,非孳生源");
+                    getNumber("已處理,非孳生源");
+                    findViewById(R.id.loadingPanel).setVisibility(View.VISIBLE);
 
                     report_not.setBackgroundResource(R.drawable.choice_border);
                     report_wait.setBackgroundResource(R.drawable.choice_border);
@@ -118,49 +168,6 @@ public class Report extends Activity {
                 }
             }
         });
-    }
-
-    private void filterData(String[] token) {
-        ArrayList<String> temp_Id = new ArrayList<>();
-        ArrayList<String> temp_Img = new ArrayList<>();
-        ArrayList<String> temp_Type = new ArrayList<>();
-        ArrayList<String> temp_Address = new ArrayList<>();
-        ArrayList<String> temp_Description  = new ArrayList<>();
-        ArrayList<String> temp_Date  = new ArrayList<>();
-        ArrayList<String> temp_Status = new ArrayList<>();
-        ArrayList<String> temp_Lat = new ArrayList<>();
-        ArrayList<String> temp_Lon = new ArrayList<>();
-
-        for(int i = 0; i < Status.length; i++) {
-            for (String aToken : token) {
-                if (Status[i].toString().equals(aToken)) {
-                    temp_Id.add(Id[i].toString());
-                    temp_Img.add(Img[i].toString());
-                    temp_Type.add(Type[i].toString());
-                    temp_Address.add(Address[i].toString());
-                    temp_Description.add(Description[i].toString());
-                    temp_Date.add(Date[i].toString());
-                    temp_Status.add(Status[i].toString());
-                    temp_Lat.add(Lat[i].toString());
-                    temp_Lon.add(Lon[i].toString());
-                }
-            }
-        }
-
-        CharSequence[] temp_id = temp_Id.toArray(new String[temp_Id.size()]);
-        CharSequence[] temp_img = temp_Img.toArray(new String[temp_Img.size()]);
-        CharSequence[] temp_type = temp_Type.toArray(new String[temp_Type.size()]);
-        CharSequence[] temp_address = temp_Address.toArray(new String[temp_Address.size()]);
-        CharSequence[] temp_description = temp_Description.toArray(new String[temp_Description.size()]);
-        CharSequence[] temp_date = temp_Date.toArray(new String[temp_Date.size()]);
-        CharSequence[] temp_status = temp_Status.toArray(new String[temp_Status.size()]);
-        CharSequence[] temp_lat = temp_Lat.toArray(new String[temp_Lat.size()]);
-        CharSequence[] temp_lon = temp_Lon.toArray(new String[temp_Lon.size()]);
-
-        number = temp_id.length;
-        reportListNumber();
-        reportList(temp_id, temp_img, temp_type, temp_address, temp_description,
-                temp_date, temp_status, temp_lat, temp_lon);
     }
 
     private void parseData(String data) throws JSONException {
@@ -201,10 +208,10 @@ public class Report extends Activity {
         Status = status_object.toArray(new String[status_object.size()]);
         Lat = lat_object.toArray(new String[lat_object.size()]);
         Lon = lon_object.toArray(new String[lon_object.size()]);
-        number = Id.length;
     }
 
-    private void getData() {
+    private void getData(final String str) {
+        now_type = str;
         final Activity Main = this;
         final session Session = new session(getSharedPreferences(AppName, 0));
 
@@ -213,7 +220,7 @@ public class Report extends Activity {
                 HttpURLConnection connect = null;
                 String query = "";
                 try {
-                    query = URLEncoder.encode("已處理,非孳生源,未處理,通報處理", "utf-8");
+                    query = URLEncoder.encode(str, "utf-8");
                 } catch (UnsupportedEncodingException ignored) {
                 }
 
@@ -242,8 +249,13 @@ public class Report extends Activity {
                         runOnUiThread(new Runnable() {
                             @Override
                             public void run() {
-                                filterData(new String[]{"未處理"});
+                                reportList();
                                 bindClick();
+
+                                Date curDate = new Date(System.currentTimeMillis()) ;
+                                update_time = curDate.getTime();
+                                refresh = true;
+                                Main.findViewById(R.id.loadingPanel).setVisibility(View.GONE);
                             }
                         });
                     }
@@ -252,9 +264,12 @@ public class Report extends Activity {
                         runOnUiThread(new Runnable() {
                             @Override
                             public void run() {
-                                filterData(new String[]{"未處理"});
+                                reportList();
                                 bindClick();
                                 Toast.makeText(Main, "無法連接資料庫！", Toast.LENGTH_SHORT).show();
+
+                                refresh = true;
+                                Main.findViewById(R.id.loadingPanel).setVisibility(View.GONE);
                             }
                         });
                     }
@@ -265,13 +280,90 @@ public class Report extends Activity {
                         runOnUiThread(new Runnable() {
                             @Override
                             public void run() {
-                                filterData(new String[]{"未處理"});
+                                reportList();
                                 bindClick();
                                 Toast.makeText(Main, "確認網路連線以更新資料！", Toast.LENGTH_SHORT).show();
+
+                                refresh = true;
+                                Main.findViewById(R.id.loadingPanel).setVisibility(View.GONE);
                             }
                         });
                     } catch (JSONException ignored) {
                     }
+                }
+                finally {
+                    if (connect != null) {
+                        connect.disconnect();
+                    }
+                }
+            }
+        };
+        thread.start();
+    }
+
+    private void getNumber(final String str) {
+        final Activity Main = this;
+        final session Session = new session(getSharedPreferences(AppName, 0));
+
+        Thread thread = new Thread() {
+            public void run() {
+                HttpURLConnection connect = null;
+                String query = "";
+                try {
+                    query = URLEncoder.encode(str, "utf-8");
+                } catch (UnsupportedEncodingException ignored) {
+                }
+
+                try {
+                    URL connect_url = new URL("http://140.116.247.113:11401/breeding_source/total/?database=tainan&village_name=大學里&status="+query);
+                    connect = (HttpURLConnection) connect_url.openConnection();
+                    connect.setReadTimeout(10000);
+                    connect.setConnectTimeout(15000);
+                    connect.setRequestMethod("GET");
+                    connect.setRequestProperty("Cookie", Session.getData("cookie"));
+                    connect.connect();
+
+                    int responseCode = connect.getResponseCode();
+                    if(responseCode == HttpURLConnection.HTTP_OK) {
+                        BufferedReader br = new BufferedReader(new InputStreamReader(connect.getInputStream()));
+                        StringBuilder sb = new StringBuilder();
+                        String line;
+                        while ((line = br.readLine()) != null) {
+                            sb.append(line).append("\n");
+                        }
+                        br.close();
+
+                        JSONObject object = new JSONObject(sb.toString());
+                        number = Integer.valueOf(object.getString("total"));
+                        Session.setData("report_number", String.valueOf(number));
+
+                        runOnUiThread(new Runnable() {
+                            @Override
+                            public void run() {
+                                reportListNumber();
+                            }
+                        });
+                    }
+                    else {
+                        number = Integer.valueOf(Session.getData("report_number"));
+                        runOnUiThread(new Runnable() {
+                            @Override
+                            public void run() {
+                                reportListNumber();
+                                Toast.makeText(Main, "無法連接資料庫！", Toast.LENGTH_SHORT).show();
+                            }
+                        });
+                    }
+                }
+                catch (Exception e) {
+                    number = Integer.valueOf(Session.getData("report_number"));
+                    runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            reportListNumber();
+                            Toast.makeText(Main, "確認網路連線以更新資料！", Toast.LENGTH_SHORT).show();
+                        }
+                    });
                 }
                 finally {
                     if (connect != null) {

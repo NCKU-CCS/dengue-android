@@ -23,6 +23,8 @@ public class MainActivity extends Activity {
             intent.setClass(this, welcome.class);
             new signUpFast(this, intent);
         }
+
+        this.finish();
     }
 
     private void sessionInit(final session Session) {

@@ -28,48 +28,49 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-        <LinearLayout
-            android:orientation="vertical"
+        <ScrollView
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:paddingBottom="40dp"
-            android:weightSum="1">
-
-            <TextView
-                android:textSize = "30sp"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:textAppearance="?android:attr/textAppearanceLarge"
-                android:text="我被蚊子叮了!!!"
-                android:id="@+id/bite_title"
-                android:layout_gravity="center_horizontal"
-                android:gravity="center"
-                android:layout_weight="0.68" />
-
-            <ImageView
-                android:layout_width="151dp"
-                android:layout_height="202dp"
-                android:id="@+id/imageView2"
-                android:src="@drawable/bite"
-                android:layout_gravity="center_horizontal" />
-
-            <Button
-                android:layout_width="204dp"
-                android:layout_height="wrap_content"
-                android:text="報告!這裡有蚊子"
-                android:id="@+id/drugbite_button"
-                android:textSize = "20sp"
-                android:background="#ff6633"
-                android:textColor="#ffffff"
-                android:layout_gravity="center_horizontal"
-                android:layout_weight="0.10" />
+            android:layout_above="@+id/menu" >
 
             <LinearLayout
                 android:orientation="vertical"
                 android:layout_width="match_parent"
-                android:layout_height="92dp"></LinearLayout>
+                android:layout_height="wrap_content"
+                android:paddingBottom="40dp" >
 
-        </LinearLayout>
+                <TextView
+                    android:textSize = "30sp"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:textAppearance="?android:attr/textAppearanceLarge"
+                    android:text="我被蚊子叮了!!!"
+                    android:id="@+id/bite_title"
+                    android:layout_gravity="center_horizontal"
+                    android:gravity="center"
+                    android:layout_marginTop="50dp"
+                    android:layout_marginBottom="50dp" />
+
+                <ImageView
+                    android:layout_width="151dp"
+                    android:layout_height="202dp"
+                    android:id="@+id/imageView2"
+                    android:src="@drawable/bite"
+                    android:layout_gravity="center_horizontal" />
+
+                <Button
+                    android:layout_width="204dp"
+                    android:layout_height="wrap_content"
+                    android:text="報告!這裡有蚊子"
+                    android:id="@+id/drugbite_button"
+                    android:textSize = "20sp"
+                    android:background="#ff6633"
+                    android:textColor="#ffffff"
+                    android:layout_gravity="center_horizontal"
+                    android:layout_weight="0.10" />
+
+            </LinearLayout>
+        </ScrollView>
 
         <GridView
             android:layout_width="wrap_content"

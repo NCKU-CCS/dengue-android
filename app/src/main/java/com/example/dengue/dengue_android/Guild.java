@@ -11,6 +11,7 @@ public class Guild extends AppCompatActivity{
     TestFragmentAdapter mAdapter;
     ViewPager mPager;
     InkPageIndicator mIndicator;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

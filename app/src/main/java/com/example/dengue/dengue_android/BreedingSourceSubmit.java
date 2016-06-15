@@ -2,23 +2,24 @@ package com.example.dengue.dengue_android;
 
 import android.Manifest;
 import android.app.Activity;
-import android.content.ContentResolver;
+import android.content.Context;
 import android.content.pm.PackageManager;
-import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Matrix;
 import android.location.Location;
-import android.net.Uri;
 import android.os.Bundle;
-import android.provider.MediaStore;
 import android.support.annotation.NonNull;
 import android.support.v4.app.ActivityCompat;
 import android.util.DisplayMetrics;
+import android.view.KeyEvent;
 import android.view.View;
+import android.view.WindowManager;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import org.apache.http.HttpResponse;
@@ -31,8 +32,10 @@ import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.location.LocationServices;
 import org.apache.http.entity.mime.content.StringBody;
+
 import java.io.File;
 import java.io.IOException;
+import java.nio.charset.Charset;
 
 public class BreedingSourceSubmit extends Activity implements
         GoogleApiClient.ConnectionCallbacks,
@@ -45,13 +48,13 @@ public class BreedingSourceSubmit extends Activity implements
     private String type = "";
     private String description;
     private boolean isFinish = true;
-    private boolean isGet = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
         setContentView(R.layout.breedingsource);
+        getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_HIDDEN);
         buildGoogleApiClient();
         breedingSourcesSubmitTypeList();
 
@@ -93,21 +96,14 @@ public class BreedingSourceSubmit extends Activity implements
     }
 
     private void loadBitmap(String url,int degree) {
-        //Uri uri =  Uri.parse(url);
-        //Uri uri = Uri.fromFile(new File(url));
-
-        ContentResolver cr = this.getContentResolver();
         DisplayMetrics mPhone = new DisplayMetrics();
         getWindowManager().getDefaultDisplay().getMetrics(mPhone);
 
         try {
-            //Bitmap bitmap = BitmapFactory.decodeStream(cr.openInputStream(uri));
             Bitmap bitmap = BitmapFactory.decodeFile(url);
             rotate(bitmap,degree);
-            /*if (bitmap.getWidth() > bitmap.getHeight()) ScalePic(bitmap, mPhone.heightPixels);
-            else ScalePic(bitmap, mPhone.widthPixels);*/
         } catch (Exception e) {
-            Toast.makeText(this, /*"無法取得照片!"*/e.toString(), Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, "無法取得照片!", Toast.LENGTH_SHORT).show();
         }
     }
     private void rotate(Bitmap bitmap,int degree){
@@ -122,47 +118,39 @@ public class BreedingSourceSubmit extends Activity implements
         mImg.setImageBitmap(rotatedBMP);
     }
 
-    private void ScalePic(Bitmap bitmap, int phone) {
-        ImageView mImg = (ImageView) findViewById(R.id.breedingSources_img);
-
-        float mScale;
-        if (bitmap.getWidth() > phone) {
-            mScale = (float) phone / (float) bitmap.getWidth();
-
-            Matrix mMat = new Matrix();
-            mMat.setScale(mScale, mScale);
-
-            Bitmap mScaleBitmap = Bitmap.createBitmap(bitmap,
-                    0,
-                    0,
-                    bitmap.getWidth(),
-                    bitmap.getHeight(),
-                    mMat,
-                    false);
-            mImg.setImageBitmap(mScaleBitmap);
-        } else mImg.setImageBitmap(bitmap);
-    }
-
     private void breedingSourcesSubmitSubmit(final String imgUri) {
-        //Uri uri = Uri.parse(imgUri);
-        //final String img = getRealPath(uri);
-        /*Uri uri = Uri.fromFile(new File(imgUri));
-        final String img = getRealPath(uri);
-        Log.i("path",img);*/
-
         final Activity Main = this;
+
+        final TextView description_text = (TextView)findViewById(R.id.breedingSources_submit_description_value);
+        description_text.setOnEditorActionListener(new TextView.OnEditorActionListener() {
+            @Override
+            public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
+                if (event != null && (event.getKeyCode() == KeyEvent.KEYCODE_ENTER)) {
+                    InputMethodManager in = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+                    in.hideSoftInputFromWindow(description_text
+                                    .getApplicationWindowToken(),
+                            InputMethodManager.HIDE_NOT_ALWAYS);
+                    return true;
+                }
+                return false;
+            }
+        });
 
         Button breedingSources_submitButton = (Button)findViewById(R.id.breedingSources_submit_submit);
         breedingSources_submitButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View w) {
-                if(isFinish /*&& isGet*/) {
+                InputMethodManager in = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+                in.hideSoftInputFromWindow(description_text
+                                .getApplicationWindowToken(),
+                        InputMethodManager.HIDE_NOT_ALWAYS);
+
+                if (isFinish) {
                     EditText description_text = (EditText) findViewById(R.id.breedingSources_submit_description_value);
                     description = description_text.getText().toString();
                     sendImg(imgUri);
                     isFinish = false;
-                }
-                else {
+                } else {
                     Toast.makeText(Main, "請耐心等待!", Toast.LENGTH_SHORT).show();
                 }
             }
@@ -181,16 +169,23 @@ public class BreedingSourceSubmit extends Activity implements
                 HttpPost httpPostRequest = new HttpPost(url);
                 File f = new File(img);
 
+                gps Gps = new gps(Main);
+                String address = Gps.get(Lat, Lon);
+                if(address == null) {
+                    address = "";
+                }
+
                 try {
                     MultipartEntity multiPartEntityBuilder = new MultipartEntity();
 
                     multiPartEntityBuilder.addPart("database", new StringBody("tainan"));
                     multiPartEntityBuilder.addPart("photo", new FileBody(f));
-                    multiPartEntityBuilder.addPart("source_type", new StringBody(type));
+                    multiPartEntityBuilder.addPart("source_type", new StringBody(type, Charset.forName("UTF-8")));
                     multiPartEntityBuilder.addPart("lng", new StringBody(String.valueOf(Lon)));
                     multiPartEntityBuilder.addPart("lat", new StringBody(String.valueOf(Lat)));
-                    multiPartEntityBuilder.addPart("description", new StringBody(description));
-                    multiPartEntityBuilder.addPart("status", new StringBody("未處理"));
+                    multiPartEntityBuilder.addPart("description", new StringBody(description, Charset.forName("UTF-8") ));
+                    multiPartEntityBuilder.addPart("status", new StringBody("未處理", Charset.forName("UTF-8")));
+                    multiPartEntityBuilder.addPart("address", new StringBody(address, Charset.forName("UTF-8")));
 
                     httpPostRequest.setHeader("Cookie", Session.getData("cookie"));
                     httpPostRequest.setEntity(multiPartEntityBuilder);
@@ -241,23 +236,6 @@ public class BreedingSourceSubmit extends Activity implements
         thread.start();
     }
 
-    private String getRealPath(Uri contentURI) {
-        String result;
-        Cursor cursor = getContentResolver().query(contentURI, null, null, null, null);
-        
-        if (cursor == null) {
-            result = contentURI.getPath();
-        } else {
-            cursor.moveToFirst();
-            int idx = cursor.getColumnIndex(MediaStore.Images.ImageColumns.DATA);
-            result = cursor.getString(idx);
-            cursor.close();
-        }
-
-        isGet = true;
-        return result;
-    }
-
     protected synchronized void buildGoogleApiClient() {
         mGoogleApiClient = new GoogleApiClient.Builder(this)
                 .addConnectionCallbacks(this)
@@ -290,7 +268,6 @@ public class BreedingSourceSubmit extends Activity implements
         if (mLastLocation != null) {
             Lat = mLastLocation.getLatitude();
             Lon = mLastLocation.getLongitude();
-
             Bundle imgBundle = getIntent().getExtras();
 
             if (imgBundle != null && imgBundle.getString("img") != null) {
@@ -302,8 +279,9 @@ public class BreedingSourceSubmit extends Activity implements
                     breedingSourcesSubmitSubmit(img);
                 }
             }
-
-
+        }
+        else {
+            Toast.makeText(this, "請打開定位", Toast.LENGTH_SHORT).show();
         }
     }
 

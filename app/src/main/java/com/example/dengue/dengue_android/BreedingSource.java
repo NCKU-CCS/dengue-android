@@ -2,6 +2,8 @@ package com.example.dengue.dengue_android;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.hardware.Camera;
 import android.os.Bundle;
 import android.view.Surface;
@@ -12,6 +14,7 @@ import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
@@ -28,7 +31,6 @@ public class BreedingSource extends Activity {
 
         @Override
         public void surfaceChanged(SurfaceHolder holder, int format, int width, int height) {
-
         }
 
         @Override
@@ -58,7 +60,7 @@ public class BreedingSource extends Activity {
         btn_take.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(check_photo) {
+                if (check_photo) {
                     btn_take.setText("");
                     choice.setText("取消");
                     check_photo = false;
@@ -71,12 +73,11 @@ public class BreedingSource extends Activity {
                     intent.putExtras(bundle);
                     intent.setClass(BreedingSource.this, BreedingSourceSubmit.class);
                     startActivity(intent);
-                }
-                else {
+                } else {
                     camera.takePicture(null, null, new Camera.PictureCallback() {
                         @Override
                         public void onPictureTaken(byte[] data, Camera camera) {
-                            if ((path = saveFile(data)) != null) {
+                            if ((path = saveFile( compressImageByQuality(data) )) != null) {
                                 btn_take.setText("確定");
                                 choice.setText("重拍");
                                 check_photo = true;
@@ -104,6 +105,22 @@ public class BreedingSource extends Activity {
                 }
             }
         });
+    }
+
+    public static byte[] compressImageByQuality(byte[] bytes){
+        Bitmap bitmap = BitmapFactory.decodeByteArray(bytes, 0, bytes.length);
+        ByteArrayOutputStream baas = new ByteArrayOutputStream();
+        int options = 50;
+
+        bitmap.compress(Bitmap.CompressFormat.JPEG, options, baas);
+        while (baas.toByteArray().length / 1024 > 300) {
+            baas.reset();
+            options -= 10;
+            if(options < 0) options = 0;
+            bitmap.compress(Bitmap.CompressFormat.JPEG, options, baas);
+            if(options == 0) break;
+        }
+        return baas.toByteArray();
     }
 
     private String saveFile(byte[] bytes){
