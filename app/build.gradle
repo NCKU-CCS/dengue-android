@@ -10,7 +10,7 @@ android {
         exclude 'META-INF/DEPENDENCIES'
     }
     defaultConfig {
-        applicationId 'com.example.dengue_android'
+        applicationId 'netdbncku.lab.dengue'
         minSdkVersion 14
         targetSdkVersion 23
         versionCode 1
