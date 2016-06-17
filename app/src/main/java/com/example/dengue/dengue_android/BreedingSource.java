@@ -40,6 +40,7 @@ public class BreedingSource extends Activity {
     };
     private boolean check_photo = false;
     private String path;
+    private static long back_pressed;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -77,7 +78,7 @@ public class BreedingSource extends Activity {
                     camera.takePicture(null, null, new Camera.PictureCallback() {
                         @Override
                         public void onPictureTaken(byte[] data, Camera camera) {
-                            if ((path = saveFile( compressImageByQuality(data) )) != null) {
+                            if ((path = saveFile(compressImageByQuality(data))) != null) {
                                 btn_take.setText("確定");
                                 choice.setText("重拍");
                                 check_photo = true;

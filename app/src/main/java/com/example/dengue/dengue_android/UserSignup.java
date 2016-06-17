@@ -91,9 +91,10 @@ public class UserSignup extends Activity {
                             }
                         }
 
-                        Intent intent = new Intent();
-                        intent.setClass(Main, userProfile.class);
+                        Intent intent = new Intent(Main, userProfile.class);
+                        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
                         startActivity(intent);
+                        Main.finish();
                     } else {
                         runOnUiThread(new Runnable() {
                             @Override

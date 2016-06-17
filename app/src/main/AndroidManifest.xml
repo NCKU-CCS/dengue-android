@@ -32,7 +32,7 @@
             </intent-filter>
         </activity>
         <activity android:name=".Guild"/>
-        <activity android:name=".welcome"/>
+        <activity android:name=".router"/>
         <activity android:name=".hot"/>
         <activity android:name=".hospital"/>
         <activity android:name=".hospitalInfo"/>

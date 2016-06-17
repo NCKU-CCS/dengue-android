@@ -11,19 +11,35 @@ public class menu {
 
     menu(final Activity Main, int index) {
         session Session = new session(Main.getSharedPreferences(AppName, 0));
-        final int[] Name = new int[]{
-                R.string.menu_hot,
-                R.string.menu_hospital,
-                R.string.menu_breedingSources,
-                R.string.menu_bite,
-                (Session.getData("identity").equals("里長") ? R.string.menu_reportList : R.string.menu_setting),
-        };
-        final int[] Img = new int[]{
+        final int[] Name = Session.getData("identity").equals("里長") ?
+                new int[]{
+                        R.string.menu_hot,
+                        R.string.menu_hospital,
+                        R.string.menu_breedingSources,
+                        R.string.menu_bite,
+                        R.string.menu_reportList,
+                        R.string.menu_setting
+                } : new int[]{
+                        R.string.menu_hot,
+                        R.string.menu_hospital,
+                        R.string.menu_breedingSources,
+                        R.string.menu_bite,
+                        R.string.menu_setting
+                };
+
+        final int[] Img = Session.getData("identity").equals("里長") ? new int[]{
                 (index == 0 ? R.drawable.notification_on : R.drawable.notification_off),
                 (index == 1 ? R.drawable.hospital_on : R.drawable.hospital_off),
                 (index == 2 ? R.drawable.source_checkin_on : R.drawable.source_checkin_off),
                 (index == 3 ? R.drawable.mosquito_checkin_on : R.drawable.mosquito_checkin_off),
                 (index == 4 ? R.drawable.setting_on : R.drawable.setting_off),
+                (index == 5 ? R.drawable.setting_on : R.drawable.setting_off)
+        } : new int[] {
+                (index == 0 ? R.drawable.notification_on : R.drawable.notification_off),
+                (index == 1 ? R.drawable.hospital_on : R.drawable.hospital_off),
+                (index == 2 ? R.drawable.source_checkin_on : R.drawable.source_checkin_off),
+                (index == 3 ? R.drawable.mosquito_checkin_on : R.drawable.mosquito_checkin_off),
+                (index == 4 ? R.drawable.setting_on : R.drawable.setting_off)
         };
 
         bindClick(Main, Name, Img);
@@ -38,8 +54,10 @@ public class menu {
 
     private void bindClick(final Activity Main, final int[] Name, final int[] Img) {
         final Intent intent = new Intent();
+        final session Session = new session(Main.getSharedPreferences(AppName, 0));
+
         GridView menu_list = (GridView) Main.findViewById(R.id.menu);
-        menu_list.setNumColumns(5);
+        menu_list.setNumColumns( Session.getData("identity").equals("里長") ? 6 : 5 );
         menu_list.setAdapter(new menuAdapter(Main, Name, Img));
         menu_list.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override

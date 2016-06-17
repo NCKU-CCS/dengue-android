@@ -23,7 +23,6 @@ public class userProfile extends Activity {
         super.onCreate(savedInstanceState);
 
         setContentView(R.layout.user_profile);
-        new menu(this, 4);
 
         session Session = new session(getSharedPreferences(AppName, 0));
         getData(Session);
@@ -73,13 +72,6 @@ public class userProfile extends Activity {
                         Session.setData("breeding_source_count", output.getString("breeding_source_count").equals("") ? "0" : output.getString("breeding_source_count"));
                         Session.setData("bites_count", output.getString("bites_count").equals("") ? "0" : output.getString("bites_count"));
 
-                        if(Session.getData("identity").equals("里長")) {
-                            Session.setData("report", "");
-                            Intent intent = new Intent();
-                            intent.setClass(Main, Report.class);
-                            startActivity(intent);
-                        }
-
                         runOnUiThread(new Runnable() {
                             @Override
                             public void run() {
@@ -91,6 +83,7 @@ public class userProfile extends Activity {
                                         logout(Session);
                                     }
                                 });
+                                new menu(Main, Session.getData("identity").equals("里長") ? 5 : 4);
                             }
                         });
                     }
@@ -107,12 +100,19 @@ public class userProfile extends Activity {
                                     }
                                 });
                                 Toast.makeText(Main, "無法連接資料庫！", Toast.LENGTH_SHORT).show();
+                                new menu(Main, Session.getData("identity").equals("里長") ? 5 : 4);
                             }
                         });
                     }
                 }
                 catch (Exception e) {
-                    e.printStackTrace();
+                    runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            Toast.makeText(Main, "登入失敗！請確認網路連線", Toast.LENGTH_SHORT).show();
+                            new menu(Main, Session.getData("identity").equals("里長") ? 5 : 4);
+                        }
+                    });
                 }
                 finally {
                     if (connect != null) {
@@ -144,11 +144,13 @@ public class userProfile extends Activity {
                     int responseCode = connect.getResponseCode();
                     if(responseCode == HttpURLConnection.HTTP_OK) {
                         Session.setData("isLogin", "false");
+                        Session.setData("identity", "");
                         Session.setData("cookie", "");
 
                         Intent intent = new Intent();
                         intent.setClass(Main, UserSetting.class);
                         startActivity(intent);
+                        Main.finish();
                     }
                     else {
                         runOnUiThread(new Runnable() {

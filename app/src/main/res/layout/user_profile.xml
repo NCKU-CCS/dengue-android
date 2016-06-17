@@ -29,21 +29,23 @@
         <ScrollView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_above="@+id/menu">
+            android:layout_above="@+id/menu"
+            android:layout_alignParentTop="true">
 
             <LinearLayout
                 android:orientation="vertical"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_horizontal"
-                android:paddingBottom="40dp">
+                android:paddingBottom="40dp"
+                android:paddingTop="40dp">
 
                 <ImageView
                     android:layout_width="193dp"
                     android:layout_height="202dp"
                     android:layout_gravity="center_horizontal"
                     android:layout_margin="10dp"
-                    android:src="@drawable/img"
+                    android:src="@drawable/people"
                     android:id="@+id/user_img"
                     android:contentDescription="@string/img" />
 

@@ -15,16 +15,10 @@ public class UserSetting extends Activity {
 
         final session Session = new session(getSharedPreferences(AppName, 0));
         if(Session.getData("isLogin").equals("true")) {
-            if(Session.getData("identity").equals("里長")) {
-                Intent intent = new Intent();
-                intent.setClass(this, Report.class);
-                startActivity(intent);
-            }
-            else {
-                Intent intent = new Intent();
-                intent.setClass(this, userProfile.class);
-                startActivity(intent);
-            }
+            Intent intent = new Intent();
+            intent.setClass(this, userProfile.class);
+            startActivity(intent);
+            this.finish();
         }
         else{
             setContentView(R.layout.user_setting);
@@ -43,6 +37,7 @@ public class UserSetting extends Activity {
                 Intent intent = new Intent();
                 intent.setClass(Main, UserSignup.class);
                 startActivity(intent);
+                Main.finish();
             }
         });
 
@@ -53,6 +48,7 @@ public class UserSetting extends Activity {
                 Intent intent = new Intent();
                 intent.setClass(Main, UserLogin.class);
                 startActivity(intent);
+                Main.finish();
             }
         });
     }
