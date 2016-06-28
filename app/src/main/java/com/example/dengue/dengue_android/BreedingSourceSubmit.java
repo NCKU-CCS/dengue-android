@@ -47,6 +47,8 @@ public class BreedingSourceSubmit extends Activity implements
     private double Lon;
     private String type = "";
     private String description;
+    private String address_user;
+    private String address_gps;
     private boolean isFinish = true;
 
     @Override
@@ -63,6 +65,8 @@ public class BreedingSourceSubmit extends Activity implements
     }
 
     private void breedingSourcesSubmitTypeList() {
+        final Activity Main = this;
+
         final ImageView btn_hb = (ImageView)findViewById(R.id.button_hb);
         final ImageView btn_ob = (ImageView)findViewById(R.id.button_ob);
         final ImageView btn_og = (ImageView)findViewById(R.id.button_og);
@@ -93,6 +97,15 @@ public class BreedingSourceSubmit extends Activity implements
                 type = "戶外髒亂處";
             }
         });
+        gps Gps = new gps(Main);
+        address_gps = Gps.get(Lat, Lon);
+        if(address_gps == null) {
+            address_gps = "";
+        }
+        EditText address_text = (EditText) findViewById(R.id.breedingSources_submit_address_user_value);
+        //CharSequence address_gps = ;
+        address_user = address_gps;
+        address_text.setHint(address_user);
     }
 
     private void loadBitmap(String url,int degree) {
@@ -121,6 +134,24 @@ public class BreedingSourceSubmit extends Activity implements
     private void breedingSourcesSubmitSubmit(final String imgUri) {
         final Activity Main = this;
 
+        final TextView address_user_text = (TextView)findViewById(R.id.breedingSources_submit_address_user_value);
+            address_user_text.setOnEditorActionListener(new TextView.OnEditorActionListener() {
+            @Override
+            public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
+                if (event != null && (event.getKeyCode() == KeyEvent.KEYCODE_ENTER)) {
+                    InputMethodManager in = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+                    in.hideSoftInputFromWindow(address_user_text
+                                    .getApplicationWindowToken(),
+                            InputMethodManager.HIDE_NOT_ALWAYS);
+                    //address_user = address_user_text.getText().toString();
+                    if(address_user_text.getText().toString()=="")
+                        address_user_text.setText(address_gps);
+                        //address_user = address_gps;
+                    return true;
+                }
+                return false;
+            }
+        });
         final TextView description_text = (TextView)findViewById(R.id.breedingSources_submit_description_value);
         description_text.setOnEditorActionListener(new TextView.OnEditorActionListener() {
             @Override
@@ -146,7 +177,8 @@ public class BreedingSourceSubmit extends Activity implements
                         InputMethodManager.HIDE_NOT_ALWAYS);
 
                 if (isFinish) {
-                    EditText description_text = (EditText) findViewById(R.id.breedingSources_submit_description_value);
+                    //EditText description_text = (EditText) findViewById(R.id.breedingSources_submit_description_value);
+                    address_user = address_user_text.getText().toString();
                     description = description_text.getText().toString();
                     sendImg(imgUri);
                     isFinish = false;
@@ -169,11 +201,11 @@ public class BreedingSourceSubmit extends Activity implements
                 HttpPost httpPostRequest = new HttpPost(url);
                 File f = new File(img);
 
-                gps Gps = new gps(Main);
+                /*gps Gps = new gps(Main);
                 String address = Gps.get(Lat, Lon);
                 if(address == null) {
                     address = "";
-                }
+                }*/
 
                 try {
                     MultipartEntity multiPartEntityBuilder = new MultipartEntity();
@@ -185,7 +217,8 @@ public class BreedingSourceSubmit extends Activity implements
                     multiPartEntityBuilder.addPart("lat", new StringBody(String.valueOf(Lat)));
                     multiPartEntityBuilder.addPart("description", new StringBody(description, Charset.forName("UTF-8") ));
                     multiPartEntityBuilder.addPart("status", new StringBody("未處理", Charset.forName("UTF-8")));
-                    multiPartEntityBuilder.addPart("address", new StringBody(address, Charset.forName("UTF-8")));
+                    //multiPartEntityBuilder.addPart("address_gps", new StringBody(address_gps, Charset.forName("UTF-8")));
+                    //multiPartEntityBuilder.addPart("address_user", new StringBody(address_user, Charset.forName("UTF-8")));
 
                     httpPostRequest.setHeader("Cookie", Session.getData("cookie"));
                     httpPostRequest.setEntity(multiPartEntityBuilder);
