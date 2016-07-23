@@ -191,7 +191,12 @@ public class Report extends Activity {
             id_object.add(object.getString("source_id"));
             img_object.add(object.getString("photo_base64"));
             type_object.add(object.getString("source_type"));
-            address_object.add(object.getString("address"));
+            if(!object.getString("modified_address").equals("")) {
+                address_object.add(object.getString("modified_address"));
+            }
+            else {
+                address_object.add(object.getString("address"));
+            }
             description_object.add(object.getString("description"));
             date_object.add(object.getString("created_at"));
             status_object.add(object.getString("status"));
@@ -252,7 +257,7 @@ public class Report extends Activity {
                                 reportList();
                                 bindClick();
 
-                                Date curDate = new Date(System.currentTimeMillis()) ;
+                                Date curDate = new Date(System.currentTimeMillis());
                                 update_time = curDate.getTime();
                                 refresh = true;
                                 Main.findViewById(R.id.loadingPanel).setVisibility(View.GONE);

@@ -97,15 +97,6 @@ public class BreedingSourceSubmit extends Activity implements
                 type = "戶外髒亂處";
             }
         });
-        gps Gps = new gps(Main);
-        address_gps = Gps.get(Lat, Lon);
-        if(address_gps == null) {
-            address_gps = "";
-        }
-        EditText address_text = (EditText) findViewById(R.id.breedingSources_submit_address_user_value);
-        //CharSequence address_gps = ;
-        address_user = address_gps;
-        address_text.setHint(address_user);
     }
 
     private void loadBitmap(String url,int degree) {
@@ -119,6 +110,7 @@ public class BreedingSourceSubmit extends Activity implements
             Toast.makeText(this, "無法取得照片!", Toast.LENGTH_SHORT).show();
         }
     }
+
     private void rotate(Bitmap bitmap,int degree){
         int w = bitmap.getWidth();
         int h = bitmap.getHeight();
@@ -143,10 +135,10 @@ public class BreedingSourceSubmit extends Activity implements
                     in.hideSoftInputFromWindow(address_user_text
                                     .getApplicationWindowToken(),
                             InputMethodManager.HIDE_NOT_ALWAYS);
-                    //address_user = address_user_text.getText().toString();
-                    if(address_user_text.getText().toString()=="")
+
+                    if(address_user_text.getText().toString().equals(""))
                         address_user_text.setText(address_gps);
-                        //address_user = address_gps;
+
                     return true;
                 }
                 return false;
@@ -177,7 +169,6 @@ public class BreedingSourceSubmit extends Activity implements
                         InputMethodManager.HIDE_NOT_ALWAYS);
 
                 if (isFinish) {
-                    //EditText description_text = (EditText) findViewById(R.id.breedingSources_submit_description_value);
                     address_user = address_user_text.getText().toString();
                     description = description_text.getText().toString();
                     sendImg(imgUri);
@@ -201,12 +192,6 @@ public class BreedingSourceSubmit extends Activity implements
                 HttpPost httpPostRequest = new HttpPost(url);
                 File f = new File(img);
 
-                /*gps Gps = new gps(Main);
-                String address = Gps.get(Lat, Lon);
-                if(address == null) {
-                    address = "";
-                }*/
-
                 try {
                     MultipartEntity multiPartEntityBuilder = new MultipartEntity();
 
@@ -217,8 +202,7 @@ public class BreedingSourceSubmit extends Activity implements
                     multiPartEntityBuilder.addPart("lat", new StringBody(String.valueOf(Lat)));
                     multiPartEntityBuilder.addPart("description", new StringBody(description, Charset.forName("UTF-8") ));
                     multiPartEntityBuilder.addPart("status", new StringBody("未處理", Charset.forName("UTF-8")));
-                    //multiPartEntityBuilder.addPart("address_gps", new StringBody(address_gps, Charset.forName("UTF-8")));
-                    //multiPartEntityBuilder.addPart("address_user", new StringBody(address_user, Charset.forName("UTF-8")));
+                    multiPartEntityBuilder.addPart("modified_address", new StringBody(address_user, Charset.forName("UTF-8")));
 
                     httpPostRequest.setHeader("Cookie", Session.getData("cookie"));
                     httpPostRequest.setEntity(multiPartEntityBuilder);
@@ -310,6 +294,16 @@ public class BreedingSourceSubmit extends Activity implements
                 if(img != null) {
                     loadBitmap(img,degree);
                     breedingSourcesSubmitSubmit(img);
+
+                    gps Gps = new gps(this);
+                    address_gps = Gps.get(Lat, Lon);
+                    if(address_gps == null) {
+                        address_gps = "";
+                    }
+
+                    EditText address_text = (EditText) findViewById(R.id.breedingSources_submit_address_user_value);
+                    address_user = address_gps;
+                    address_text.setText(address_user);
                 }
             }
         }

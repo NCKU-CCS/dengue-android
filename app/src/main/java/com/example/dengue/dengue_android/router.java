@@ -15,6 +15,10 @@ public class router extends Activity {
         if( Session.getData("isFirst") != null && Session.getData("isFirst").equals("false") ) {
             Intent intent = new Intent();
             intent.setClass(this, hot.class);
+
+            Bundle bundle = new Bundle();
+            bundle.putBoolean("first", true);
+            intent.putExtras(bundle);
             startActivity(intent);
         }
         else {

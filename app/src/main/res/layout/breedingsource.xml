@@ -135,6 +135,7 @@ android:orientation="vertical">
                     android:inputType="textMultiLine"
                     android:ems="10"
                     android:id="@+id/breedingSources_submit_description_value"
+                    android:hint="可以稍微敘述一下 [地點：樓層/地下室/女廁旁] 以及 [物件：藍色水桶/盆栽] 以方便辨別!"
                     android:windowSoftInputMode="stateHidden" />
 
                 <Button

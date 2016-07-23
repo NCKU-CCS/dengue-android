@@ -40,7 +40,6 @@ public class BreedingSource extends Activity {
     };
     private boolean check_photo = false;
     private String path;
-    private static long back_pressed;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
