@@ -186,7 +186,7 @@ public class BreedingSourceSubmit extends Activity implements
 
         final Thread thread = new Thread() {
             public void run() {
-                String url = "http://140.116.247.113:11401/breeding_source/insert/";
+                String url = "http://api.denguefever.tw/breeding_source/insert/";
                 HttpClient httpClient = new DefaultHttpClient();
 
                 HttpPost httpPostRequest = new HttpPost(url);

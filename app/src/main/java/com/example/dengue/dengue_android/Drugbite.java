@@ -58,7 +58,7 @@ public class Drugbite extends Activity implements
                 HttpURLConnection con = null;
 
                 try {
-                    URL connect_url = new URL("http://140.116.247.113:11401/bite/insert/");
+                    URL connect_url = new URL("http://api.denguefever.tw/bite/insert/");
                     con = (HttpURLConnection) connect_url.openConnection();
                     con.setDoInput(true);
                     con.setDoOutput(true);

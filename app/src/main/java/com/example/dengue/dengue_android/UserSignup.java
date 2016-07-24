@@ -55,7 +55,7 @@ public class UserSignup extends Activity {
                 HttpURLConnection con = null;
 
                 try {
-                    URL connect_url = new URL("http://140.116.247.113:11401/users/signup/");
+                    URL connect_url = new URL("http://api.denguefever.tw/users/signup/");
                     con = (HttpURLConnection) connect_url.openConnection();
                     con.setDoInput(true);
                     con.setDoOutput(true);

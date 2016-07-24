@@ -224,7 +224,7 @@ public class ReportAdapter extends BaseAdapter {
                 HttpURLConnection con = null;
 
                 try {
-                    URL connect_url = new URL("http://140.116.247.113:11401/breeding_source/update/");
+                    URL connect_url = new URL("http://api.denguefever.tw/breeding_source/update/");
                     con = (HttpURLConnection) connect_url.openConnection();
                     con.setDoInput(true);
                     con.setDoOutput(true);

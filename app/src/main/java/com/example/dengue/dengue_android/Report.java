@@ -230,7 +230,7 @@ public class Report extends Activity {
                 }
 
                 try {
-                    URL connect_url = new URL("http://140.116.247.113:11401/breeding_source/get/?database=tainan&status="+query);
+                    URL connect_url = new URL("http://api.denguefever.tw/breeding_source/get/?database=tainan&status="+query);
                     connect = (HttpURLConnection) connect_url.openConnection();
                     connect.setReadTimeout(10000);
                     connect.setConnectTimeout(15000);
@@ -320,7 +320,7 @@ public class Report extends Activity {
                 }
 
                 try {
-                    URL connect_url = new URL("http://140.116.247.113:11401/breeding_source/total/?database=tainan&village_name=大學里&status="+query);
+                    URL connect_url = new URL("http://api.denguefever.tw/breeding_source/total/?database=tainan&village_name=大學里&status="+query);
                     connect = (HttpURLConnection) connect_url.openConnection();
                     connect.setReadTimeout(10000);
                     connect.setConnectTimeout(15000);

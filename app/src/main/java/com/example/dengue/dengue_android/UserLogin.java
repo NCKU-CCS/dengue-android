@@ -50,7 +50,7 @@ public class UserLogin extends Activity {
                 HttpURLConnection con = null;
 
                 try {
-                    URL connect_url = new URL("http://140.116.247.113:11401/users/signin/");
+                    URL connect_url = new URL("http://api.denguefever.tw/users/signin/");
                     con = (HttpURLConnection) connect_url.openConnection();
                     con.setDoInput(true);
                     con.setDoOutput(true);
