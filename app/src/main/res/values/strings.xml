@@ -7,8 +7,8 @@
 
     <string name="menu_hot">熱區資訊</string>
     <string name="menu_hospital">快篩診所</string>
-    <string name="menu_breedingSources">舉報孳生源</string>
-    <string name="menu_bite">舉報蚊蟲叮咬</string>
+    <string name="menu_breedingSources">環境回報</string>
+    <string name="menu_bite">蚊蟲叮咬</string>
     <string name="menu_setting">個人設定</string>
     <string name="menu_reportList">舉報點清單</string>
     <string name="menu_item_name">item</string>
@@ -30,11 +30,14 @@
     <string name="reportList_type_wait">待處理</string>
     <string name="reportList_type_done">已處理</string>
 
-    <string name="breedingSources_title">孳生源舉報</string>
+    <string name="drugBite_title">蚊子叮咬</string>
+
+    <string name="breedingSources_title">環境回報</string>
     <string name="breedingSources_photo_camera">開啟相機</string>
     <string name="breedingSources_photo_photo">開啟相簿</string>
+    <string name="breedingSources_photo_hint">請拍積水、髒亂處</string>
 
-    <string name="breedingSources_submit_button">上傳</string>
+    <string name="breedingSources_submit_button">環境回報</string>
     <string name="breedingSources_submit_description">*地點簡介</string>
     <string name="breedingSources_submit_address_user">*地址</string>
     <string name="breedingSources_submit_type">*孳生源類型：</string>

@@ -8,6 +8,7 @@ import android.location.Location;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v4.app.ActivityCompat;
+import android.util.Log;
 import android.view.View;
 import android.widget.AbsListView;
 import android.widget.AdapterView;
@@ -55,8 +56,9 @@ public class hospital extends Activity implements
         setContentView(R.layout.hospital);
         new menu(this, 1);
         buildGoogleApiClient();
+        Log.i("dengue", "hospital" + String.valueOf(Location_lon) + String.valueOf(Location_lat));
 
-        Date curDate = new Date(System.currentTimeMillis()) ;
+        Date curDate = new Date(System.currentTimeMillis());
         update_time = curDate.getTime();
     }
 
@@ -177,13 +179,13 @@ public class hospital extends Activity implements
 
     private void filterData(String token) {
         ArrayList<String> temp_Name = new ArrayList<>();
-        ArrayList<String> temp_Address  = new ArrayList<>();
-        ArrayList<String> temp_Phone  = new ArrayList<>();
-        ArrayList<String> temp_Lng  = new ArrayList<>();
-        ArrayList<String> temp_Lat  = new ArrayList<>();
+        ArrayList<String> temp_Address = new ArrayList<>();
+        ArrayList<String> temp_Phone = new ArrayList<>();
+        ArrayList<String> temp_Lng = new ArrayList<>();
+        ArrayList<String> temp_Lat = new ArrayList<>();
 
-        for(int i = 0; i < Name.length; i++) {
-            if(Name[i].toString().contains(token)) {
+        for (int i = 0; i < Name.length; i++) {
+            if (Name[i].toString().contains(token)) {
                 temp_Name.add(Name[i].toString());
                 temp_Address.add(Address[i].toString());
                 temp_Phone.add(Phone[i].toString());
@@ -204,7 +206,7 @@ public class hospital extends Activity implements
     }
 
     private void parseData(String data) throws JSONException {
-        if(data.equals("")) {
+        if (data.equals("")) {
             return;
         }
 
@@ -215,7 +217,7 @@ public class hospital extends Activity implements
         ArrayList<String> lng_object = new ArrayList<>();
         ArrayList<String> lat_object = new ArrayList<>();
 
-        for(int i = 0; i < output.length(); i++){
+        for (int i = 0; i < output.length(); i++) {
             JSONObject object = new JSONObject(output.get(i).toString());
             name_object.add(object.getString("name"));
             address_object.add(object.getString("address"));
@@ -241,7 +243,7 @@ public class hospital extends Activity implements
                 HttpURLConnection connect = null;
 
                 try {
-                    URL connect_url = new URL("http://api.denguefever.tw/hospital/nearby/?database=tainan&lng="+Location_lon+"&lat="+Location_lat);
+                    URL connect_url = new URL("http://api.denguefever.tw/hospital/nearby/?database=tainan&lng=" + Location_lon + "&lat=" + Location_lat);
                     connect = (HttpURLConnection) connect_url.openConnection();
                     connect.setReadTimeout(10000);
                     connect.setConnectTimeout(15000);
@@ -250,7 +252,7 @@ public class hospital extends Activity implements
                     connect.connect();
 
                     int responseCode = connect.getResponseCode();
-                    if(responseCode == HttpURLConnection.HTTP_OK) {
+                    if (responseCode == HttpURLConnection.HTTP_OK) {
                         BufferedReader br = new BufferedReader(new InputStreamReader(connect.getInputStream()));
                         StringBuilder sb = new StringBuilder();
                         String line;
@@ -269,14 +271,13 @@ public class hospital extends Activity implements
                                 hospitalList(Name, Address, Phone, Lng, Lat);
                                 bindClick();
 
-                                Date curDate = new Date(System.currentTimeMillis()) ;
+                                Date curDate = new Date(System.currentTimeMillis());
                                 update_time = curDate.getTime();
                                 refresh = true;
                                 Main.findViewById(R.id.loadingPanel).setVisibility(View.GONE);
                             }
                         });
-                    }
-                    else {
+                    } else {
                         parseData(Session.getData("hospital"));
                         runOnUiThread(new Runnable() {
                             @Override
@@ -291,8 +292,7 @@ public class hospital extends Activity implements
                             }
                         });
                     }
-                }
-                catch (Exception e) {
+                } catch (Exception e) {
                     try {
                         parseData(Session.getData("hospital"));
                         runOnUiThread(new Runnable() {
@@ -309,8 +309,7 @@ public class hospital extends Activity implements
                         });
                     } catch (JSONException ignored) {
                     }
-                }
-                finally {
+                } finally {
                     if (connect != null) {
                         connect.disconnect();
                     }
@@ -344,11 +343,17 @@ public class hospital extends Activity implements
 
     @Override
     public void onConnected(Bundle bundle) {
+
         if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
             // TODO: Consider calling
+            //    ActivityCompat#requestPermissions
+            // here to request the missing permissions, and then overriding
+            //   public void onRequestPermissionsResult(int requestCode, String[] permissions,
+            //                                          int[] grantResults)
+            // to handle the case where the user grants the permission. See the documentation
+            // for ActivityCompat#requestPermissions for more details.
             return;
         }
-
         Location mLastLocation = LocationServices.FusedLocationApi.getLastLocation(mGoogleApiClient);
         if (mLastLocation != null) {
             Location_lat = mLastLocation.getLatitude();
@@ -368,6 +373,7 @@ public class hospital extends Activity implements
 
     @Override
     public void onConnectionFailed(@NonNull ConnectionResult result) {
+        Log.i("dengue", "無法連接google play！" );
         Toast.makeText(this, "無法連接google play！", Toast.LENGTH_SHORT).show();
     }
 }

@@ -12,6 +12,7 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v4.app.ActivityCompat;
 import android.util.DisplayMetrics;
+import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.WindowManager;
@@ -319,6 +320,7 @@ public class BreedingSourceSubmit extends Activity implements
 
     @Override
     public void onConnectionFailed(@NonNull ConnectionResult result) {
+        Log.i("dengue", "無法連接google play！" );
         Toast.makeText(this, "無法連接google play！", Toast.LENGTH_SHORT).show();
     }
 }

@@ -12,7 +12,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textAppearance="?android:attr/textAppearanceLarge"
-            android:text="舉報蚊子叮咬"
+            android:text="@string/drugBite_title"
             android:textColor="#ffffff"
             android:textSize = "24sp"
             android:id="@+id/title"

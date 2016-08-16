@@ -1,11 +1,15 @@
 package com.example.dengue.dengue_android;
 
+import android.Manifest;
 import android.app.Activity;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.hardware.Camera;
+import android.os.Build;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Surface;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
@@ -13,22 +17,26 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
-
+import android.support.v4.app.ActivityCompat;
+import static android.Manifest.permission.*;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 
+
 public class BreedingSource extends Activity {
+    private static final int REQUEST_CAMERA = 1;
     private int rotate = 0;
+    private int degrees = 0;
     private SurfaceView sfv_preview;
     private Camera camera = null;
+
     private SurfaceHolder.Callback cpHolderCallback = new SurfaceHolder.Callback() {
         @Override
         public void surfaceCreated(SurfaceHolder holder) {
             startPreview();
         }
-
         @Override
         public void surfaceChanged(SurfaceHolder holder, int format, int width, int height) {
         }
@@ -74,6 +82,7 @@ public class BreedingSource extends Activity {
                     intent.setClass(BreedingSource.this, BreedingSourceSubmit.class);
                     startActivity(intent);
                 } else {
+                    checkAuthority();
                     camera.takePicture(null, null, new Camera.PictureCallback() {
                         @Override
                         public void onPictureTaken(byte[] data, Camera camera) {
@@ -125,7 +134,7 @@ public class BreedingSource extends Activity {
 
     private String saveFile(byte[] bytes){
         try {
-            File file = File.createTempFile("img",".jpg");
+            File file = File.createTempFile("img", ".jpg");
             FileOutputStream fos = new FileOutputStream(file);
             fos.write(bytes);
             fos.flush();
@@ -138,29 +147,77 @@ public class BreedingSource extends Activity {
     }
 
     private void startPreview(){
-        camera = Camera.open();
+
+        //int permission = ActivityCompat.checkSelfPermission(this,Manifest.permission.CAMERA);
+        //ActivityCompat.requestPermissions(this, new String[]{CAMERA}, REQUEST_CAMERA);
+        checkAuthority();
         try {
+            camera = Camera.open();
+            Log.i("dengue", "camera open");
             int rotation = this.getWindowManager().getDefaultDisplay().getRotation();
-            int degrees = 0;
+            degrees = 0;
             switch (rotation) {
                 case Surface.ROTATION_0: degrees = 90; break;
                 case Surface.ROTATION_90: degrees = 0; break;
                 case Surface.ROTATION_180: degrees = 270; break;
                 case Surface.ROTATION_270: degrees = 180; break;
             }
+            if(camera != null)
+            {
+                try {
+                    Log.i("dengue","set preview");
+                    camera.setPreviewDisplay(sfv_preview.getHolder());
+                    camera.setDisplayOrientation(degrees);
+                    rotate = degrees;
+                    camera.startPreview();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
 
-            camera.setPreviewDisplay(sfv_preview.getHolder());
-            camera.setDisplayOrientation(degrees);
-            rotate = degrees;
-            camera.startPreview();
-        } catch (IOException e) {
+        } catch (Exception e) {
             e.printStackTrace();
         }
+
     }
 
     private void stopPreview() {
         camera.stopPreview();
         camera.release();
         camera = null;
+    }
+
+    private void checkAuthority()
+    {
+        final Activity Main = this;
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB) {
+            int permission = ActivityCompat.checkSelfPermission(this,Manifest.permission.CAMERA);
+            Log.i("dengue",String.valueOf(permission));
+            Log.i("dengue",String.valueOf(PackageManager.PERMISSION_GRANTED));
+            Log.i("dengue",String.valueOf(PackageManager.PERMISSION_DENIED));
+            if (permission != PackageManager.PERMISSION_GRANTED) {
+                //未取得權限，向使用者要求允許權限
+                ActivityCompat.requestPermissions(this, new String[]{CAMERA}, REQUEST_CAMERA);
+            }
+            else {
+                //已有權限，可進行檔案存取
+            }
+        }
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
+        switch(requestCode) {
+            case REQUEST_CAMERA:
+                if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                    //取得權限，進行檔案存取
+
+                } else {
+                    //使用者拒絕權限，停用檔案存取功能
+
+                }
+                return;
+        }
     }
 }
