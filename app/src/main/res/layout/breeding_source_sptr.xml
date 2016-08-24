@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/container"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#000"
+    tools:context="com.example.dengue.dengue_android.BreedingSourceSeparator">
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="66dp"
+        android:background="@color/colorPrimary">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceLarge"
+            android:text="@string/breedingSources_title"
+            android:textColor="#ffffff"
+            android:textSize = "24sp"
+            android:id="@+id/title"
+            android:paddingTop="10dp"
+            android:paddingBottom="10dp"
+            android:layout_centerVertical="true"
+            android:layout_centerHorizontal="true" />
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/go_back"
+            android:background="@mipmap/go_back"
+            android:contentDescription="@string/go_back"
+            android:layout_alignParentRight="false"
+            android:layout_marginTop="20dp"
+            android:layout_marginLeft="10dp" />
+
+    </RelativeLayout>
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/imageView3"
+        android:layout_gravity="right|center_vertical" />
+
+    <GridView
+        android:layout_width="wrap_content"
+        android:layout_height="50dp"
+        android:id="@+id/menu"
+        android:background="@color/menuBackground"
+        android:layout_alignParentBottom="true"
+        android:layout_gravity="center_horizontal|bottom" />
+</FrameLayout>

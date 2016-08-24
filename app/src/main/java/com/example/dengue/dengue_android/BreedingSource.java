@@ -9,6 +9,7 @@ import android.graphics.BitmapFactory;
 import android.hardware.Camera;
 import android.os.Build;
 import android.os.Bundle;
+import android.support.v4.app.ActivityCompat;
 import android.util.Log;
 import android.view.Surface;
 import android.view.SurfaceHolder;
@@ -17,15 +18,18 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
-import android.support.v4.app.ActivityCompat;
-import static android.Manifest.permission.*;
+
 import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 
+import static android.Manifest.permission.CAMERA;
+
 
 public class BreedingSource extends Activity {
+
+
     private static final int REQUEST_CAMERA = 1;
     private int rotate = 0;
     private int degrees = 0;
@@ -53,7 +57,7 @@ public class BreedingSource extends Activity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.take_photo);
-        bindViews();
+        checkAuthority();
         new menu(this, 2);
     }
 
@@ -73,6 +77,8 @@ public class BreedingSource extends Activity {
                     choice.setText("取消");
                     check_photo = false;
 
+                    Log.i("dangue","path = "+path);
+
                     Bundle bundle = new Bundle();
                     bundle.putString("img", path);
                     bundle.putInt("degree", rotate);
@@ -82,20 +88,45 @@ public class BreedingSource extends Activity {
                     intent.setClass(BreedingSource.this, BreedingSourceSubmit.class);
                     startActivity(intent);
                 } else {
-                    checkAuthority();
-                    camera.takePicture(null, null, new Camera.PictureCallback() {
-                        @Override
-                        public void onPictureTaken(byte[] data, Camera camera) {
-                            if ((path = saveFile(compressImageByQuality(data))) != null) {
-                                btn_take.setText("確定");
-                                choice.setText("重拍");
-                                check_photo = true;
-                            } else {
-                                Toast.makeText(BreedingSource.this, "保存照片失敗", Toast.LENGTH_SHORT).show();
-                            }
-                        }
+                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB) {
+                        int permission = ActivityCompat.checkSelfPermission(Main, Manifest.permission.CAMERA);
+                        Log.i("dengue", "Permission = "+String.valueOf(permission));
+                        Log.i("dengue", "Granted = "+String.valueOf(PackageManager.PERMISSION_GRANTED));
+                        Log.i("dengue", "Denied = "+String.valueOf(PackageManager.PERMISSION_DENIED));
+                        if (permission != PackageManager.PERMISSION_GRANTED) {
+                            //未取得權限，向使用者要求允許權限
+                            ActivityCompat.requestPermissions(Main, new String[]{CAMERA}, REQUEST_CAMERA);
+                            camera.takePicture(null, null, new Camera.PictureCallback() {
+                                @Override
+                                public void onPictureTaken(byte[] data, Camera camera) {
+                                    if ((path = saveFile(compressImageByQuality(data))) != null) {
+                                        btn_take.setText("確定");
+                                        choice.setText("重拍");
+                                        check_photo = true;
+                                    } else {
+                                        Toast.makeText(BreedingSource.this, "保存照片失敗", Toast.LENGTH_SHORT).show();
+                                    }
+                                }
 
-                    });
+                            });
+                        } else {
+                            //已有權限，可進行檔案存取
+                            camera.takePicture(null, null, new Camera.PictureCallback() {
+                                @Override
+                                public void onPictureTaken(byte[] data, Camera camera) {
+                                    if ((path = saveFile(compressImageByQuality(data))) != null) {
+                                        btn_take.setText("確定");
+                                        choice.setText("重拍");
+                                        check_photo = true;
+                                    } else {
+                                        Toast.makeText(BreedingSource.this, "保存照片失敗", Toast.LENGTH_SHORT).show();
+                                    }
+                                }
+
+                            });
+                        }
+                    }
+
                 }
             }
         });
@@ -147,13 +178,8 @@ public class BreedingSource extends Activity {
     }
 
     private void startPreview(){
-
-        //int permission = ActivityCompat.checkSelfPermission(this,Manifest.permission.CAMERA);
-        //ActivityCompat.requestPermissions(this, new String[]{CAMERA}, REQUEST_CAMERA);
-        checkAuthority();
         try {
             camera = Camera.open();
-            Log.i("dengue", "camera open");
             int rotation = this.getWindowManager().getDefaultDisplay().getRotation();
             degrees = 0;
             switch (rotation) {
@@ -165,7 +191,6 @@ public class BreedingSource extends Activity {
             if(camera != null)
             {
                 try {
-                    Log.i("dengue","set preview");
                     camera.setPreviewDisplay(sfv_preview.getHolder());
                     camera.setDisplayOrientation(degrees);
                     rotate = degrees;
@@ -191,11 +216,12 @@ public class BreedingSource extends Activity {
     {
         final Activity Main = this;
 
+        Log.i("dengue", "Build.VERSION.SDK_INT = "+String.valueOf(Build.VERSION.SDK_INT));
+        Log.i("dengue", "Build.VERSION_CODES.HONEYCOMB = "+String.valueOf(Build.VERSION_CODES.HONEYCOMB));
+
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB) {
-            int permission = ActivityCompat.checkSelfPermission(this,Manifest.permission.CAMERA);
-            Log.i("dengue",String.valueOf(permission));
-            Log.i("dengue",String.valueOf(PackageManager.PERMISSION_GRANTED));
-            Log.i("dengue",String.valueOf(PackageManager.PERMISSION_DENIED));
+            bindViews();
+            int permission = ActivityCompat.checkSelfPermission(Main, Manifest.permission.CAMERA);
             if (permission != PackageManager.PERMISSION_GRANTED) {
                 //未取得權限，向使用者要求允許權限
                 ActivityCompat.requestPermissions(this, new String[]{CAMERA}, REQUEST_CAMERA);
@@ -204,9 +230,11 @@ public class BreedingSource extends Activity {
                 //已有權限，可進行檔案存取
             }
         }
+        else{
+        }
     }
 
-    @Override
+    /*@Override
     public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
         switch(requestCode) {
             case REQUEST_CAMERA:
@@ -219,5 +247,5 @@ public class BreedingSource extends Activity {
                 }
                 return;
         }
-    }
+    }*/
 }

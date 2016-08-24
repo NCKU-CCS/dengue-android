@@ -36,6 +36,9 @@
     <string name="breedingSources_photo_camera">開啟相機</string>
     <string name="breedingSources_photo_photo">開啟相簿</string>
     <string name="breedingSources_photo_hint">請拍積水、髒亂處</string>
+    <string name="request_permission">This sample needs camera permission.</string>
+    <string name="camera_error">This device doesn\'t support Camera2 API.</string>
+
 
     <string name="breedingSources_submit_button">環境回報</string>
     <string name="breedingSources_submit_description">*地點簡介</string>

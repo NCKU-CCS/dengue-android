@@ -7,6 +7,7 @@ import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
+import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
 
@@ -28,8 +29,13 @@ public class hospitalInfo extends FragmentActivity implements OnMapReadyCallback
         Bundle position = this.getIntent().getExtras();
         String Lat = position.getString("hospital_lat");
         String Lng = position.getString("hospital_lng");
+        double myLat = position.getDouble("myPos_lat");
+        double myLng = position.getDouble("myPos_lng");
         assert Lat != null;
         assert Lng != null;
+
+        LatLng mypos = new LatLng(myLat, myLng);
+        map.addMarker(new MarkerOptions().position(mypos).title("現在位置").icon(BitmapDescriptorFactory.fromResource(R.drawable.current_location)));
 
         LatLng sydney = new LatLng(Float.parseFloat(Lat), Float.parseFloat(Lng));
         map.addMarker(new MarkerOptions().position(sydney));

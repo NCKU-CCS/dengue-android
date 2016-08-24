@@ -1,8 +1,11 @@
 package com.example.dengue.dengue_android;
 
 import android.app.Activity;
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.KeyEvent;
 
 public class router extends Activity {
     private static final String AppName = "Dengue";
@@ -41,4 +44,6 @@ public class router extends Activity {
         Session.setData("bites_count", "0");
         Session.setData("hospital", "");
     }
+
+
 }

@@ -3,6 +3,7 @@ package com.example.dengue.dengue_android;
 import android.Manifest;
 import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -23,16 +24,17 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.android.gms.common.ConnectionResult;
+import com.google.android.gms.common.api.GoogleApiClient;
+import com.google.android.gms.location.LocationServices;
+
 import org.apache.http.HttpResponse;
 import org.apache.http.client.HttpClient;
 import org.apache.http.client.methods.HttpPost;
 import org.apache.http.entity.mime.MultipartEntity;
 import org.apache.http.entity.mime.content.FileBody;
-import org.apache.http.impl.client.DefaultHttpClient;
-import com.google.android.gms.common.ConnectionResult;
-import com.google.android.gms.common.api.GoogleApiClient;
-import com.google.android.gms.location.LocationServices;
 import org.apache.http.entity.mime.content.StringBody;
+import org.apache.http.impl.client.DefaultHttpClient;
 
 import java.io.File;
 import java.io.IOException;
@@ -185,6 +187,8 @@ public class BreedingSourceSubmit extends Activity implements
         final session Session = new session(getSharedPreferences(AppName, 0));
         final Activity Main = this;
 
+        Toast.makeText(Main, "等候上傳中...", Toast.LENGTH_SHORT).show();
+
         final Thread thread = new Thread() {
             public void run() {
                 String url = "http://api.denguefever.tw/breeding_source/insert/";
@@ -228,6 +232,7 @@ public class BreedingSourceSubmit extends Activity implements
                             public void run() {
                                 Toast.makeText(Main, "上傳成功！", Toast.LENGTH_SHORT).show();
                                 isFinish = true;
+                                uploadSuccess();
                             }
                         });
                     }
@@ -254,6 +259,11 @@ public class BreedingSourceSubmit extends Activity implements
         thread.start();
     }
 
+    public void uploadSuccess(){
+        Intent intent = new Intent();
+        intent.setClass(BreedingSourceSubmit.this, BreedingSourceSeparator.class);
+        startActivity(intent);
+    }
     protected synchronized void buildGoogleApiClient() {
         mGoogleApiClient = new GoogleApiClient.Builder(this)
                 .addConnectionCallbacks(this)

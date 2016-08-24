@@ -7,6 +7,7 @@ import android.location.Location;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v4.app.ActivityCompat;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.Toast;
@@ -25,8 +26,8 @@ public class Drugbite extends Activity implements
 
     private static final String AppName = "Dengue";
     private GoogleApiClient mGoogleApiClient;
-    private double Lat;
-    private double Lon;
+    private double Location_lat;
+    private double Location_lon;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -43,7 +44,7 @@ public class Drugbite extends Activity implements
         bittenByMosquito_Button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View w) {
-                String data = "database=tainan&lng="+Lon+"&lat="+Lat;
+                String data = "database=tainan&lng="+Location_lon+"&lat="+Location_lat;
                 sendPost(data);
             }
         });
@@ -138,8 +139,8 @@ public class Drugbite extends Activity implements
 
         Location mLastLocation = LocationServices.FusedLocationApi.getLastLocation(mGoogleApiClient);
         if (mLastLocation != null) {
-            Lat = mLastLocation.getLatitude();
-            Lon = mLastLocation.getLongitude();
+            Location_lat = mLastLocation.getLatitude();
+            Location_lon = mLastLocation.getLongitude();
             drugBiteClick();
         }
         else {
