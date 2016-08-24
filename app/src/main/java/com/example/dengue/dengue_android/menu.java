@@ -82,7 +82,7 @@ public class menu {
                         if (Main.getComponentName().getClassName().equals(BreedingSource.class.getName()) ||
                                 Main.getComponentName().getClassName().equals(BreedingSourceSubmit.class.getName()))
                             break;
-                        intent.setClass(Main, BreedingSource.class);
+                        intent.setClass(Main, BreedingSourceSeparator.class);
                         Main.startActivity(intent);
                         break;
 

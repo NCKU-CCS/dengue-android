@@ -10,6 +10,8 @@
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION"/>
     <uses-permission android:name="android.permission.CAMERA"/>
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
+    <uses-feature android:name="android.hardware.camera.autofocus" />
+
 
     <application
         android:allowBackup="true"
@@ -38,6 +40,7 @@
         <activity android:name=".hospitalInfo"/>
         <activity android:name=".Drugbite"/>
         <activity android:name=".BreedingSource"/>
+        <activity android:name=".BreedingSourceSeparator"/>
         <activity android:name=".BreedingSourceSubmit"/>
         <activity android:name=".UserSetting"/>
         <activity android:name=".UserSignup"/>

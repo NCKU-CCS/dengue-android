@@ -8,7 +8,6 @@ import android.location.Location;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v4.app.ActivityCompat;
-import android.util.Log;
 import android.view.View;
 import android.widget.AbsListView;
 import android.widget.AdapterView;
@@ -56,8 +55,6 @@ public class hospital extends Activity implements
         setContentView(R.layout.hospital);
         new menu(this, 1);
         buildGoogleApiClient();
-        Log.i("dengue", "hospital" + String.valueOf(Location_lon) + String.valueOf(Location_lat));
-
         Date curDate = new Date(System.currentTimeMillis());
         update_time = curDate.getTime();
     }
@@ -80,6 +77,8 @@ public class hospital extends Activity implements
                 Bundle bundle = new Bundle();
                 bundle.putString("hospital_lng", lng[position].toString());
                 bundle.putString("hospital_lat", lat[position].toString());
+                bundle.putDouble("myPos_lng", Location_lon);
+                bundle.putDouble("myPos_lat", Location_lat);
 
                 Intent intent = new Intent();
                 intent.putExtras(bundle);
@@ -373,7 +372,6 @@ public class hospital extends Activity implements
 
     @Override
     public void onConnectionFailed(@NonNull ConnectionResult result) {
-        Log.i("dengue", "無法連接google play！" );
         Toast.makeText(this, "無法連接google play！", Toast.LENGTH_SHORT).show();
     }
 }

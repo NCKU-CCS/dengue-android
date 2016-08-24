@@ -12,7 +12,6 @@ public class MainActivity extends Activity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         final Activity Main = this;
-
         setContentView(R.layout.welcome);
         Timer timer = new Timer();
         TimerTask task = new TimerTask() {
@@ -25,4 +24,5 @@ public class MainActivity extends Activity {
         };
         timer.schedule(task, 1000);
     }
+
 }
