@@ -2,19 +2,25 @@ package com.example.dengue.dengue_android;
 
 import android.Manifest;
 import android.app.Activity;
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.Color;
 import android.graphics.Matrix;
 import android.location.Location;
 import android.os.Bundle;
+import android.os.Looper;
 import android.support.annotation.NonNull;
 import android.support.v4.app.ActivityCompat;
 import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.KeyEvent;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.Window;
 import android.view.WindowManager;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
@@ -37,6 +43,8 @@ import org.apache.http.entity.mime.content.StringBody;
 import java.io.File;
 import java.io.IOException;
 import java.nio.charset.Charset;
+import java.util.Timer;
+import java.util.TimerTask;
 
 public class BreedingSourceSubmit extends Activity implements
         GoogleApiClient.ConnectionCallbacks,
@@ -65,37 +73,58 @@ public class BreedingSourceSubmit extends Activity implements
         new goBack(this);
     }
 
-    private void breedingSourcesSubmitTypeList() {
+    private void alert() {
         final Activity Main = this;
+        AlertDialog dialog1 = dialog(R.layout.alert_msg_01, Main);
+        AlertDialog dialog2 = dialog(R.layout.alert_msg_02, Main);
+        AlertDialog dialog3 = dialog(R.layout.alert_msg_03, Main);
 
-        final ImageView btn_hb = (ImageView)findViewById(R.id.button_hb);
-        final ImageView btn_ob = (ImageView)findViewById(R.id.button_ob);
-        final ImageView btn_og = (ImageView)findViewById(R.id.button_og);
+        dialog3.show();
+        dialog3.getWindow().setLayout(740, 740);
+
+        dialog2.show();
+        dialog2.getWindow().setLayout(740, 740);
+
+        dialog1.show();
+        dialog1.getWindow().setLayout(740, 740);
+    }
+
+    private AlertDialog dialog(int layout, Activity Main) {
+        AlertDialog.Builder builder = new AlertDialog.Builder(Main);
+        AlertDialog dialog = builder.create();
+        LayoutInflater inflater = getLayoutInflater();
+        View dialogLayout = inflater.inflate(layout, null);
+        dialog.setView(dialogLayout);
+        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+        dialog.setButton("Next", new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int which) {
+            }
+        });
+
+        return dialog;
+    }
+
+    private void breedingSourcesSubmitTypeList() {
+        final Button btn_hb = (Button)findViewById(R.id.button_hb);
+        final Button btn_ob = (Button)findViewById(R.id.button_ob);
 
         btn_hb.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
-                btn_ob.setImageResource(R.drawable.outdoor_bottle);
-                btn_hb.setImageResource(R.drawable.home_bottle_onclick);
-                btn_og.setImageResource(R.drawable.outdoor_grass);
-                type = "住家容器";
+                btn_hb.setBackgroundResource(R.drawable.breeding_source_type_button_clicked_border);
+                btn_hb.setTextColor(Color.parseColor("#ffffff"));
+                btn_ob.setBackgroundResource(R.drawable.breeding_source_type_button_border);
+                btn_ob.setTextColor(Color.parseColor("#000000"));
+                type = "室內";
             }
         });
 
         btn_ob.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
-                btn_ob.setImageResource(R.drawable.outdoor_bottle_onclick);
-                btn_hb.setImageResource(R.drawable.home_bottle);
-                btn_og.setImageResource(R.drawable.outdoor_grass);
-                type = "戶外容器";
-            }
-        });
-
-        btn_og.setOnClickListener(new View.OnClickListener() {
-            public void onClick(View v) {
-                btn_ob.setImageResource(R.drawable.outdoor_bottle);
-                btn_hb.setImageResource(R.drawable.home_bottle);
-                btn_og.setImageResource(R.drawable.outdoor_grass_onclick);
-                type = "戶外髒亂處";
+                btn_ob.setBackgroundResource(R.drawable.breeding_source_type_button_clicked_border);
+                btn_ob.setTextColor(Color.parseColor("#ffffff"));
+                btn_hb.setBackgroundResource(R.drawable.breeding_source_type_button_border);
+                btn_hb.setTextColor(Color.parseColor("#000000"));
+                type = "戶外";
             }
         });
     }
@@ -228,6 +257,8 @@ public class BreedingSourceSubmit extends Activity implements
                             public void run() {
                                 Toast.makeText(Main, "上傳成功！", Toast.LENGTH_SHORT).show();
                                 isFinish = true;
+
+                                alert();
                             }
                         });
                     }
