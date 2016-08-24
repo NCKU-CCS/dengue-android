@@ -31,22 +31,6 @@ public class hot extends Activity implements
         buildGoogleApiClient();
         Bundle check = this.getIntent().getExtras();
 
-        if (check != null) {
-            Boolean first = check.getBoolean("first");
-
-            /*if(first) {
-                new AlertDialog.Builder(this)
-                        .setTitle("test")
-                        .setMessage("information")
-                        .setPositiveButton("確定", new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(DialogInterface dialog, int which) {
-                            }
-                        })
-                        .show();
-            }*/
-        }
-
         setContentView(R.layout.hot);
         new menu(this, 0);
     }
@@ -57,8 +41,6 @@ public class hot extends Activity implements
         web.setWebViewClient(new WebViewClient());
         web.getSettings().setJavaScriptEnabled(true);
         web.requestFocus();
-        //web.loadUrl("https://chihsuan.github.io/real.taiwanstat.com/dengue-vis/");
-        //web.loadUrl("http://abz53378.github.io/dengue-vis/");
         String url = "https://www.taiwanstat.com/realtime/dengue-vis/?lat=" + Location_lat + "&lng=" + Location_lon;
         web.loadUrl(url);
     }

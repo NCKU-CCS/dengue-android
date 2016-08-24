@@ -77,7 +77,7 @@ public class ReportAdapter extends BaseAdapter {
         if(convertView == null) {
             convertView = reportListInflater.inflate(R.layout.report_item, null);
             item = new Item(
-                    (ImageView) convertView.findViewById(R.id.reportList_check_type),
+                    (TextView) convertView.findViewById(R.id.reportList_check_type),
                     (TextView) convertView.findViewById(R.id.reportList_check_location),
                     (TextView) convertView.findViewById(R.id.reportList_check_description),
                     (TextView) convertView.findViewById(R.id.reportList_check_date),
@@ -104,7 +104,7 @@ public class ReportAdapter extends BaseAdapter {
     }
 
     class Item{
-        ImageView type;
+        TextView type;
         TextView address;
         TextView description;
         TextView date;
@@ -113,7 +113,7 @@ public class ReportAdapter extends BaseAdapter {
         Button button_wait;
         Button button_no;
 
-        public Item(ImageView type, TextView address, TextView description,
+        public Item(TextView type, TextView address, TextView description,
                     TextView date, ImageView img, Button button_yes, Button button_wait, Button button_no){
             this.type = type;
             this.address = address;
@@ -192,19 +192,16 @@ public class ReportAdapter extends BaseAdapter {
         });
     }
 
-    private void setIcon(int position, ImageView icon) {
+    private void setIcon(int position, TextView icon) {
         switch(type[position].toString()) {
-            case "住家容器":
-                icon.setImageDrawable(Main.getResources().getDrawable(R.drawable.home_bottle));
+            case "室內":
+                icon.setText("室內");
                 break;
-            case "戶外容器":
-                icon.setImageDrawable(Main.getResources().getDrawable(R.drawable.outdoor_bottle));
-                break;
-            case "戶外髒亂處":
-                icon.setImageDrawable(Main.getResources().getDrawable(R.drawable.outdoor_grass));
+            case "戶外":
+                icon.setText("戶外");
                 break;
             default:
-                icon.setImageDrawable(Main.getResources().getDrawable(R.drawable.outdoor_bottle));
+                icon.setText("室內");
                 break;
         }
     }

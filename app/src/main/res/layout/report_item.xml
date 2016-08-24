@@ -37,26 +37,26 @@
                         android:layout_height="wrap_content"
                         android:id="@+id/relativeLayout">
 
-                        <ImageView
-                            android:layout_width="60dp"
-                            android:layout_height="60dp"
-                            android:src="@drawable/outdoor_bottle"
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
                             android:layout_margin="10dp"
                             android:layout_gravity="center_vertical"
                             android:id="@+id/reportList_check_type"
-                            android:contentDescription="@string/img" />
+                            android:contentDescription="@string/img"
+                            android:text="室內" />
 
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:textSize="25sp"
                             android:id="@+id/reportList_check_location"
-                            android:layout_alignTop="@+id/reportList_check_type"
-                            android:layout_toRightOf="@+id/reportList_check_type"
-                            android:layout_toEndOf="@+id/reportList_check_type"
                             android:textStyle="bold"
                             android:textIsSelectable="false"
-                            android:textColor="#000000" />
+                            android:textColor="#000000"
+                            android:layout_below="@+id/reportList_check_type"
+                            android:layout_alignLeft="@+id/reportList_check_type"
+                            android:layout_alignStart="@+id/reportList_check_type" />
                     </RelativeLayout>
 
                     <TextView

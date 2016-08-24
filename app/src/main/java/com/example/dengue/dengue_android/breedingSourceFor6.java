@@ -58,9 +58,6 @@ import java.util.concurrent.Semaphore;
 import java.util.concurrent.TimeUnit;
 
 
-/**
- * Created by nana on 2016/8/23.
- */
 @TargetApi(Build.VERSION_CODES.LOLLIPOP)
 public class breedingSourceFor6 extends Fragment
         implements View.OnClickListener, FragmentCompat.OnRequestPermissionsResultCallback{
