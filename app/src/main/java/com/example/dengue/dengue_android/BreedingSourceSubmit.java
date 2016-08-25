@@ -44,6 +44,7 @@ import org.apache.http.impl.client.DefaultHttpClient;
 import java.io.File;
 import java.io.IOException;
 import java.nio.charset.Charset;
+import java.util.Random;
 
 public class BreedingSourceSubmit extends Activity implements
         GoogleApiClient.ConnectionCallbacks,
@@ -74,21 +75,29 @@ public class BreedingSourceSubmit extends Activity implements
 
     private void alert() {
         final Activity Main = this;
-        AlertDialog dialog1 = dialog(R.layout.alert_msg_01, Main, false);
-        AlertDialog dialog2 = dialog(R.layout.alert_msg_02, Main, false);
-        AlertDialog dialog3 = dialog(R.layout.alert_msg_03, Main, true);
 
-        dialog3.show();
-        dialog3.getWindow().setLayout(740, 740);
-
-        dialog2.show();
-        dialog2.getWindow().setLayout(740, 740);
-
-        dialog1.show();
-        dialog1.getWindow().setLayout(740, 740);
+        Random r = new Random();
+        int choice = r.nextInt(100);
+        switch(choice % 3) {
+            case 0:
+                AlertDialog dialog1 = dialog(R.layout.alert_msg_01, Main);
+                dialog1.show();
+                dialog1.getWindow().setLayout(740, 740);
+                break;
+            case 1:
+                AlertDialog dialog2 = dialog(R.layout.alert_msg_02, Main);
+                dialog2.show();
+                dialog2.getWindow().setLayout(740, 740);
+                break;
+            case 2:
+                AlertDialog dialog3 = dialog(R.layout.alert_msg_03, Main);
+                dialog3.show();
+                dialog3.getWindow().setLayout(740, 740);
+                break;
+        }
     }
 
-    private AlertDialog dialog(int layout, Activity Main, final boolean check) {
+    private AlertDialog dialog(int layout, Activity Main) {
         AlertDialog.Builder builder = new AlertDialog.Builder(Main);
         AlertDialog dialog = builder.create();
         LayoutInflater inflater = getLayoutInflater();
@@ -97,9 +106,7 @@ public class BreedingSourceSubmit extends Activity implements
         dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
         dialog.setButton("Next", new DialogInterface.OnClickListener() {
             public void onClick(DialogInterface dialog, int which) {
-                if(check) {
-                    uploadSuccess();
-                }
+                uploadSuccess();
             }
         });
 
