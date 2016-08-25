@@ -12,6 +12,7 @@ public class BreedingSourceSeparator extends Activity{
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        final Activity Main = this;;
         if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
 
             setContentView(R.layout.breeding_source_sptr);
@@ -27,6 +28,7 @@ public class BreedingSourceSeparator extends Activity{
             Intent intent = new Intent();
             intent.setClass(BreedingSourceSeparator.this, BreedingSource.class);
             startActivity(intent);
+            Main.finish();
         }
     }
     public void getImg(String path, int rotate)
