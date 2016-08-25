@@ -20,9 +20,11 @@ public class MainActivity extends Activity {
                 Intent intent = new Intent();
                 intent.setClass(Main, router.class);
                 startActivity(intent);
+                Main.finish();
             }
         };
         timer.schedule(task, 1000);
+
     }
 
 }
