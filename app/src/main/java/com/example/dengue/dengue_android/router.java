@@ -1,11 +1,8 @@
 package com.example.dengue.dengue_android;
 
 import android.app.Activity;
-import android.app.AlertDialog;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
-import android.view.KeyEvent;
 
 public class router extends Activity {
     private static final String AppName = "Dengue";
@@ -15,19 +12,19 @@ public class router extends Activity {
         super.onCreate(savedInstanceState);
 
         session Session = new session(getSharedPreferences(AppName, 0));
-        if( Session.getData("isFirst") != null && Session.getData("isFirst").equals("false") ) {
+        if(Session.getData("isFirst") != null && Session.getData("isFirst").equals("false") ) {
+            finish();
             Intent intent = new Intent();
             intent.setClass(this, hot.class);
             startActivity(intent);
         }
         else {
+            finish();
             sessionInit(Session);
             Intent intent = new Intent();
             intent.setClass(this, Guild.class);
             new signUpFast(this, intent);
         }
-
-        this.finish();
     }
 
     private void sessionInit(final session Session) {

@@ -64,6 +64,7 @@ public class menu {
                     case R.string.menu_hot:
                         if (Main.getComponentName().getClassName().equals(hot.class.getName()))
                             break;
+                        Main.finish();
                         intent.setClass(Main, hot.class);
                         Main.startActivity(intent);
                         break;
@@ -72,6 +73,7 @@ public class menu {
                         if (Main.getComponentName().getClassName().equals(hospital.class.getName()) ||
                                 Main.getComponentName().getClassName().equals(hospitalInfo.class.getName()))
                             break;
+                        Main.finish();
                         intent.setClass(Main, hospital.class);
                         Main.startActivity(intent);
                         break;
@@ -80,6 +82,7 @@ public class menu {
                         if (Main.getComponentName().getClassName().equals(BreedingSource.class.getName()) ||
                                 Main.getComponentName().getClassName().equals(BreedingSourceSubmit.class.getName()))
                             break;
+                        Main.finish();
                         intent.setClass(Main, BreedingSourceSeparator.class);
                         Main.startActivity(intent);
                         break;
@@ -87,6 +90,7 @@ public class menu {
                     case R.string.menu_bite:
                         if (Main.getComponentName().getClassName().equals(Drugbite.class.getName()))
                             break;
+                        Main.finish();
                         intent.setClass(Main, Drugbite.class);
                         Main.startActivity(intent);
                         break;
@@ -94,6 +98,7 @@ public class menu {
                     case R.string.menu_personal_reportList:
                         if (Main.getComponentName().getClassName().equals(Report.class.getName()))
                             break;
+                        Main.finish();
                         intent.setClass(Main, Report.class);
                         Main.startActivity(intent);
                         break;
@@ -104,6 +109,7 @@ public class menu {
                                 Main.getComponentName().getClassName().equals(UserSignup.class.getName()) ||
                                 Main.getComponentName().getClassName().equals(userProfile.class.getName()))
                             break;
+                        Main.finish();
                         intent.setClass(Main, UserSetting.class);
                         Main.startActivity(intent);
                         break;

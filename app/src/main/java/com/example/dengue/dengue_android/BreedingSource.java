@@ -11,6 +11,7 @@ import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.app.ActivityCompat;
 import android.util.Log;
+import android.view.KeyEvent;
 import android.view.Surface;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
@@ -23,13 +24,13 @@ import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.util.Timer;
+import java.util.TimerTask;
 
 import static android.Manifest.permission.CAMERA;
 
 
 public class BreedingSource extends Activity {
-
-
     private static final int REQUEST_CAMERA = 1;
     private int rotate = 0;
     private int degrees = 0;

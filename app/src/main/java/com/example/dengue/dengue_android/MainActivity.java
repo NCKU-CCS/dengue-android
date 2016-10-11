@@ -11,20 +11,20 @@ public class MainActivity extends Activity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
         final Activity Main = this;
         setContentView(R.layout.welcome);
         Timer timer = new Timer();
         TimerTask task = new TimerTask() {
             @Override
             public void run() {
+                Main.finish();
                 Intent intent = new Intent();
                 intent.setClass(Main, router.class);
                 startActivity(intent);
-                Main.finish();
             }
         };
         timer.schedule(task, 1000);
-
     }
 
 }
