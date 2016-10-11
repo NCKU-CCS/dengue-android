@@ -23,9 +23,9 @@
     <string name="reportList_check_description">補充：</string>
     <string name="reportList_check_type">地點描述：</string>
     <string name="reportList_check_date">通報時間：</string>
-    <string name="reportList_check_yes"> V 已處理</string>
-    <string name="reportList_check_wait"> V 通報處理</string>
-    <string name="reportList_check_no"> X 非孳生源</string>
+    <string name="reportList_check_yes">待審核</string>
+    <string name="reportList_check_wait">已通過</string>
+    <string name="reportList_check_no">未通過</string>
     <string name="reportList_check_dialogTitle">處理方式</string>
     <string name="reportList_type_wait">待審核</string>
     <string name="reportList_type_not">未通過</string>

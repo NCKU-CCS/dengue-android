@@ -25,7 +25,6 @@ import java.util.Date;
 import javax.net.ssl.HttpsURLConnection;
 
 public class Report extends Activity {
-    private CharSequence[] Id = new CharSequence[]{};
     private CharSequence[] Img = new CharSequence[]{};
     private CharSequence[] Type = new CharSequence[]{};
     private CharSequence[] Address = new CharSequence[]{};
@@ -76,7 +75,7 @@ public class Report extends Activity {
         final Activity Main = this;
         final ListView report_list = (ListView) findViewById(R.id.reportList_list);
         report_list.setDivider(null);
-        report_list.setAdapter(new ReportAdapter(this, Id, Img, Type, Address,
+        report_list.setAdapter(new ReportAdapter(this, Img, Type, Address,
                 Description, Date, Status, Lat, Lon, Main));
 
         report_list.setOnScrollListener(new AbsListView.OnScrollListener() {
@@ -177,7 +176,6 @@ public class Report extends Activity {
         }
 
         JSONArray output = new JSONArray(data);
-        ArrayList<String> id_object = new ArrayList<>();
         ArrayList<String> img_object = new ArrayList<>();
         ArrayList<String> type_object = new ArrayList<>();
         ArrayList<String> address_object = new ArrayList<>();
@@ -189,7 +187,6 @@ public class Report extends Activity {
 
         for(int i = 0; i < output.length(); i++){
             JSONObject object = new JSONObject(output.get(i).toString());
-            id_object.add(object.getString("source_id"));
             img_object.add(object.getString("photo_base64"));
             type_object.add(object.getString("source_type"));
             if(!object.getString("modified_address").equals("")) {
@@ -200,12 +197,11 @@ public class Report extends Activity {
             }
             description_object.add(object.getString("description"));
             date_object.add(object.getString("created_at"));
-            status_object.add(object.getString("status"));
+            status_object.add(object.getString("qualified_status"));
             lat_object.add(object.getString("lat"));
             lon_object.add(object.getString("lng"));
         }
 
-        Id = id_object.toArray(new String[id_object.size()]);
         Img = img_object.toArray(new String[img_object.size()]);
         Type = type_object.toArray(new String[type_object.size()]);
         Address = address_object.toArray(new String[address_object.size()]);
@@ -281,6 +277,7 @@ public class Report extends Activity {
                     }
                 }
                 catch (Exception e) {
+                    Log.i("test", e.toString());
                     try {
                         parseData(Session.getData("report"));
                         runOnUiThread(new Runnable() {
@@ -320,7 +317,6 @@ public class Report extends Activity {
                 } catch (UnsupportedEncodingException ignored) {
                 }
 
-                Log.i("test", str);
                 try {
                     URL connect_url = new URL("https://api-test.denguefever.tw/breeding_source/total/?qualified_status="+query);
                     connect = (HttpsURLConnection) connect_url.openConnection();
@@ -328,7 +324,6 @@ public class Report extends Activity {
                     connect.setConnectTimeout(15000);
                     connect.setRequestMethod("GET");
                     connect.addRequestProperty("Authorization", "Token " +Session.getData("token"));
-                    Log.i("test", Session.getData("token"));
                     connect.connect();
 
                     int responseCode = connect.getResponseCode();
@@ -341,7 +336,6 @@ public class Report extends Activity {
                         }
                         br.close();
 
-                        Log.i("test", sb.toString());
                         JSONObject object = new JSONObject(sb.toString());
                         number = Integer.valueOf(object.getString("total"));
                         Session.setData("report_number", String.valueOf(number));

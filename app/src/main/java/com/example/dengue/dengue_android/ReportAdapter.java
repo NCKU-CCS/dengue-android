@@ -27,7 +27,6 @@ public class ReportAdapter extends BaseAdapter {
     private static final String AppName = "Dengue";
     private LayoutInflater reportListInflater;
 
-    private CharSequence[] id;
     private CharSequence[] img;
     private CharSequence[] type;
     private CharSequence[] address;
@@ -38,13 +37,12 @@ public class ReportAdapter extends BaseAdapter {
     private CharSequence[] lon;
     private Activity Main;
 
-    public ReportAdapter(Context context, CharSequence[] id, CharSequence[] img,
+    public ReportAdapter(Context context, CharSequence[] img,
                          CharSequence[] type, CharSequence[] address,
                          CharSequence[] description, CharSequence[] date, CharSequence[] status,
                          CharSequence[] lat, CharSequence[] lon,
                          Activity mMain) {
         reportListInflater = LayoutInflater.from(context);
-        this.id = id;
         this.img = img;
         this.type = type;
         this.address = address;
@@ -58,12 +56,12 @@ public class ReportAdapter extends BaseAdapter {
 
     @Override
     public int getCount() {
-        return id.length;
+        return img.length;
     }
 
     @Override
     public Object getItem(int position) {
-        return id[position];
+        return img[position];
     }
 
     @Override
@@ -153,43 +151,16 @@ public class ReportAdapter extends BaseAdapter {
 
     private void setButtons(final int position, Button button_yes, Button button_wait, Button button_no) {
         switch(status[position].toString()) {
-            case "已處理":
+            case "待審核":
                 button_yes.setTextColor(Main.getResources().getColor(R.color.report_button_yes));
                 break;
-            case "通報處理":
+            case "已通過":
                 button_wait.setTextColor(Main.getResources().getColor(R.color.report_button_wait));
                 break;
-            case "非孳生源":
+            case "未通過":
                 button_no.setTextColor(Main.getResources().getColor(R.color.report_button_no));
                 break;
         }
-
-        button_yes.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if(!status[position].toString().equals("已處理")) {
-                    updateData(position, "已處理");
-                }
-            }
-        });
-
-        button_wait.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if(!status[position].toString().equals("通報處理")) {
-                    updateData(position, "通報處理");
-                }
-            }
-        });
-
-        button_no.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if(!status[position].toString().equals("非孳生源")) {
-                    updateData(position, "非孳生源");
-                }
-            }
-        });
     }
 
     private void setIcon(int position, TextView icon) {
@@ -210,58 +181,6 @@ public class ReportAdapter extends BaseAdapter {
         byte[] decodedString = Base64.decode(img[position].toString(), Base64.DEFAULT);
         Bitmap decodedByte = BitmapFactory.decodeByteArray(decodedString, 0, decodedString.length);
         Img.setImageBitmap(decodedByte);
-    }
-
-    public void updateData(int position, final String update_status) {
-        final session Session = new session(Main.getSharedPreferences(AppName, 0));
-        final String data = "database=tainan&source_id="+id[position].toString()+"&status="+update_status;
-
-        Thread thread = new Thread() {
-            public void run() {
-                HttpURLConnection con = null;
-
-                try {
-                    URL connect_url = new URL("http://api.denguefever.tw/breeding_source/update/");
-                    con = (HttpURLConnection) connect_url.openConnection();
-                    con.setDoInput(true);
-                    con.setDoOutput(true);
-                    con.setReadTimeout(10000);
-                    con.setConnectTimeout(15000);
-                    con.setRequestMethod("POST");
-                    con.setRequestProperty("Content-Type", "application/x-www-form-urlencoded");
-                    con.setRequestProperty("Cookie", Session.getData("cookie"));
-                    con.connect();
-
-                    OutputStream output = con.getOutputStream();
-                    output.write(data.getBytes());
-                    output.flush();
-                    output.close();
-
-                    int responseCode = con.getResponseCode();
-                    if (responseCode == HttpURLConnection.HTTP_OK) {
-                    } else {
-                        Main.runOnUiThread(new Runnable() {
-                            @Override
-                            public void run() {
-                                Toast.makeText(Main, "無法連接資料庫！", Toast.LENGTH_SHORT).show();
-                            }
-                        });
-                    }
-                } catch (Exception e) {
-                    Main.runOnUiThread(new Runnable() {
-                        @Override
-                        public void run() {
-                            Toast.makeText(Main, "無法連接資料庫！請確認網路連線", Toast.LENGTH_SHORT).show();
-                        }
-                    });
-                } finally {
-                    if (con != null) {
-                        con.disconnect();
-                    }
-                }
-            }
-        };
-        thread.start();
     }
 }
 
