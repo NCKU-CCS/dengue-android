@@ -2,6 +2,7 @@ package com.example.dengue.dengue_android;
 
 import android.app.Activity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.AbsListView;
 import android.widget.ListView;
@@ -21,6 +22,8 @@ import java.net.URLEncoder;
 import java.util.ArrayList;
 import java.util.Date;
 
+import javax.net.ssl.HttpsURLConnection;
+
 public class Report extends Activity {
     private CharSequence[] Id = new CharSequence[]{};
     private CharSequence[] Img = new CharSequence[]{};
@@ -37,7 +40,7 @@ public class Report extends Activity {
     private int now_choice = 0;
     private boolean refresh = false;
     private Long update_time;
-    private String now_type = "未處理";
+    private String now_type = "待處理";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -45,8 +48,8 @@ public class Report extends Activity {
 
         setContentView(R.layout.report);
         new menu(this, 4);
-        getData("未處理");
-        getNumber("未處理");
+        getData("待處理");
+        getNumber("待處理");
 
         Date curDate = new Date(System.currentTimeMillis()) ;
         update_time = curDate.getTime();
@@ -55,16 +58,15 @@ public class Report extends Activity {
     private void reportListNumber() {
         TextView reportList_number = (TextView) findViewById(R.id.reportList_number);
         String output_number = null;
-        switch (now_choice)
-        {
+        switch (now_choice) {
             case 0:
-                output_number = "您有 " + number + " 個待查點";
-                break;
-            case 1:
                 output_number = "您有 " + number + " 個待處理點";
                 break;
+            case 1:
+                output_number = "您有 " + number + " 個已通過點";
+                break;
             case 2:
-                output_number = "您有 " + number + " 個已處理點";
+                output_number = "您有 " + number + " 個未通過點";
                 break;
         }
         reportList_number.setText(output_number);
@@ -80,7 +82,6 @@ public class Report extends Activity {
         report_list.setOnScrollListener(new AbsListView.OnScrollListener() {
             @Override
             public void onScrollStateChanged(AbsListView view, int scrollState) {
-
             }
 
             @Override
@@ -117,38 +118,22 @@ public class Report extends Activity {
     }
 
     private void bindClick() {
-        final TextView report_not = (TextView) findViewById(R.id.reportList_type_not);
         final TextView report_wait = (TextView) findViewById(R.id.reportList_type_wait);
+        final TextView report_not = (TextView) findViewById(R.id.reportList_type_not);
         final TextView report_done = (TextView) findViewById(R.id.reportList_type_done);
-
-        report_not.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (now_choice != 0) {
-                    now_choice = 0;
-                    getData("未處理");
-                    getNumber("未處理");
-                    findViewById(R.id.loadingPanel).setVisibility(View.VISIBLE);
-
-                    report_not.setBackgroundResource(R.drawable.choice_border_clicked);
-                    report_wait.setBackgroundResource(R.drawable.choice_border);
-                    report_done.setBackgroundResource(R.drawable.choice_border);
-                }
-            }
-        });
 
         report_wait.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (now_choice != 1) {
-                    now_choice = 1;
-                    getData("通報處理");
-                    getNumber("通報處理");
+                if (now_choice != 0) {
+                    now_choice = 0;
+                    getData("待處理");
+                    getNumber("待處理");
                     findViewById(R.id.loadingPanel).setVisibility(View.VISIBLE);
 
-                    report_not.setBackgroundResource(R.drawable.choice_border);
                     report_wait.setBackgroundResource(R.drawable.choice_border_clicked);
                     report_done.setBackgroundResource(R.drawable.choice_border);
+                    report_not.setBackgroundResource(R.drawable.choice_border);
                 }
             }
         });
@@ -156,15 +141,31 @@ public class Report extends Activity {
         report_done.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (now_choice != 2) {
-                    now_choice = 2;
-                    getData("已處理,非孳生源");
-                    getNumber("已處理,非孳生源");
+                if (now_choice != 1) {
+                    now_choice = 1;
+                    getData("已通過");
+                    getNumber("已通過");
                     findViewById(R.id.loadingPanel).setVisibility(View.VISIBLE);
 
-                    report_not.setBackgroundResource(R.drawable.choice_border);
                     report_wait.setBackgroundResource(R.drawable.choice_border);
                     report_done.setBackgroundResource(R.drawable.choice_border_clicked);
+                    report_not.setBackgroundResource(R.drawable.choice_border);
+                }
+            }
+        });
+
+        report_not.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (now_choice != 2) {
+                    now_choice = 2;
+                    getData("未通過");
+                    getNumber("未通過");
+                    findViewById(R.id.loadingPanel).setVisibility(View.VISIBLE);
+
+                    report_wait.setBackgroundResource(R.drawable.choice_border);
+                    report_done.setBackgroundResource(R.drawable.choice_border);
+                    report_not.setBackgroundResource(R.drawable.choice_border_clicked);
                 }
             }
         });
@@ -222,7 +223,7 @@ public class Report extends Activity {
 
         Thread thread = new Thread() {
             public void run() {
-                HttpURLConnection connect = null;
+                HttpsURLConnection connect = null;
                 String query = "";
                 try {
                     query = URLEncoder.encode(str, "utf-8");
@@ -230,12 +231,12 @@ public class Report extends Activity {
                 }
 
                 try {
-                    URL connect_url = new URL("http://api.denguefever.tw/breeding_source/get/?database=tainan&status="+query);
-                    connect = (HttpURLConnection) connect_url.openConnection();
+                    URL connect_url = new URL("https://api-test.denguefever.tw/breeding_source/?qualified_status="+query);
+                    connect = (HttpsURLConnection) connect_url.openConnection();
                     connect.setReadTimeout(10000);
                     connect.setConnectTimeout(15000);
                     connect.setRequestMethod("GET");
-                    connect.setRequestProperty("Cookie", Session.getData("cookie"));
+                    connect.addRequestProperty("Authorization", "Token " +Session.getData("token"));
                     connect.connect();
 
                     int responseCode = connect.getResponseCode();
@@ -312,7 +313,7 @@ public class Report extends Activity {
 
         Thread thread = new Thread() {
             public void run() {
-                HttpURLConnection connect = null;
+                HttpsURLConnection connect = null;
                 String query = "";
                 try {
                     query = URLEncoder.encode(str, "utf-8");
@@ -320,12 +321,12 @@ public class Report extends Activity {
                 }
 
                 try {
-                    URL connect_url = new URL("http://api.denguefever.tw/breeding_source/total/?database=tainan&village_name=大學里&status="+query);
-                    connect = (HttpURLConnection) connect_url.openConnection();
+                    URL connect_url = new URL("https://api-test.denguefever.tw/breeding_source/total/?qualified_status="+query);
+                    connect = (HttpsURLConnection) connect_url.openConnection();
                     connect.setReadTimeout(10000);
                     connect.setConnectTimeout(15000);
                     connect.setRequestMethod("GET");
-                    connect.setRequestProperty("Cookie", Session.getData("cookie"));
+                    connect.addRequestProperty("Authorization", "Token " +Session.getData("token"));
                     connect.connect();
 
                     int responseCode = connect.getResponseCode();

@@ -8,13 +8,15 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import org.json.JSONObject;
+
+import java.io.BufferedReader;
+import java.io.InputStreamReader;
 import java.io.OutputStream;
-import java.net.CookieManager;
-import java.net.HttpCookie;
 import java.net.HttpURLConnection;
 import java.net.URL;
-import java.util.List;
-import java.util.Map;
+
+import javax.net.ssl.HttpsURLConnection;
 
 public class UserLogin extends Activity {
     private static final String AppName = "Dengue";
@@ -32,9 +34,10 @@ public class UserLogin extends Activity {
         login_submit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View w) {
-                String output = "";
-                output += "phone=" + phone.getText().toString();
-                output += "&password=" + password.getText().toString();
+                String output = "{";
+                output += "\"phone\":\"" + phone.getText().toString() + "\",";
+                output += "\"password\":\"" + password.getText().toString() + "\"";
+                output += "}";
 
                 Login(output);
             }
@@ -50,15 +53,14 @@ public class UserLogin extends Activity {
                 HttpURLConnection con = null;
 
                 try {
-                    URL connect_url = new URL("http://api.denguefever.tw/users/signin/");
-                    con = (HttpURLConnection) connect_url.openConnection();
+                    URL connect_url = new URL("https://api-test.denguefever.tw/users/signin/");
+                    con = (HttpsURLConnection) connect_url.openConnection();
                     con.setDoInput(true);
                     con.setDoOutput(true);
                     con.setReadTimeout(10000);
                     con.setConnectTimeout(15000);
                     con.setRequestMethod("POST");
-                    con.setRequestProperty("Content-Type", "application/x-www-form-urlencoded");
-                    con.setRequestProperty("Cookie", Session.getData("cookie"));
+                    con.setRequestProperty("Content-Type", "application/json");
                     con.connect();
 
                     OutputStream output = con.getOutputStream();
@@ -68,23 +70,18 @@ public class UserLogin extends Activity {
 
                     int responseCode = con.getResponseCode();
                     if (responseCode == HttpURLConnection.HTTP_OK) {
-                        Session.setData("isLogin", "true");
-
-                        final String COOKIES_HEADER = "Set-Cookie";
-                        CookieManager msCookieManager = new CookieManager();
-                        Map<String, List<String>> headerFields = con.getHeaderFields();
-                        List<String> cookiesHeader = headerFields.get(COOKIES_HEADER);
-                        if(cookiesHeader != null) {
-                            for (String cookie : cookiesHeader) {
-                                String str1 = HttpCookie.parse(cookie).get(0).toString();
-                                String str2 = "csrftoken=";
-                                if(str1.toLowerCase().contains(str2.toLowerCase())) {
-                                    continue;
-                                }
-                                msCookieManager.getCookieStore().add(null, HttpCookie.parse(cookie).get(0));
-                                Session.setData("cookie", HttpCookie.parse(cookie).get(0).toString());
-                            }
+                        BufferedReader br = new BufferedReader(new InputStreamReader(con.getInputStream()));
+                        StringBuilder sb = new StringBuilder();
+                        String line;
+                        while ((line = br.readLine()) != null) {
+                            sb.append(line).append("\n");
                         }
+                        br.close();
+
+                        JSONObject data = new JSONObject(sb.toString());
+                        Session.setData("isLogin", "true");
+                        Session.setData("user_uuid", "");
+                        Session.setData("token", data.getString("token"));
 
                         Intent intent = new Intent(Main, userProfile.class);
                         intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);

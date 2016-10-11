@@ -11,13 +11,12 @@ public class menu {
 
     menu(final Activity Main, int index) {
         session Session = new session(Main.getSharedPreferences(AppName, 0));
-        final int[] Name = Session.getData("identity").equals("里長") ?
-                new int[]{
+        final int[] Name = Session.getData("isLogin").equals("true") ? new int[]{
                         R.string.menu_hot,
                         R.string.menu_hospital,
                         R.string.menu_breedingSources,
                         R.string.menu_bite,
-                        R.string.menu_reportList,
+                        R.string.menu_personal_reportList,
                         R.string.menu_setting
                 } : new int[]{
                         R.string.menu_hot,
@@ -27,7 +26,7 @@ public class menu {
                         R.string.menu_setting
                 };
 
-        final int[] Img = Session.getData("identity").equals("里長") ? new int[]{
+        final int[] Img = Session.getData("isLogin").equals("true") ? new int[]{
                 (index == 0 ? R.drawable.notification_on : R.drawable.notification_off),
                 (index == 1 ? R.drawable.hospital_on : R.drawable.hospital_off),
                 (index == 2 ? R.drawable.source_checkin_on : R.drawable.source_checkin_off),
@@ -42,7 +41,7 @@ public class menu {
                 (index == 4 ? R.drawable.setting_on : R.drawable.setting_off)
         };
 
-        bindClick(Main, Name, Img);
+        bindClick(Main, Name, Img, Session);
         checkCookie(Main, Session);
     }
 
@@ -52,12 +51,11 @@ public class menu {
         }
     }
 
-    private void bindClick(final Activity Main, final int[] Name, final int[] Img) {
+    private void bindClick(final Activity Main, final int[] Name, final int[] Img, final session Session) {
         final Intent intent = new Intent();
-        final session Session = new session(Main.getSharedPreferences(AppName, 0));
 
         GridView menu_list = (GridView) Main.findViewById(R.id.menu);
-        menu_list.setNumColumns( Session.getData("identity").equals("里長") ? 6 : 5 );
+        menu_list.setNumColumns(Session.getData("isLogin").equals("true") ? 6 : 5);
         menu_list.setAdapter(new menuAdapter(Main, Name, Img));
         menu_list.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
@@ -93,7 +91,7 @@ public class menu {
                         Main.startActivity(intent);
                         break;
 
-                    case R.string.menu_reportList:
+                    case R.string.menu_personal_reportList:
                         if (Main.getComponentName().getClassName().equals(Report.class.getName()))
                             break;
                         intent.setClass(Main, Report.class);

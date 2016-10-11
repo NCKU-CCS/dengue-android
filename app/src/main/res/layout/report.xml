@@ -59,20 +59,9 @@
                         android:layout_width="70dp"
                         android:layout_height="wrap_content"
                         android:textAppearance="?android:attr/textAppearanceSmall"
-                        android:text="未處理"
+                        android:text="@string/reportList_type_wait"
                         android:gravity="center"
                         android:background="@drawable/choice_border_clicked"
-                        android:paddingTop="10dp"
-                        android:paddingBottom="10dp"
-                        android:id="@+id/reportList_type_not" />
-
-                    <TextView
-                        android:layout_width="70dp"
-                        android:layout_height="wrap_content"
-                        android:textAppearance="?android:attr/textAppearanceSmall"
-                        android:text="處理中"
-                        android:gravity="center"
-                        android:background="@drawable/choice_border"
                         android:paddingTop="10dp"
                         android:paddingBottom="10dp"
                         android:id="@+id/reportList_type_wait" />
@@ -81,13 +70,24 @@
                         android:layout_width="70dp"
                         android:layout_height="wrap_content"
                         android:textAppearance="?android:attr/textAppearanceSmall"
-                        android:text="已處理"
+                        android:text="@string/reportList_type_done"
                         android:gravity="center"
                         android:background="@drawable/choice_border"
                         android:paddingTop="10dp"
                         android:paddingBottom="10dp"
                         android:id="@+id/reportList_type_done" />
 
+
+                    <TextView
+                        android:layout_width="70dp"
+                        android:layout_height="wrap_content"
+                        android:textAppearance="?android:attr/textAppearanceSmall"
+                        android:text="@string/reportList_type_not"
+                        android:gravity="center"
+                        android:background="@drawable/choice_border"
+                        android:paddingTop="10dp"
+                        android:paddingBottom="10dp"
+                        android:id="@+id/reportList_type_not" />
                 </LinearLayout>
 
             </LinearLayout>

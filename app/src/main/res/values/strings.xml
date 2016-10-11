@@ -11,10 +11,11 @@
     <string name="menu_bite">蚊蟲叮咬</string>
     <string name="menu_setting">個人設定</string>
     <string name="menu_reportList">舉報點清單</string>
+    <string name="menu_personal_reportList">個人舉報清單</string>
     <string name="menu_item_name">item</string>
 
     <string name="reportList_title">待檢查孳生源點</string>
-    <string name="reportList_number">您有 0 個待查點</string>
+    <string name="reportList_number">您有 0 個待處理點</string>
     <string name="reportList_item_name">Name</string>
     <string name="reportList_item_isDone">完成</string>
     <string name="reportList_item_next"><![CDATA[>]]></string>
@@ -26,9 +27,9 @@
     <string name="reportList_check_wait"> V 通報處理</string>
     <string name="reportList_check_no"> X 非孳生源</string>
     <string name="reportList_check_dialogTitle">處理方式</string>
-    <string name="reportList_type_not">未處理</string>
     <string name="reportList_type_wait">待處理</string>
-    <string name="reportList_type_done">已處理</string>
+    <string name="reportList_type_not">未通過</string>
+    <string name="reportList_type_done">已通過</string>
 
     <string name="drugBite_title">蚊子叮咬</string>
 

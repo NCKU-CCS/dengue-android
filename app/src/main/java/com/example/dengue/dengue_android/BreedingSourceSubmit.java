@@ -40,9 +40,13 @@ import org.apache.http.entity.mime.MultipartEntity;
 import org.apache.http.entity.mime.content.FileBody;
 import org.apache.http.entity.mime.content.StringBody;
 import org.apache.http.impl.client.DefaultHttpClient;
+import org.apache.http.protocol.HTTP;
 
 import java.io.File;
 import java.io.IOException;
+import java.io.UnsupportedEncodingException;
+import java.net.HttpURLConnection;
+import java.net.URLEncoder;
 import java.nio.charset.Charset;
 import java.util.Random;
 
@@ -227,7 +231,13 @@ public class BreedingSourceSubmit extends Activity implements
 
         final Thread thread = new Thread() {
             public void run() {
-                String url = "http://api.denguefever.tw/breeding_source/insert/";
+                String query = "";
+                try {
+                    query = URLEncoder.encode("待處理", "utf-8");
+                } catch (UnsupportedEncodingException ignored) {
+                }
+
+                String url = "https://api-test.denguefever.tw/breeding_source/?qualified_status=" + query;
                 HttpClient httpClient = new DefaultHttpClient();
 
                 HttpPost httpPostRequest = new HttpPost(url);
@@ -236,16 +246,14 @@ public class BreedingSourceSubmit extends Activity implements
                 try {
                     MultipartEntity multiPartEntityBuilder = new MultipartEntity();
 
-                    multiPartEntityBuilder.addPart("database", new StringBody("tainan"));
                     multiPartEntityBuilder.addPart("photo", new FileBody(f));
                     multiPartEntityBuilder.addPart("source_type", new StringBody(type, Charset.forName("UTF-8")));
                     multiPartEntityBuilder.addPart("lng", new StringBody(String.valueOf(Lon)));
                     multiPartEntityBuilder.addPart("lat", new StringBody(String.valueOf(Lat)));
                     multiPartEntityBuilder.addPart("description", new StringBody(description, Charset.forName("UTF-8") ));
-                    multiPartEntityBuilder.addPart("status", new StringBody("未處理", Charset.forName("UTF-8")));
                     multiPartEntityBuilder.addPart("modified_address", new StringBody(address_user, Charset.forName("UTF-8")));
 
-                    httpPostRequest.setHeader("Cookie", Session.getData("cookie"));
+                    httpPostRequest.setHeader("Authorization", "Token " +Session.getData("token"));
                     httpPostRequest.setEntity(multiPartEntityBuilder);
                 }
                 catch (IOException ex) {
@@ -262,7 +270,8 @@ public class BreedingSourceSubmit extends Activity implements
                     HttpResponse httpResponse = httpClient.execute(httpPostRequest);
 
                     int status = httpResponse.getStatusLine().getStatusCode();
-                    if(status == 200) {
+                    Log.i("test", String.valueOf(status));
+                    if(status == HttpURLConnection.HTTP_OK || status == HttpURLConnection.HTTP_CREATED) {
                         runOnUiThread(new Runnable() {
                             @Override
                             public void run() {
@@ -277,7 +286,7 @@ public class BreedingSourceSubmit extends Activity implements
                         runOnUiThread(new Runnable() {
                             @Override
                             public void run() {
-                                Toast.makeText(Main, "上傳失敗！請確認資料皆有填寫", Toast.LENGTH_SHORT).show();
+                                Toast.makeText(Main, "上傳失敗！請確認資料皆有填寫1", Toast.LENGTH_SHORT).show();
                                 isFinish = true;
                             }
                         });

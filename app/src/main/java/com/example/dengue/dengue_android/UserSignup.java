@@ -8,13 +8,15 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import org.json.JSONObject;
+
+import java.io.BufferedReader;
+import java.io.InputStreamReader;
 import java.io.OutputStream;
-import java.net.CookieManager;
-import java.net.HttpCookie;
 import java.net.HttpURLConnection;
 import java.net.URL;
-import java.util.List;
-import java.util.Map;
+
+import javax.net.ssl.HttpsURLConnection;
 
 public class UserSignup extends Activity {
     private static final String AppName = "Dengue";
@@ -24,46 +26,48 @@ public class UserSignup extends Activity {
         super.onCreate(savedInstanceState);
 
         setContentView(R.layout.user_signup);
-        new menu(this, 4);
+        new menu(this, 5);
 
         final EditText name = (EditText) findViewById(R.id.signup_name);
         final EditText phone = (EditText) findViewById(R.id.signup_phone);
         final EditText password = (EditText) findViewById(R.id.signup_password);
         final EditText email = (EditText) findViewById(R.id.signup_email);
+        final session Session = new session(getSharedPreferences(AppName, 0));
 
         Button sign_up_submit = (Button) findViewById(R.id.user_signup_submit);
         sign_up_submit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View w) {
-                String output = "";
-                output += "name="+ name.getText().toString();
-                output += "&phone="+ phone.getText().toString();
-                output += "&password="+ password.getText().toString();
-                output += "&email="+ email.getText().toString();
+                String output = "{";
+                output += "\"user_uuid\":\"" + Session.getData("user_uuid") + "\",";
+                output += "\"name\":\""+ name.getText().toString() + "\",";
+                output += "\"phone\":\""+ phone.getText().toString() + "\",";
+                output += "\"password\":\""+ password.getText().toString() + "\",";
+                output += "\"email\":\""+ email.getText().toString() + "\"";
+                output += "}";
 
-                signUp(output);
+                signUp(output, Session);
             }
         });
     }
 
-    private void signUp(final String data) {
-        final session Session = new session(getSharedPreferences(AppName, 0));
+    private void signUp(final String data, final session Session) {
         final Activity Main = this;
 
         Thread thread = new Thread() {
             public void run() {
-                HttpURLConnection con = null;
+                HttpsURLConnection con = null;
 
                 try {
-                    URL connect_url = new URL("http://api.denguefever.tw/users/signup/");
-                    con = (HttpURLConnection) connect_url.openConnection();
+                    URL connect_url = new URL("https://api-test.denguefever.tw/users/");
+                    con = (HttpsURLConnection) connect_url.openConnection();
                     con.setDoInput(true);
                     con.setDoOutput(true);
                     con.setReadTimeout(10000);
                     con.setConnectTimeout(15000);
                     con.setRequestMethod("POST");
-                    con.setRequestProperty("Content-Type", "application/x-www-form-urlencoded");
-                    con.setRequestProperty("Cookie", Session.getData("cookie"));
+                    con.addRequestProperty("Content-Type", "application/json");
+                    con.addRequestProperty("Authorization", "Token " +Session.getData("token"));
                     con.connect();
 
                     OutputStream output = con.getOutputStream();
@@ -72,24 +76,19 @@ public class UserSignup extends Activity {
                     output.close();
 
                     int responseCode = con.getResponseCode();
-                    if (responseCode == HttpURLConnection.HTTP_OK) {
-                        Session.setData("isLogin", "true");
-
-                        final String COOKIES_HEADER = "Set-Cookie";
-                        CookieManager msCookieManager = new CookieManager();
-                        Map<String, List<String>> headerFields = con.getHeaderFields();
-                        List<String> cookiesHeader = headerFields.get(COOKIES_HEADER);
-                        if(cookiesHeader != null) {
-                            for (String cookie : cookiesHeader) {
-                                String str1 = HttpCookie.parse(cookie).get(0).toString();
-                                String str2 = "csrftoken=";
-                                if(str1.toLowerCase().contains(str2.toLowerCase())) {
-                                    continue;
-                                }
-                                msCookieManager.getCookieStore().add(null, HttpCookie.parse(cookie).get(0));
-                                Session.setData("cookie", HttpCookie.parse(cookie).get(0).toString());
-                            }
+                    if (responseCode == HttpURLConnection.HTTP_OK || responseCode == HttpURLConnection.HTTP_CREATED) {
+                        BufferedReader br = new BufferedReader(new InputStreamReader(con.getInputStream()));
+                        StringBuilder sb = new StringBuilder();
+                        String line;
+                        while ((line = br.readLine()) != null) {
+                            sb.append(line).append("\n");
                         }
+                        br.close();
+
+                        JSONObject data = new JSONObject(sb.toString());
+                        Session.setData("isLogin", "true");
+                        Session.setData("user_uuid", "");
+                        Session.setData("token", data.getString("token"));
 
                         Intent intent = new Intent(Main, userProfile.class);
                         intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);

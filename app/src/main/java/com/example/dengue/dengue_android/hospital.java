@@ -30,6 +30,8 @@ import java.net.URL;
 import java.util.ArrayList;
 import java.util.Date;
 
+import javax.net.ssl.HttpsURLConnection;
+
 public class hospital extends Activity implements
         GoogleApiClient.ConnectionCallbacks,
         GoogleApiClient.OnConnectionFailedListener {
@@ -239,15 +241,16 @@ public class hospital extends Activity implements
 
         Thread thread = new Thread() {
             public void run() {
-                HttpURLConnection connect = null;
+                HttpsURLConnection connect = null;
 
                 try {
-                    URL connect_url = new URL("http://api.denguefever.tw/hospital/nearby/?database=tainan&lng=" + Location_lon + "&lat=" + Location_lat);
-                    connect = (HttpURLConnection) connect_url.openConnection();
+                    URL connect_url = new URL("https://api-test.denguefever.tw/hospital/nearby/?lng=" + Location_lon + "&lat=" + Location_lat);
+                    connect = (HttpsURLConnection) connect_url.openConnection();
                     connect.setReadTimeout(10000);
                     connect.setConnectTimeout(15000);
                     connect.setRequestMethod("GET");
                     connect.setRequestProperty("Cookie", Session.getData("cookie"));
+                    connect.addRequestProperty("Authorization", "Token " +Session.getData("token"));
                     connect.connect();
 
                     int responseCode = connect.getResponseCode();

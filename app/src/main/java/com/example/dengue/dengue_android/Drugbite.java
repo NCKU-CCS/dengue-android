@@ -7,7 +7,6 @@ import android.location.Location;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v4.app.ActivityCompat;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.Toast;
@@ -19,6 +18,8 @@ import com.google.android.gms.location.LocationServices;
 import java.io.OutputStream;
 import java.net.HttpURLConnection;
 import java.net.URL;
+
+import javax.net.ssl.HttpsURLConnection;
 
 public class Drugbite extends Activity implements
         GoogleApiClient.ConnectionCallbacks,
@@ -44,7 +45,7 @@ public class Drugbite extends Activity implements
         bittenByMosquito_Button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View w) {
-                String data = "database=tainan&lng="+Location_lon+"&lat="+Location_lat;
+                String data = "{\"lng\":\""+Location_lon+"\",\"lat\":\""+Location_lat+"\"}";
                 sendPost(data);
             }
         });
@@ -56,18 +57,18 @@ public class Drugbite extends Activity implements
 
         Thread thread = new Thread() {
             public void run() {
-                HttpURLConnection con = null;
+                HttpsURLConnection con = null;
 
                 try {
-                    URL connect_url = new URL("http://api.denguefever.tw/bite/insert/");
-                    con = (HttpURLConnection) connect_url.openConnection();
+                    URL connect_url = new URL("https://api-test.denguefever.tw/bite/");
+                    con = (HttpsURLConnection) connect_url.openConnection();
                     con.setDoInput(true);
                     con.setDoOutput(true);
                     con.setReadTimeout(10000);
                     con.setConnectTimeout(15000);
                     con.setRequestMethod("POST");
-                    con.setRequestProperty("Content-Type", "application/x-www-form-urlencoded");
-                    con.setRequestProperty("Cookie", Session.getData("cookie"));
+                    con.setRequestProperty("Content-Type", "application/json");
+                    con.addRequestProperty("Authorization", "Token " +Session.getData("token"));
                     con.connect();
 
                     OutputStream output = con.getOutputStream();
@@ -76,7 +77,7 @@ public class Drugbite extends Activity implements
                     output.close();
 
                     int responseCode = con.getResponseCode();
-                    if (responseCode == HttpURLConnection.HTTP_OK) {
+                    if (responseCode == HttpURLConnection.HTTP_OK || responseCode == HttpURLConnection.HTTP_CREATED) {
                         runOnUiThread(new Runnable() {
                             @Override
                             public void run() {

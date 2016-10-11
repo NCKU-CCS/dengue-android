@@ -7,12 +7,10 @@ import org.json.JSONObject;
 
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
-import java.net.CookieManager;
-import java.net.HttpCookie;
 import java.net.HttpURLConnection;
 import java.net.URL;
-import java.util.List;
-import java.util.Map;
+
+import javax.net.ssl.HttpsURLConnection;
 
 public class signUpFast {
     private static final String AppName = "Dengue";
@@ -21,18 +19,18 @@ public class signUpFast {
         final session Session = new session(Main.getSharedPreferences(AppName, 0));
         Thread thread = new Thread() {
             public void run() {
-                HttpURLConnection connect = null;
+                HttpsURLConnection connect = null;
 
                 try {
-                    URL connect_url = new URL("http://api.denguefever.tw/users/signup/fast/");
-                    connect = (HttpURLConnection) connect_url.openConnection();
+                    URL connect_url = new URL("https://api-test.denguefever.tw/users/fast/");
+                    connect = (HttpsURLConnection) connect_url.openConnection();
                     connect.setReadTimeout(10000);
                     connect.setConnectTimeout(15000);
                     connect.setRequestMethod("GET");
                     connect.connect();
 
                     int responseCode = connect.getResponseCode();
-                    if(responseCode == HttpURLConnection.HTTP_OK) {
+                    if(responseCode == HttpURLConnection.HTTP_OK || responseCode == HttpURLConnection.HTTP_CREATED) {
                         BufferedReader br = new BufferedReader(new InputStreamReader(connect.getInputStream()));
                         StringBuilder sb = new StringBuilder();
                         String line;
@@ -43,22 +41,7 @@ public class signUpFast {
 
                         JSONObject output = new JSONObject(sb.toString());
                         Session.setData("user_uuid", output.getString("user_uuid"));
-
-                        final String COOKIES_HEADER = "Set-Cookie";
-                        CookieManager msCookieManager = new CookieManager();
-                        Map<String, List<String>> headerFields = connect.getHeaderFields();
-                        List<String> cookiesHeader = headerFields.get(COOKIES_HEADER);
-                        if(cookiesHeader != null) {
-                            for (String cookie : cookiesHeader) {
-                                String str1 = HttpCookie.parse(cookie).get(0).toString();
-                                String str2 = "csrftoken=";
-                                if(str1.toLowerCase().contains(str2.toLowerCase())) {
-                                    continue;
-                                }
-                                msCookieManager.getCookieStore().add(null, HttpCookie.parse(cookie).get(0));
-                                Session.setData("cookie", HttpCookie.parse(cookie).get(0).toString());
-                            }
-                        }
+                        Session.setData("token", output.getString("token"));
                     }
 
                     Main.startActivity(intent);
@@ -80,18 +63,18 @@ public class signUpFast {
         final session Session = new session(Main.getSharedPreferences(AppName, 0));
         Thread thread = new Thread() {
             public void run() {
-                HttpURLConnection connect = null;
+                HttpsURLConnection connect = null;
 
                 try {
-                    URL connect_url = new URL("http://api.denguefever.tw/users/signup/fast/");
-                    connect = (HttpURLConnection) connect_url.openConnection();
+                    URL connect_url = new URL("https://api-test.denguefever.tw/users/fast/");
+                    connect = (HttpsURLConnection) connect_url.openConnection();
                     connect.setReadTimeout(10000);
                     connect.setConnectTimeout(15000);
                     connect.setRequestMethod("GET");
                     connect.connect();
 
                     int responseCode = connect.getResponseCode();
-                    if(responseCode == HttpURLConnection.HTTP_OK) {
+                    if(responseCode == HttpURLConnection.HTTP_OK || responseCode == HttpURLConnection.HTTP_CREATED) {
                         BufferedReader br = new BufferedReader(new InputStreamReader(connect.getInputStream()));
                         StringBuilder sb = new StringBuilder();
                         String line;
@@ -102,24 +85,7 @@ public class signUpFast {
 
                         JSONObject output = new JSONObject(sb.toString());
                         Session.setData("user_uuid", output.getString("user_uuid"));
-
-                        final String COOKIES_HEADER = "Set-Cookie";
-                        CookieManager msCookieManager = new CookieManager();
-                        Map<String, List<String>> headerFields = connect.getHeaderFields();
-                        List<String> cookiesHeader = headerFields.get(COOKIES_HEADER);
-                        if(cookiesHeader != null)
-                        {
-                            for (String cookie : cookiesHeader)
-                            {
-                                String str1 = HttpCookie.parse(cookie).get(0).toString();
-                                String str2 = "csrftoken=";
-                                if(str1.toLowerCase().contains(str2.toLowerCase())) {
-                                    continue;
-                                }
-                                msCookieManager.getCookieStore().add(null, HttpCookie.parse(cookie).get(0));
-                                Session.setData("cookie", HttpCookie.parse(cookie).get(0).toString());
-                            }
-                        }
+                        Session.setData("token", output.getString("token"));
                     }
                 }
                 catch (Exception ignored) {

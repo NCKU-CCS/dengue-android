@@ -239,15 +239,6 @@ public class ReportAdapter extends BaseAdapter {
 
                     int responseCode = con.getResponseCode();
                     if (responseCode == HttpURLConnection.HTTP_OK) {
-                        Main.runOnUiThread(new Runnable() {
-                            @Override
-                            public void run() {
-                                Toast.makeText(Main, update_status, Toast.LENGTH_SHORT).show();
-                                Intent intent = new Intent();
-                                intent.setClass(Main, Report.class);
-                                Main.startActivity(intent);
-                            }
-                        });
                     } else {
                         Main.runOnUiThread(new Runnable() {
                             @Override
