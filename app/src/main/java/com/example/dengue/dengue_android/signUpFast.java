@@ -17,86 +17,90 @@ public class signUpFast {
 
     signUpFast(final Activity Main, final Intent intent) {
         final session Session = new session(Main.getSharedPreferences(AppName, 0));
-        Thread thread = new Thread() {
-            public void run() {
-                HttpsURLConnection connect = null;
 
-                try {
-                    URL connect_url = new URL("https://api-test.denguefever.tw/users/fast/");
-                    connect = (HttpsURLConnection) connect_url.openConnection();
-                    connect.setReadTimeout(10000);
-                    connect.setConnectTimeout(15000);
-                    connect.setRequestMethod("GET");
-                    connect.connect();
+        if(Session.getData("isLogin").equals("true")) {
+            Main.startActivity(intent);
+        }
+        else {
+            Thread thread = new Thread() {
+                public void run() {
+                    HttpsURLConnection connect = null;
 
-                    int responseCode = connect.getResponseCode();
-                    if(responseCode == HttpURLConnection.HTTP_OK || responseCode == HttpURLConnection.HTTP_CREATED) {
-                        BufferedReader br = new BufferedReader(new InputStreamReader(connect.getInputStream()));
-                        StringBuilder sb = new StringBuilder();
-                        String line;
-                        while ((line = br.readLine()) != null) {
-                            sb.append(line).append("\n");
+                    try {
+                        URL connect_url = new URL("https://api-test.denguefever.tw/users/fast/");
+                        connect = (HttpsURLConnection) connect_url.openConnection();
+                        connect.setReadTimeout(10000);
+                        connect.setConnectTimeout(15000);
+                        connect.setRequestMethod("GET");
+                        connect.connect();
+
+                        int responseCode = connect.getResponseCode();
+                        if (responseCode == HttpURLConnection.HTTP_OK || responseCode == HttpURLConnection.HTTP_CREATED) {
+                            BufferedReader br = new BufferedReader(new InputStreamReader(connect.getInputStream()));
+                            StringBuilder sb = new StringBuilder();
+                            String line;
+                            while ((line = br.readLine()) != null) {
+                                sb.append(line).append("\n");
+                            }
+                            br.close();
+
+                            JSONObject output = new JSONObject(sb.toString());
+                            Session.setData("user_uuid", output.getString("user_uuid"));
+                            Session.setData("token", output.getString("token"));
                         }
-                        br.close();
 
-                        JSONObject output = new JSONObject(sb.toString());
-                        Session.setData("user_uuid", output.getString("user_uuid"));
-                        Session.setData("token", output.getString("token"));
-                    }
-
-                    Main.startActivity(intent);
-                }
-                catch (Exception e) {
-                    Main.startActivity(intent);
-                }
-                finally {
-                    if (connect != null) {
-                        connect.disconnect();
+                        Main.startActivity(intent);
+                    } catch (Exception e) {
+                        Main.startActivity(intent);
+                    } finally {
+                        if (connect != null) {
+                            connect.disconnect();
+                        }
                     }
                 }
-            }
-        };
-        thread.start();
+            };
+            thread.start();
+        }
     }
 
     signUpFast(final Activity Main) {
         final session Session = new session(Main.getSharedPreferences(AppName, 0));
-        Thread thread = new Thread() {
-            public void run() {
-                HttpsURLConnection connect = null;
+        if(!Session.getData("isLogin").equals("true")) {
+            Thread thread = new Thread() {
+                public void run() {
+                    HttpsURLConnection connect = null;
 
-                try {
-                    URL connect_url = new URL("https://api-test.denguefever.tw/users/fast/");
-                    connect = (HttpsURLConnection) connect_url.openConnection();
-                    connect.setReadTimeout(10000);
-                    connect.setConnectTimeout(15000);
-                    connect.setRequestMethod("GET");
-                    connect.connect();
+                    try {
+                        URL connect_url = new URL("https://api-test.denguefever.tw/users/fast/");
+                        connect = (HttpsURLConnection) connect_url.openConnection();
+                        connect.setReadTimeout(10000);
+                        connect.setConnectTimeout(15000);
+                        connect.setRequestMethod("GET");
+                        connect.connect();
 
-                    int responseCode = connect.getResponseCode();
-                    if(responseCode == HttpURLConnection.HTTP_OK || responseCode == HttpURLConnection.HTTP_CREATED) {
-                        BufferedReader br = new BufferedReader(new InputStreamReader(connect.getInputStream()));
-                        StringBuilder sb = new StringBuilder();
-                        String line;
-                        while ((line = br.readLine()) != null) {
-                            sb.append(line).append("\n");
+                        int responseCode = connect.getResponseCode();
+                        if (responseCode == HttpURLConnection.HTTP_OK || responseCode == HttpURLConnection.HTTP_CREATED) {
+                            BufferedReader br = new BufferedReader(new InputStreamReader(connect.getInputStream()));
+                            StringBuilder sb = new StringBuilder();
+                            String line;
+                            while ((line = br.readLine()) != null) {
+                                sb.append(line).append("\n");
+                            }
+                            br.close();
+
+                            JSONObject output = new JSONObject(sb.toString());
+                            Session.setData("user_uuid", output.getString("user_uuid"));
+                            Session.setData("token", output.getString("token"));
                         }
-                        br.close();
-
-                        JSONObject output = new JSONObject(sb.toString());
-                        Session.setData("user_uuid", output.getString("user_uuid"));
-                        Session.setData("token", output.getString("token"));
+                    } catch (Exception ignored) {
+                    } finally {
+                        if (connect != null) {
+                            connect.disconnect();
+                        }
                     }
                 }
-                catch (Exception ignored) {
-                }
-                finally {
-                    if (connect != null) {
-                        connect.disconnect();
-                    }
-                }
-            }
-        };
-        thread.start();
+            };
+            thread.start();
+        }
     }
 }

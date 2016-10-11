@@ -40,7 +40,7 @@ public class Report extends Activity {
     private int now_choice = 0;
     private boolean refresh = false;
     private Long update_time;
-    private String now_type = "待處理";
+    private String now_type = "待審核";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -48,8 +48,8 @@ public class Report extends Activity {
 
         setContentView(R.layout.report);
         new menu(this, 4);
-        getData("待處理");
-        getNumber("待處理");
+        getData("待審核");
+        getNumber("待審核");
 
         Date curDate = new Date(System.currentTimeMillis()) ;
         update_time = curDate.getTime();
@@ -60,7 +60,7 @@ public class Report extends Activity {
         String output_number = null;
         switch (now_choice) {
             case 0:
-                output_number = "您有 " + number + " 個待處理點";
+                output_number = "您有 " + number + " 個待審核點";
                 break;
             case 1:
                 output_number = "您有 " + number + " 個已通過點";
@@ -127,8 +127,8 @@ public class Report extends Activity {
             public void onClick(View v) {
                 if (now_choice != 0) {
                     now_choice = 0;
-                    getData("待處理");
-                    getNumber("待處理");
+                    getData("待審核");
+                    getNumber("待審核");
                     findViewById(R.id.loadingPanel).setVisibility(View.VISIBLE);
 
                     report_wait.setBackgroundResource(R.drawable.choice_border_clicked);
@@ -320,6 +320,7 @@ public class Report extends Activity {
                 } catch (UnsupportedEncodingException ignored) {
                 }
 
+                Log.i("test", str);
                 try {
                     URL connect_url = new URL("https://api-test.denguefever.tw/breeding_source/total/?qualified_status="+query);
                     connect = (HttpsURLConnection) connect_url.openConnection();
@@ -327,6 +328,7 @@ public class Report extends Activity {
                     connect.setConnectTimeout(15000);
                     connect.setRequestMethod("GET");
                     connect.addRequestProperty("Authorization", "Token " +Session.getData("token"));
+                    Log.i("test", Session.getData("token"));
                     connect.connect();
 
                     int responseCode = connect.getResponseCode();
@@ -339,6 +341,7 @@ public class Report extends Activity {
                         }
                         br.close();
 
+                        Log.i("test", sb.toString());
                         JSONObject object = new JSONObject(sb.toString());
                         number = Integer.valueOf(object.getString("total"));
                         Session.setData("report_number", String.valueOf(number));
