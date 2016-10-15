@@ -111,7 +111,7 @@ public class UserLogin extends Activity {
                         Session.setData("user_uuid", "");
                         Session.setData("token", data.getString("token"));
 
-                        Intent intent = new Intent(Main, userProfile.class);
+                        Intent intent = new Intent(Main, Report.class);
                         intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
                         startActivity(intent);
                         Main.finish();
