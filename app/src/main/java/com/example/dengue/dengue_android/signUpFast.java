@@ -27,7 +27,7 @@ public class signUpFast {
                     HttpsURLConnection connect = null;
 
                     try {
-                        URL connect_url = new URL("https://api-test.denguefever.tw/users/fast/");
+                        URL connect_url = new URL("https://api.denguefever.tw/users/fast/");
                         connect = (HttpsURLConnection) connect_url.openConnection();
                         connect.setReadTimeout(10000);
                         connect.setConnectTimeout(15000);
@@ -71,7 +71,7 @@ public class signUpFast {
                     HttpsURLConnection connect = null;
 
                     try {
-                        URL connect_url = new URL("https://api-test.denguefever.tw/users/fast/");
+                        URL connect_url = new URL("https://api.denguefever.tw/users/fast/");
                         connect = (HttpsURLConnection) connect_url.openConnection();
                         connect.setReadTimeout(10000);
                         connect.setConnectTimeout(15000);

@@ -40,11 +40,11 @@
                 android:paddingBottom="40dp" >
 
                 <TextView
-                    android:textSize = "30sp"
+                    android:textSize = "20sp"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:textAppearance="?android:attr/textAppearanceLarge"
-                    android:text="我被蚊子叮了!!!"
+                    android:text="@string/drugBite_text"
                     android:id="@+id/bite_title"
                     android:layout_gravity="center_horizontal"
                     android:gravity="center"
@@ -68,6 +68,15 @@
                     android:textColor="#ffffff"
                     android:layout_gravity="center_horizontal"
                     android:layout_weight="0.10" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textAppearance="?android:attr/textAppearanceSmall"
+                    android:text="@string/drugBite_ps"
+                    android:id="@+id/textView4"
+                    android:layout_gravity="center_horizontal"
+                    android:layout_marginTop="15dp" />
 
             </LinearLayout>
         </ScrollView>

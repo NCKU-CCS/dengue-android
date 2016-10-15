@@ -227,7 +227,7 @@ public class Report extends Activity {
                 }
 
                 try {
-                    URL connect_url = new URL("https://api-test.denguefever.tw/breeding_source/?qualified_status="+query);
+                    URL connect_url = new URL("https://api.denguefever.tw/breeding_source/?qualified_status="+query);
                     connect = (HttpsURLConnection) connect_url.openConnection();
                     connect.setReadTimeout(10000);
                     connect.setConnectTimeout(15000);
@@ -318,7 +318,7 @@ public class Report extends Activity {
                 }
 
                 try {
-                    URL connect_url = new URL("https://api-test.denguefever.tw/breeding_source/total/?qualified_status="+query);
+                    URL connect_url = new URL("https://api.denguefever.tw/breeding_source/total/?qualified_status="+query);
                     connect = (HttpsURLConnection) connect_url.openConnection();
                     connect.setReadTimeout(10000);
                     connect.setConnectTimeout(15000);

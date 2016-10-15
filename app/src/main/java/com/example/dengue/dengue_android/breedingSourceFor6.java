@@ -16,6 +16,10 @@ import android.graphics.Matrix;
 import android.graphics.Point;
 import android.graphics.RectF;
 import android.graphics.SurfaceTexture;
+import android.hardware.Sensor;
+import android.hardware.SensorEvent;
+import android.hardware.SensorEventListener;
+import android.hardware.SensorManager;
 import android.hardware.camera2.CameraAccessException;
 import android.hardware.camera2.CameraCaptureSession;
 import android.hardware.camera2.CameraCharacteristics;
@@ -60,8 +64,10 @@ import java.util.concurrent.TimeUnit;
 
 @TargetApi(Build.VERSION_CODES.LOLLIPOP)
 public class breedingSourceFor6 extends Fragment
-        implements View.OnClickListener, FragmentCompat.OnRequestPermissionsResultCallback{
-
+        implements View.OnClickListener, FragmentCompat.OnRequestPermissionsResultCallback, SensorEventListener {
+    private SensorManager mSensorManager;
+    private Sensor mSensor;
+    private Context mContext;
     private int rotate = 0;
     private static final SparseIntArray ORIENTATIONS = new SparseIntArray();
     private static final int REQUEST_CAMERA_PERMISSION = 1;
@@ -119,6 +125,7 @@ public class breedingSourceFor6 extends Fragment
         @Override
         public void onOpened(@NonNull CameraDevice cameraDevice) {
             // This method is called when the camera is opened.  We start camera preview here.
+
             mCameraOpenCloseLock.release();
             mCameraDevice = cameraDevice;
             createCameraPreviewSession();
@@ -269,6 +276,7 @@ public class breedingSourceFor6 extends Fragment
 
     public static breedingSourceFor6 newInstance() {
         return new breedingSourceFor6();
+
     }
 
     @Override
@@ -280,6 +288,10 @@ public class breedingSourceFor6 extends Fragment
     @Override
     public void onViewCreated(final View view, Bundle savedInstanceState) {
         view.findViewById(R.id.btn_take).setOnClickListener(this);
+        /*Activity activity = getActivity();
+        mSensorManager = (SensorManager) activity.getSystemService(Context.SENSOR_SERVICE);
+        mSensor = mSensorManager.getDefaultSensor(Sensor.TYPE_ROTATION_VECTOR);
+        Log.i("dengue", String.valueOf(mSensor));*/
         mTextureView = (AutoFitTextureView) view.findViewById(R.id.texture);
     }
 
@@ -291,6 +303,7 @@ public class breedingSourceFor6 extends Fragment
 
     @Override
     public void onResume() {
+        //mSensorManager.registerListener((SensorEventListener) this, mSensor, SensorManager.SENSOR_DELAY_NORMAL);
         super.onResume();
         startBackgroundThread();
         if (mTextureView.isAvailable()) {
@@ -305,6 +318,8 @@ public class breedingSourceFor6 extends Fragment
         closeCamera();
         stopBackgroundThread();
         super.onPause();
+        //mSensorManager.unregisterListener(this);
+
     }
 
     private void requestCameraPermission() {
@@ -357,6 +372,7 @@ public class breedingSourceFor6 extends Fragment
 
                 int displayRotation = activity.getWindowManager().getDefaultDisplay().getRotation();
                 mSensorOrientation = characteristics.get(CameraCharacteristics.SENSOR_ORIENTATION);
+                Log.i("dengue","mSensorOrientation"+String.valueOf(mSensorOrientation));
                 boolean swappedDimensions = false;
                 switch (displayRotation) {
                     case Surface.ROTATION_0:
@@ -403,6 +419,7 @@ public class breedingSourceFor6 extends Fragment
                         maxPreviewHeight, largest);
 
                 int orientation = getResources().getConfiguration().orientation;
+                Log.i("dengue","orientation on resource"+String.valueOf(orientation));
                 if (orientation == Configuration.ORIENTATION_LANDSCAPE) {
                     mTextureView.setAspectRatio(
                             mPreviewSize.getWidth(), mPreviewSize.getHeight());
@@ -425,6 +442,8 @@ public class breedingSourceFor6 extends Fragment
         }
     }
     private void openCamera(int width, int height) {
+
+
         if (ContextCompat.checkSelfPermission(getActivity(), Manifest.permission.CAMERA)
                 != PackageManager.PERMISSION_GRANTED) {
             requestCameraPermission();
@@ -433,6 +452,7 @@ public class breedingSourceFor6 extends Fragment
         setUpCameraOutputs(width, height);
         configureTransform(width, height);
         Activity activity = getActivity();
+
         CameraManager manager = (CameraManager) activity.getSystemService(Context.CAMERA_SERVICE);
         try {
             if (!mCameraOpenCloseLock.tryAcquire(2500, TimeUnit.MILLISECONDS)) {
@@ -485,6 +505,7 @@ public class breedingSourceFor6 extends Fragment
     }
 
     private void createCameraPreviewSession() {
+
         try {
             SurfaceTexture texture = mTextureView.getSurfaceTexture();
             assert texture != null;
@@ -608,12 +629,6 @@ public class breedingSourceFor6 extends Fragment
                 public void onCaptureCompleted(@NonNull CameraCaptureSession session,
                                                @NonNull CaptureRequest request,
                                                @NonNull TotalCaptureResult result) {
-                    //showToast("Saved: " + mFile);
-                    Log.d(TAG, mFile.toString());
-                    Log.i("dangue","path = "+mFile);
-
-                    //bundle.putString("img", mFile);
-
                     unlockFocus();
                 }
             };
@@ -676,6 +691,38 @@ public class breedingSourceFor6 extends Fragment
                     CaptureRequest.CONTROL_AE_MODE_ON_AUTO_FLASH);
         }
     }
+
+    @Override
+    public void onSensorChanged(SensorEvent sensorEvent) {
+        /*float mAzimuth = event.values[0];
+        float mPitch = event.values[1];
+        float mRoll = event.values[2];
+
+        float target = mPitch;
+        //Log.i("dengue",String.valueOf(target));
+
+        if(target>=0 && target <= 0.5)
+        {
+            rotate = 90; //portrait
+            Log.i("dengue","portrait");
+        }
+        else if(target > 0.5)
+        {
+            rotate = 180; //landscape
+            Log.i("dengue","right landscape");
+        }
+        else if(target < 0)
+        {
+            rotate = 0; //landscape
+            Log.i("dengue","left landscape");
+        }*/
+    }
+
+    @Override
+    public void onAccuracyChanged(Sensor sensor, int i) {
+
+    }
+
 
     private static class ImageSaver implements Runnable {
 
@@ -754,6 +801,7 @@ public class breedingSourceFor6 extends Fragment
 
         @Override
         public Dialog onCreateDialog(Bundle savedInstanceState) {
+
             final Fragment parent = getParentFragment();
             return new AlertDialog.Builder(getActivity())
                     .setMessage(R.string.request_permission)

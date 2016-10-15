@@ -53,7 +53,7 @@ public class UserLogin extends Activity {
                 HttpURLConnection con = null;
 
                 try {
-                    URL connect_url = new URL("https://api-test.denguefever.tw/users/signin/");
+                    URL connect_url = new URL("https://api.denguefever.tw/users/signin/");
                     con = (HttpsURLConnection) connect_url.openConnection();
                     con.setDoInput(true);
                     con.setDoOutput(true);

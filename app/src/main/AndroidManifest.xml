@@ -27,26 +27,41 @@
         <activity
             android:name=".MainActivity"
             android:label="@string/app_name"
-            android:theme="@style/AppTheme">
+            android:theme="@style/AppTheme"
+            android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".Guild"/>
-        <activity android:name=".router"/>
-        <activity android:name=".hot"/>
-        <activity android:name=".hospital"/>
-        <activity android:name=".hospitalInfo"/>
-        <activity android:name=".Drugbite"/>
-        <activity android:name=".BreedingSource"/>
-        <activity android:name=".BreedingSourceSeparator"/>
-        <activity android:name=".BreedingSourceSubmit"/>
-        <activity android:name=".UserSetting"/>
-        <activity android:name=".UserSignup"/>
-        <activity android:name=".UserLogin"/>
-        <activity android:name=".userProfile"/>
-        <activity android:name=".Report"/>
+        <activity android:name=".Guild"
+            android:screenOrientation="portrait"/>
+        <activity android:name=".router"
+            android:screenOrientation="portrait"/>
+        <activity android:name=".hot"
+            android:screenOrientation="portrait"/>
+        <activity android:name=".hospital"
+            android:screenOrientation="portrait"/>
+        <activity android:name=".hospitalInfo"
+            android:screenOrientation="portrait"/>
+        <activity android:name=".Drugbite"
+            android:screenOrientation="portrait"/>
+        <activity android:name=".BreedingSource"
+            android:screenOrientation="portrait"/>
+        <activity android:name=".BreedingSourceSeparator"
+            android:screenOrientation="unspecified"/>
+        <activity android:name=".BreedingSourceSubmit"
+            android:screenOrientation="portrait"/>
+        <activity android:name=".UserSetting"
+            android:screenOrientation="portrait"/>
+        <activity android:name=".UserSignup"
+            android:screenOrientation="portrait"/>
+        <activity android:name=".UserLogin"
+            android:screenOrientation="portrait"/>
+        <activity android:name=".userProfile"
+            android:screenOrientation="portrait"/>
+        <activity android:name=".Report"
+            android:screenOrientation="portrait"/>
 
         <!-- ATTENTION: This was auto-generated to add Google Play services to your project for
              App Indexing.  See https://g.co/AppIndexing/AndroidStudio for more information. -->

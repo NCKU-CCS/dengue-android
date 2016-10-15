@@ -2,16 +2,21 @@ package com.example.dengue.dengue_android;
 
 import android.Manifest;
 import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.Matrix;
 import android.hardware.Camera;
+import android.hardware.Sensor;
+import android.hardware.SensorEvent;
+import android.hardware.SensorEventListener;
+import android.hardware.SensorManager;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.app.ActivityCompat;
 import android.util.Log;
-import android.view.KeyEvent;
 import android.view.Surface;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
@@ -24,18 +29,20 @@ import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
-import java.util.Timer;
-import java.util.TimerTask;
 
 import static android.Manifest.permission.CAMERA;
 
 
-public class BreedingSource extends Activity {
+
+public class BreedingSource extends Activity implements SensorEventListener{
+    private SensorManager mSensorManager;
+    private Sensor mSensor;
     private static final int REQUEST_CAMERA = 1;
     private int rotate = 0;
     private int degrees = 0;
     private SurfaceView sfv_preview;
     private Camera camera = null;
+    private static int screen = 0;
 
     private SurfaceHolder.Callback cpHolderCallback = new SurfaceHolder.Callback() {
         @Override
@@ -57,12 +64,16 @@ public class BreedingSource extends Activity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        mSensorManager = (SensorManager) getSystemService(Context.SENSOR_SERVICE);
+        mSensor = mSensorManager.getDefaultSensor(Sensor.TYPE_ROTATION_VECTOR);
+
         setContentView(R.layout.take_photo);
         checkAuthority();
         new menu(this, 2);
     }
 
     private void bindViews() {
+
         sfv_preview = (SurfaceView) findViewById(R.id.sfv_preview);
         sfv_preview.getHolder().addCallback(cpHolderCallback);
         final Activity Main = this;
@@ -78,7 +89,7 @@ public class BreedingSource extends Activity {
                     choice.setText("取消");
                     check_photo = false;
 
-                    Log.i("dangue","path = "+path);
+                    //Log.i("dangue","path = "+path);
 
                     Bundle bundle = new Bundle();
                     bundle.putString("img", path);
@@ -91,9 +102,7 @@ public class BreedingSource extends Activity {
                 } else {
                     if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB) {
                         int permission = ActivityCompat.checkSelfPermission(Main, Manifest.permission.CAMERA);
-                        Log.i("dengue", "Permission = "+String.valueOf(permission));
-                        Log.i("dengue", "Granted = "+String.valueOf(PackageManager.PERMISSION_GRANTED));
-                        Log.i("dengue", "Denied = "+String.valueOf(PackageManager.PERMISSION_DENIED));
+
                         if (permission != PackageManager.PERMISSION_GRANTED) {
                             //未取得權限，向使用者要求允許權限
                             ActivityCompat.requestPermissions(Main, new String[]{CAMERA}, REQUEST_CAMERA);
@@ -101,6 +110,7 @@ public class BreedingSource extends Activity {
                                 @Override
                                 public void onPictureTaken(byte[] data, Camera camera) {
                                     if ((path = saveFile(compressImageByQuality(data))) != null) {
+
                                         btn_take.setText("確定");
                                         choice.setText("重拍");
                                         check_photo = true;
@@ -116,6 +126,7 @@ public class BreedingSource extends Activity {
                                 @Override
                                 public void onPictureTaken(byte[] data, Camera camera) {
                                     if ((path = saveFile(compressImageByQuality(data))) != null) {
+
                                         btn_take.setText("確定");
                                         choice.setText("重拍");
                                         check_photo = true;
@@ -153,12 +164,17 @@ public class BreedingSource extends Activity {
         ByteArrayOutputStream baas = new ByteArrayOutputStream();
         int options = 50;
 
-        bitmap.compress(Bitmap.CompressFormat.JPEG, options, baas);
+        Matrix matrix = new Matrix();
+        matrix.postRotate(screen);
+
+        Bitmap roatateBitmap = Bitmap.createBitmap(bitmap, 0, 0, bitmap.getWidth(), bitmap.getHeight(), matrix, true);
+
+        roatateBitmap.compress(Bitmap.CompressFormat.JPEG, options, baas);
         while (baas.toByteArray().length / 1024 > 300) {
             baas.reset();
             options -= 10;
             if(options < 0) options = 0;
-            bitmap.compress(Bitmap.CompressFormat.JPEG, options, baas);
+            roatateBitmap.compress(Bitmap.CompressFormat.JPEG, options, baas);
             if(options == 0) break;
         }
         return baas.toByteArray();
@@ -189,6 +205,7 @@ public class BreedingSource extends Activity {
                 case Surface.ROTATION_180: degrees = 270; break;
                 case Surface.ROTATION_270: degrees = 180; break;
             }
+
             if(camera != null)
             {
                 try {
@@ -234,19 +251,55 @@ public class BreedingSource extends Activity {
         else{
         }
     }
+    public void onSensorChanged(SensorEvent event) {
 
-    /*@Override
-    public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
-        switch(requestCode) {
-            case REQUEST_CAMERA:
-                if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-                    //取得權限，進行檔案存取
+        float axisX  = event.values[0];
+        float axisY  = event.values[1];
+        float axisZ  = event.values[2];
+        float scalar  = event.values[3];
 
-                } else {
-                    //使用者拒絕權限，停用檔案存取功能
 
-                }
-                return;
+        //Log.i("dengue",String.valueOf(axisX));
+        //Log.i("dengue",String.valueOf(axisY));
+        //Log.i("dengue",String.valueOf(axisZ));
+        //Log.i("dengue",String.valueOf(scalar));
+
+
+        float target = axisY;
+        Log.i("dengue",String.valueOf(target));
+
+        if(target>= 0 && target <= 0.5)
+        {
+            screen = 90; //portrait
+            //Log.i("dengue","portrait");
         }
-    }*/
+        else if(target > 0.5)
+        {
+            screen = 180; //landscape
+            //Log.i("dengue","right landscape");
+        }
+        else if(target < 0)
+        {
+            screen = 0; //landscape
+            //Log.i("dengue","left landscape");
+        }
+    }
+
+    @Override
+    public void onAccuracyChanged(Sensor sensor, int i) {
+
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        mSensorManager.registerListener((SensorEventListener) this, mSensor, SensorManager.SENSOR_DELAY_NORMAL);
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        mSensorManager.unregisterListener(this);
+    }
+
 }

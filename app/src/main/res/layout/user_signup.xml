@@ -91,7 +91,9 @@
                         android:layout_height="wrap_content"
                         android:inputType="phone"
                         android:ems="10"
-                        android:id="@+id/signup_phone" />
+                        android:id="@+id/signup_phone"
+                        android:maxLength="10"
+                        android:hint="例：09XXXXOOOO" />
                 </LinearLayout>
 
                 <LinearLayout

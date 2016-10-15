@@ -40,7 +40,6 @@ import org.apache.http.entity.mime.MultipartEntity;
 import org.apache.http.entity.mime.content.FileBody;
 import org.apache.http.entity.mime.content.StringBody;
 import org.apache.http.impl.client.DefaultHttpClient;
-import org.apache.http.protocol.HTTP;
 
 import java.io.File;
 import java.io.IOException;
@@ -49,8 +48,6 @@ import java.net.HttpURLConnection;
 import java.net.URLEncoder;
 import java.nio.charset.Charset;
 import java.util.Random;
-import java.util.Timer;
-import java.util.TimerTask;
 
 public class BreedingSourceSubmit extends Activity implements
         GoogleApiClient.ConnectionCallbacks,
@@ -235,11 +232,11 @@ public class BreedingSourceSubmit extends Activity implements
             public void run() {
                 String query = "";
                 try {
-                    query = URLEncoder.encode("待處理", "utf-8");
+                    query = URLEncoder.encode("待審核", "utf-8");
                 } catch (UnsupportedEncodingException ignored) {
                 }
 
-                String url = "https://api-test.denguefever.tw/breeding_source/?qualified_status=" + query;
+                String url = "https://api.denguefever.tw/breeding_source/?qualified_status=" + query;
                 HttpClient httpClient = new DefaultHttpClient();
 
                 HttpPost httpPostRequest = new HttpPost(url);
@@ -288,7 +285,7 @@ public class BreedingSourceSubmit extends Activity implements
                         runOnUiThread(new Runnable() {
                             @Override
                             public void run() {
-                                Toast.makeText(Main, "上傳失敗！請確認資料皆有填寫1", Toast.LENGTH_SHORT).show();
+                                Toast.makeText(Main, "上傳失敗！請確認資料皆有填寫", Toast.LENGTH_SHORT).show();
                                 isFinish = true;
                             }
                         });
@@ -351,7 +348,7 @@ public class BreedingSourceSubmit extends Activity implements
                 int degree = imgBundle.getInt("degree");
 
                 if(img != null) {
-                    loadBitmap(img,degree);
+                    loadBitmap(img,0);
                     breedingSourcesSubmitSubmit(img);
 
                     gps Gps = new gps(this);

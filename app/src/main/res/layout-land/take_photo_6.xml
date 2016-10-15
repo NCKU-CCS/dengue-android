@@ -7,47 +7,33 @@
         android:orientation="vertical"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:weightSum="1">
+        android:weightSum="1"
+        android:layout_alignParentStart="false"
+        android:layout_marginLeft="66dp"
+        android:layout_marginRight="49dp">
 
         <com.example.dengue.dengue_android.AutoFitTextureView
             android:id="@+id/texture"
-            android:layout_width="wrap_content"
+            android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:layout_alignParentLeft="true"
             android:layout_alignParentStart="true"
             android:layout_alignParentTop="true"
             android:layout_alignParentBottom="true"
-            android:layout_marginBottom="49dp"
-            android:layout_gravity="center_horizontal"
-            android:layout_marginTop="66dp" />
-
+            android:layout_gravity="center_vertical"
+            android:layout_weight="1" />
     </LinearLayout>
 
     <RelativeLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_marginTop="66dp"
-        android:layout_alignBottom="@+id/button_padding">
-
-        <TextView
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:text="@string/breedingSources_photo_hint"
-            android:id="@+id/hint"
-            android:gravity="center_horizontal"
-            android:textColor="#FFFFFF"
-            android:textSize="25dp" />
-    </RelativeLayout>
-
-    <RelativeLayout
-        android:layout_width="match_parent"
-        android:layout_height="70dp"
+        android:layout_width="70dp"
+        android:layout_height="fill_parent"
         android:background="#af000000"
         android:id="@+id/button_padding"
-        android:layout_marginBottom="49dp"
-        android:layout_alignParentBottom="true"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true">
+        android:layout_alignParentRight="true"
+        android:layout_alignParentTop="true"
+        android:layout_marginRight="49dp"
+        android:layout_alignParentStart="false"
+        android:layout_alignParentEnd="false">
 
         <RelativeLayout
             android:layout_width="50dp"
@@ -76,5 +62,6 @@
 
 
     </RelativeLayout>
+
 </RelativeLayout>
 

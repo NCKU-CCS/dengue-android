@@ -10,29 +10,19 @@
         android:gravity="center"
         android:weightSum="1">
 
-        <TextView
-            android:textSize = "44sp"
-            android:layout_width="238dp"
-            android:layout_height="wrap_content"
-            android:textAppearance="?android:attr/textAppearanceLarge"
-            android:text="掌蚊人"
-            android:gravity="center"
-            android:layout_gravity="center"
-            android:id="@+id/title"
-            android:layout_weight="0.28" />
-
         <ImageView
             android:layout_width="278dp"
             android:layout_height="257dp"
             android:id="@+id/imageStart"
             android:src="@drawable/start"
-            android:layout_gravity="center_horizontal" />
+            android:layout_gravity="center"
+            android:contentDescription="@string/start_img" />
 
         <TextView
             android:layout_width="297dp"
             android:layout_height="wrap_content"
             android:textAppearance="?android:attr/textAppearanceLarge"
-            android:text="Made by NCKU NETDB\nSponsored by 台南市衛生局"
+            android:text="Powered by NCKU"
             android:gravity="center"
             android:id="@+id/author"
             android:layout_gravity="center_horizontal"

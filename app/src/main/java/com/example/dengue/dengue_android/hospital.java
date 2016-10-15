@@ -244,7 +244,7 @@ public class hospital extends Activity implements
                 HttpsURLConnection connect = null;
 
                 try {
-                    URL connect_url = new URL("https://api-test.denguefever.tw/hospital/nearby/?lng=" + Location_lon + "&lat=" + Location_lat);
+                    URL connect_url = new URL("https://api.denguefever.tw/hospital/nearby/?lng=" + Location_lon + "&lat=" + Location_lat);
                     connect = (HttpsURLConnection) connect_url.openConnection();
                     connect.setReadTimeout(10000);
                     connect.setConnectTimeout(15000);
