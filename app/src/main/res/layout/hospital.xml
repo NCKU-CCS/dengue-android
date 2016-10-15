@@ -53,7 +53,7 @@
 
                 <LinearLayout
                     android:orientation="horizontal"
-                    android:layout_width="150dp"
+                    android:layout_width="200dp"
                     android:layout_height="match_parent">
 
                     <TextView
@@ -88,6 +88,17 @@
                         android:paddingTop="10dp"
                         android:paddingBottom="10dp"
                         android:id="@+id/hospital_choice_2" />
+
+                    <TextView
+                        android:layout_width="50dp"
+                        android:layout_height="wrap_content"
+                        android:textAppearance="?android:attr/textAppearanceSmall"
+                        android:text="其他"
+                        android:gravity="center"
+                        android:background="@drawable/choice_border"
+                        android:paddingTop="10dp"
+                        android:paddingBottom="10dp"
+                        android:id="@+id/hospital_choice_3" />
 
                 </LinearLayout>
 

@@ -234,8 +234,6 @@ public class BreedingSource extends Activity implements SensorEventListener{
     {
         final Activity Main = this;
 
-        Log.i("dengue", "Build.VERSION.SDK_INT = "+String.valueOf(Build.VERSION.SDK_INT));
-        Log.i("dengue", "Build.VERSION_CODES.HONEYCOMB = "+String.valueOf(Build.VERSION_CODES.HONEYCOMB));
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB) {
             bindViews();

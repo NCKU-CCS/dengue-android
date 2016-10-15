@@ -47,6 +47,7 @@
         <activity android:name=".Drugbite"
             android:screenOrientation="portrait"/>
         <activity android:name=".BreedingSource"
+            android:configChanges="orientation|keyboardHidden|screenSize"
             android:screenOrientation="portrait"/>
         <activity android:name=".BreedingSourceSeparator"
             android:screenOrientation="unspecified"/>

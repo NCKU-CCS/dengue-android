@@ -61,9 +61,24 @@ public class hospital extends Activity implements
         update_time = curDate.getTime();
     }
 
-    private void hospitalNumber() {
+    private void hospitalNumber(String type) {
         TextView hospital_number = (TextView) findViewById(R.id.hospital_number);
-        String output_number = "您附近有 " + number + " 家醫療院所";
+        String output_number = "";
+        switch(type)
+        {
+            case "全部":
+                output_number = "您附近有 " + number + " 個快篩地點";
+                break;
+            case "醫院":
+                output_number = "您附近有 " + number + " 間快篩醫院";
+                break;
+            case "診所":
+                output_number = "您附近有 " + number + " 間快篩快篩院所";
+                break;
+            default:
+                output_number = "您附近有 " + number + " 個其他快篩地點";
+                break;
+        }
         hospital_number.setText(output_number);
     }
 
@@ -132,6 +147,7 @@ public class hospital extends Activity implements
         final TextView hospital_choice_all = (TextView) findViewById(R.id.hospital_choice_all);
         final TextView hospital_choice_1 = (TextView) findViewById(R.id.hospital_choice_1);
         final TextView hospital_choice_2 = (TextView) findViewById(R.id.hospital_choice_2);
+        final TextView hospital_choice_3 = (TextView) findViewById(R.id.hospital_choice_3);
 
         hospital_choice_all.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -139,12 +155,14 @@ public class hospital extends Activity implements
                 if (now_choice != 0) {
                     now_choice = 0;
                     number = Name.length;
-                    hospitalNumber();
+                    hospitalNumber("全部");
                     hospitalList(Name, Address, Phone, Lng, Lat);
 
                     hospital_choice_all.setBackgroundResource(R.drawable.choice_border_clicked);
                     hospital_choice_1.setBackgroundResource(R.drawable.choice_border);
                     hospital_choice_2.setBackgroundResource(R.drawable.choice_border);
+                    hospital_choice_3.setBackgroundResource(R.drawable.choice_border);
+
                 }
             }
         });
@@ -159,6 +177,7 @@ public class hospital extends Activity implements
                     hospital_choice_all.setBackgroundResource(R.drawable.choice_border);
                     hospital_choice_1.setBackgroundResource(R.drawable.choice_border_clicked);
                     hospital_choice_2.setBackgroundResource(R.drawable.choice_border);
+                    hospital_choice_3.setBackgroundResource(R.drawable.choice_border);
                 }
             }
         });
@@ -173,6 +192,23 @@ public class hospital extends Activity implements
                     hospital_choice_all.setBackgroundResource(R.drawable.choice_border);
                     hospital_choice_1.setBackgroundResource(R.drawable.choice_border);
                     hospital_choice_2.setBackgroundResource(R.drawable.choice_border_clicked);
+                    hospital_choice_3.setBackgroundResource(R.drawable.choice_border);
+                }
+            }
+        });
+
+        hospital_choice_3.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (now_choice != 3) {
+                    now_choice = 3;
+                    filterData("其他");
+
+                    hospital_choice_all.setBackgroundResource(R.drawable.choice_border);
+                    hospital_choice_1.setBackgroundResource(R.drawable.choice_border);
+                    hospital_choice_2.setBackgroundResource(R.drawable.choice_border);
+                    hospital_choice_3.setBackgroundResource(R.drawable.choice_border_clicked);
+
                 }
             }
         });
@@ -185,15 +221,31 @@ public class hospital extends Activity implements
         ArrayList<String> temp_Lng = new ArrayList<>();
         ArrayList<String> temp_Lat = new ArrayList<>();
 
-        for (int i = 0; i < Name.length; i++) {
-            if (Name[i].toString().contains(token)) {
-                temp_Name.add(Name[i].toString());
-                temp_Address.add(Address[i].toString());
-                temp_Phone.add(Phone[i].toString());
-                temp_Lng.add(Lng[i].toString());
-                temp_Lat.add(Lat[i].toString());
+        if (token.equals("其他"))
+        {
+            for (int i = 0; i < Name.length; i++) {
+                if (!Name[i].toString().contains("醫院") && !Name[i].toString().contains("診所") ) {
+                    temp_Name.add(Name[i].toString());
+                    temp_Address.add(Address[i].toString());
+                    temp_Phone.add(Phone[i].toString());
+                    temp_Lng.add(Lng[i].toString());
+                    temp_Lat.add(Lat[i].toString());
+                }
             }
         }
+        else
+        {
+            for (int i = 0; i < Name.length; i++) {
+                if (Name[i].toString().contains(token)) {
+                    temp_Name.add(Name[i].toString());
+                    temp_Address.add(Address[i].toString());
+                    temp_Phone.add(Phone[i].toString());
+                    temp_Lng.add(Lng[i].toString());
+                    temp_Lat.add(Lat[i].toString());
+                }
+            }
+        }
+
 
         CharSequence[] temp_name = temp_Name.toArray(new String[temp_Name.size()]);
         CharSequence[] temp_address = temp_Address.toArray(new String[temp_Address.size()]);
@@ -202,7 +254,8 @@ public class hospital extends Activity implements
         CharSequence[] temp_lat = temp_Lat.toArray(new String[temp_Lat.size()]);
 
         number = temp_name.length;
-        hospitalNumber();
+        hospitalNumber(token);
+
         hospitalList(temp_name, temp_address, temp_phone, temp_lng, temp_lat);
     }
 
@@ -269,7 +322,7 @@ public class hospital extends Activity implements
                         runOnUiThread(new Runnable() {
                             @Override
                             public void run() {
-                                hospitalNumber();
+                                hospitalNumber("全部");
                                 hospitalList(Name, Address, Phone, Lng, Lat);
                                 bindClick();
 
@@ -284,7 +337,7 @@ public class hospital extends Activity implements
                         runOnUiThread(new Runnable() {
                             @Override
                             public void run() {
-                                hospitalNumber();
+                                hospitalNumber("全部");
                                 hospitalList(Name, Address, Phone, Lng, Lat);
                                 bindClick();
                                 Toast.makeText(Main, "無法連接資料庫！", Toast.LENGTH_SHORT).show();
@@ -300,7 +353,7 @@ public class hospital extends Activity implements
                         runOnUiThread(new Runnable() {
                             @Override
                             public void run() {
-                                hospitalNumber();
+                                hospitalNumber("全部");
                                 hospitalList(Name, Address, Phone, Lng, Lat);
                                 bindClick();
                                 Toast.makeText(Main, "確認網路連線以更新資料！", Toast.LENGTH_SHORT).show();
