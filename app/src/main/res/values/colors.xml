@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <color name="colorPrimary">#ff6633</color>
-    <color name="colorText">#FAFAFA</color>
+    <color name="colorText">#fafafa</color>
     <color name="menuBackground">#F5F5F5</color>
     <color name="report_button_yes">#7CB342</color>
     <color name="report_button_wait">#7CB342</color>

@@ -8,13 +8,17 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v4.app.ActivityCompat;
 import android.util.Log;
+import android.view.View;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
+import android.widget.Button;
 import android.widget.Toast;
 
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.location.LocationServices;
+
+import static com.example.dengue.dengue_android.R.id.logout_btn;
 
 public class hot extends Activity implements
         GoogleApiClient.ConnectionCallbacks,
@@ -24,6 +28,7 @@ public class hot extends Activity implements
     private GoogleApiClient mGoogleApiClient;
     private double Location_lat;
     private double Location_lon;
+    private static final String AppName = "Dengue";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -33,6 +38,18 @@ public class hot extends Activity implements
 
         setContentView(R.layout.hot);
         new menu(this, 0);
+
+        Button logout_btn = (Button) findViewById(R.id.logout_btn);
+        final session Session = new session(getSharedPreferences(AppName, 0));
+        if (Session.getData("isLogin").equals("true")) {
+            logout_btn.setVisibility(View.VISIBLE);
+            logout_btn.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View w) {
+                    userProfile.logout(hot.this);
+                }
+            });
+        }
     }
 
     private void setWeb() {

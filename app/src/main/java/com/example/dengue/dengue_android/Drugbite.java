@@ -38,6 +38,19 @@ public class Drugbite extends Activity implements
         buildGoogleApiClient();
 
         new menu(this, 3);
+
+        Button logout_btn = (Button) findViewById(R.id.logout_btn);
+
+        final session Session = new session(getSharedPreferences(AppName, 0));
+        if (Session.getData("isLogin").equals("true")) {
+            logout_btn.setVisibility(View.VISIBLE);
+            logout_btn.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View w) {
+                    userProfile.logout(Drugbite.this);
+                }
+            });
+        }
     }
 
     private void drugBiteClick() {

@@ -25,17 +25,17 @@ public class userProfile extends Activity {
         setContentView(R.layout.user_profile);
         new menu(this, 5);
 
-        Button logout_btn = (Button) findViewById(R.id.logout_btn);
+        /*Button logout_btn = (Button) findViewById(R.id.logout_btn);
         logout_btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View w) {
                 logout();
             }
-        });
+        });*/
     }
 
-    private void logout (){
-        final Activity Main = this;
+    static public void logout (Activity act){
+        final Activity Main = act;
         final session Session = new session(Main.getSharedPreferences(AppName, 0));
         Thread thread = new Thread() {
             public void run() {

@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.AbsListView;
+import android.widget.Button;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -52,6 +53,19 @@ public class Report extends Activity {
 
         Date curDate = new Date(System.currentTimeMillis()) ;
         update_time = curDate.getTime();
+
+        Button logout_btn = (Button) findViewById(R.id.logout_btn);
+
+        final session Session = new session(getSharedPreferences(AppName, 0));
+        if (Session.getData("isLogin").equals("true")) {
+            logout_btn.setVisibility(View.VISIBLE);
+            logout_btn.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View w) {
+                    userProfile.logout(Report.this);
+                }
+            });
+        }
     }
 
     private void reportListNumber() {

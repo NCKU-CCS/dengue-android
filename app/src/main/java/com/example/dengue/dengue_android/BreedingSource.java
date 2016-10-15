@@ -43,6 +43,9 @@ public class BreedingSource extends Activity implements SensorEventListener{
     private SurfaceView sfv_preview;
     private Camera camera = null;
     private static int screen = 0;
+    private static final String AppName = "Dengue";
+    private boolean check_photo = false;
+    private String path;
 
     private SurfaceHolder.Callback cpHolderCallback = new SurfaceHolder.Callback() {
         @Override
@@ -58,8 +61,7 @@ public class BreedingSource extends Activity implements SensorEventListener{
             stopPreview();
         }
     };
-    private boolean check_photo = false;
-    private String path;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -70,6 +72,18 @@ public class BreedingSource extends Activity implements SensorEventListener{
         setContentView(R.layout.take_photo);
         checkAuthority();
         new menu(this, 2);
+
+        Button logout_btn = (Button) findViewById(R.id.logout_btn);
+        final session Session = new session(getSharedPreferences(AppName, 0));
+        if (Session.getData("isLogin").equals("true")) {
+            logout_btn.setVisibility(View.VISIBLE);
+            logout_btn.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View w) {
+                    userProfile.logout(BreedingSource.this);
+                }
+            });
+        }
     }
 
     private void bindViews() {

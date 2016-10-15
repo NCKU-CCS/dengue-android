@@ -11,6 +11,7 @@ import android.support.v4.app.ActivityCompat;
 import android.view.View;
 import android.widget.AbsListView;
 import android.widget.AdapterView;
+import android.widget.Button;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -59,6 +60,19 @@ public class hospital extends Activity implements
         buildGoogleApiClient();
         Date curDate = new Date(System.currentTimeMillis());
         update_time = curDate.getTime();
+
+        Button logout_btn = (Button) findViewById(R.id.logout_btn);
+
+        final session Session = new session(getSharedPreferences(AppName, 0));
+        if (Session.getData("isLogin").equals("true")) {
+            logout_btn.setVisibility(View.VISIBLE);
+            logout_btn.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View w) {
+                    userProfile.logout(hospital.this);
+                }
+            });
+        }
     }
 
     private void hospitalNumber(String type) {
