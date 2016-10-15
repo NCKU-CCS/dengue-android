@@ -74,10 +74,10 @@ public class ReportAdapter extends BaseAdapter {
                     (TextView) convertView.findViewById(R.id.reportList_check_location),
                     (TextView) convertView.findViewById(R.id.reportList_check_description),
                     (TextView) convertView.findViewById(R.id.reportList_check_date),
-                    (ImageView) convertView.findViewById(R.id.reportList_check_img),
-                    (Button) convertView.findViewById(R.id.reportList_check_yes),
-                    (Button) convertView.findViewById(R.id.reportList_check_wait),
-                    (Button) convertView.findViewById(R.id.reportList_check_no)
+                    (ImageView) convertView.findViewById(R.id.reportList_check_img)
+                    //(Button) convertView.findViewById(R.id.reportList_check_yes),
+                    //(Button) convertView.findViewById(R.id.reportList_check_wait),
+                    //(Button) convertView.findViewById(R.id.reportList_check_no)
                     );
 
             convertView.setTag(item);
@@ -87,7 +87,7 @@ public class ReportAdapter extends BaseAdapter {
         }
 
         setIcon(position, item.type);
-        setButtons(position, item.button_yes, item.button_wait, item.button_no);
+        //setButtons(position, item.button_yes, item.button_wait, item.button_no);
         setImg(position, item.img);
         setDate(position, item.date);
         setAddress(position, item.address);
@@ -107,15 +107,15 @@ public class ReportAdapter extends BaseAdapter {
         Button button_no;
 
         public Item(TextView type, TextView address, TextView description,
-                    TextView date, ImageView img, Button button_yes, Button button_wait, Button button_no){
+                    TextView date, ImageView img){
             this.type = type;
             this.address = address;
             this.description = description;
             this.date = date;
             this.img = img;
-            this.button_yes = button_yes;
+            /*this.button_yes = button_yes;
             this.button_wait = button_wait;
-            this.button_no = button_no;
+            this.button_no = button_no;*/
         }
     }
 
