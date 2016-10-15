@@ -2,8 +2,11 @@ package com.example.dengue.dengue_android;
 
 import android.Manifest;
 import android.app.Activity;
+import android.content.Context;
 import android.content.pm.PackageManager;
 import android.location.Location;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v4.app.ActivityCompat;
@@ -18,7 +21,7 @@ import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.location.LocationServices;
 
-import static com.example.dengue.dengue_android.R.id.logout_btn;
+import static android.R.attr.host;
 
 public class hot extends Activity implements
         GoogleApiClient.ConnectionCallbacks,
@@ -53,13 +56,27 @@ public class hot extends Activity implements
     }
 
     private void setWeb() {
+        ConnectivityManager cm =
+                (ConnectivityManager) this.getSystemService(Context.CONNECTIVITY_SERVICE);
+
+        NetworkInfo activeNetwork = cm.getActiveNetworkInfo();
+        boolean isConnected = activeNetwork != null &&
+                activeNetwork.isConnectedOrConnecting();
 
         WebView web = (WebView) findViewById(R.id.hot_web);
         web.setWebViewClient(new WebViewClient());
         web.getSettings().setJavaScriptEnabled(true);
         web.requestFocus();
-        String url = "https://www.taiwanstat.com/realtime/dengue-vis/?lat=" + Location_lat + "&lng=" + Location_lon;
-        web.loadUrl(url);
+
+
+        if (isConnected) {
+            String url = "https://www.taiwanstat.com/realtime/dengue-vis/?lat=" + Location_lat + "&lng=" + Location_lon;
+            web.loadUrl(url);
+        }
+        else {
+            String html = "<html><body style=\"margin: 30px\"><h3>掌蚊人無法取得網路獲取疫情資訊，請開啟網路！</h23</body></html>";
+            web.loadData(html, "text/html; charset=utf-8", "utf-8");
+        }
     }
 
     protected synchronized void buildGoogleApiClient() {
