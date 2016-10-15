@@ -24,7 +24,7 @@ public class MainActivity extends Activity {
                 startActivity(intent);
             }
         };
-        timer.schedule(task, 1000);
+        timer.schedule(task, 2000);
     }
 
 }
