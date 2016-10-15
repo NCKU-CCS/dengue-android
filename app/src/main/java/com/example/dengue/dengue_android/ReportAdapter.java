@@ -75,9 +75,6 @@ public class ReportAdapter extends BaseAdapter {
                     (TextView) convertView.findViewById(R.id.reportList_check_description),
                     (TextView) convertView.findViewById(R.id.reportList_check_date),
                     (ImageView) convertView.findViewById(R.id.reportList_check_img)
-                    //(Button) convertView.findViewById(R.id.reportList_check_yes),
-                    //(Button) convertView.findViewById(R.id.reportList_check_wait),
-                    //(Button) convertView.findViewById(R.id.reportList_check_no)
                     );
 
             convertView.setTag(item);
@@ -87,7 +84,6 @@ public class ReportAdapter extends BaseAdapter {
         }
 
         setIcon(position, item.type);
-        //setButtons(position, item.button_yes, item.button_wait, item.button_no);
         setImg(position, item.img);
         setDate(position, item.date);
         setAddress(position, item.address);
@@ -113,9 +109,7 @@ public class ReportAdapter extends BaseAdapter {
             this.description = description;
             this.date = date;
             this.img = img;
-            /*this.button_yes = button_yes;
-            this.button_wait = button_wait;
-            this.button_no = button_no;*/
+
         }
     }
 
@@ -144,7 +138,7 @@ public class ReportAdapter extends BaseAdapter {
         textDate.setText("通報時間： " + data_format.format(output_date));
     }
 
-    private void setButtons(final int position, Button button_yes, Button button_wait, Button button_no) {
+    /*private void setButtons(final int position, Button button_yes, Button button_wait, Button button_no) {
         switch(status[position].toString()) {
             case "待審核":
                 button_yes.setTextColor(Main.getResources().getColor(R.color.report_button_yes));
@@ -156,7 +150,7 @@ public class ReportAdapter extends BaseAdapter {
                 button_no.setTextColor(Main.getResources().getColor(R.color.report_button_no));
                 break;
         }
-    }
+    }*/
 
     private void setIcon(int position, TextView icon) {
         switch(type[position].toString()) {
