@@ -3,6 +3,8 @@ package com.example.dengue.dengue_android;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
+import android.view.KeyEvent;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -17,6 +19,8 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 
 import javax.net.ssl.HttpsURLConnection;
+
+import static android.R.attr.password;
 
 public class UserLogin extends Activity {
     private static final String AppName = "Dengue";
@@ -42,7 +46,31 @@ public class UserLogin extends Activity {
                 Login(output);
             }
         });
+
+        // TODO: refactoring the same code, onKey & onClick
+        password.setOnKeyListener(new View.OnKeyListener() {
+
+            @Override
+            public boolean onKey(View v, int keyCode, KeyEvent event)
+            {
+                if (event.getAction() == KeyEvent.ACTION_DOWN
+                        && event.getKeyCode() ==       KeyEvent.KEYCODE_ENTER)
+                {
+                    String output = "{";
+                    output += "\"phone\":\"" + phone.getText().toString() + "\",";
+                    output += "\"password\":\"" + password.getText().toString() + "\"";
+                    output += "}";
+
+                    Login(output);
+
+                    return false;
+                }
+
+                return false;
+            }
+        });
     }
+
 
     private void Login(final String data) {
         final session Session = new session(getSharedPreferences(AppName, 0));
