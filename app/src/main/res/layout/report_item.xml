@@ -85,7 +85,7 @@
             </RelativeLayout>
         </LinearLayout>
 
-        <LinearLayout
+        <!--<LinearLayout
             android:orientation="horizontal"
             android:layout_width="match_parent"
             android:layout_height="0dp"
@@ -121,7 +121,7 @@
                 android:textSize="14sp"
                 android:textColor="#c3c7cb" />
 
-        </LinearLayout>
+        </LinearLayout>-->
     </LinearLayout>
 
 </LinearLayout>

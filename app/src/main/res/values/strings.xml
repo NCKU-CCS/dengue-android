@@ -12,7 +12,7 @@
     <string name="menu_bite">蚊蟲叮咬</string>
     <string name="menu_setting">個人設定</string>
     <string name="menu_reportList">舉報點清單</string>
-    <string name="menu_personal_reportList">個人舉報清單</string>
+    <string name="menu_personal_reportList">環境回報點清單</string>
     <string name="menu_item_name">item</string>
 
     <string name="reportList_title">待檢查孳生源點</string>
