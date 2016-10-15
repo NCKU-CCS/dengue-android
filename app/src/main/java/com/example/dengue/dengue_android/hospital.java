@@ -73,7 +73,7 @@ public class hospital extends Activity implements
                 output_number = "您附近有 " + number + " 間快篩醫院";
                 break;
             case "診所":
-                output_number = "您附近有 " + number + " 間快篩院所";
+                output_number = "您附近有 " + number + " 間快篩診所";
                 break;
             default:
                 output_number = "您附近有 " + number + " 個其他快篩地點";
