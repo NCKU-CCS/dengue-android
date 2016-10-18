@@ -47,7 +47,7 @@
     <string name="breedingSources_submit_button">環境回報</string>
     <string name="breedingSources_submit_description">*地點簡介</string>
     <string name="breedingSources_submit_address_user">*地址</string>
-    <string name="breedingSources_submit_type">*孳生源類型：</string>
+    <string name="breedingSources_submit_type">*環境點類型：</string>
 
     <string name="hot_title">熱區顯示圖</string>
 
