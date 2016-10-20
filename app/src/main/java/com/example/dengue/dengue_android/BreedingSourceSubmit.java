@@ -327,9 +327,10 @@ public class BreedingSourceSubmit extends Activity implements
 
     public void uploadSuccess(){
         Intent intent = new Intent();
-        intent.setClass(BreedingSourceSubmit.this, BreedingSourceSeparator.class);
+        intent.setClass(this, hot.class);
         startActivity(intent);
     }
+
     protected synchronized void buildGoogleApiClient() {
         mGoogleApiClient = new GoogleApiClient.Builder(this)
                 .addConnectionCallbacks(this)

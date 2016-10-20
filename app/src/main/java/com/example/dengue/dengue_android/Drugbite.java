@@ -94,7 +94,7 @@ public class Drugbite extends Activity implements
                         runOnUiThread(new Runnable() {
                             @Override
                             public void run() {
-                                Toast.makeText(Main, "上傳成功，將提供於蚊媒熱度分析研究！", Toast.LENGTH_SHORT).show();
+                                Toast.makeText(Main, "上傳成功，回報資料能協助研究團隊，\n更精準偵測蚊子的隱性躲藏點，\n資料僅作為研究參考，並遵守個資保護法。", Toast.LENGTH_SHORT).show();
                             }
                         });
                     } else {

@@ -15,29 +15,27 @@ import android.view.View;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
 import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.Toast;
 
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.location.LocationServices;
 
-import static android.R.attr.host;
-
 public class hot extends Activity implements
         GoogleApiClient.ConnectionCallbacks,
         GoogleApiClient.OnConnectionFailedListener {
 
-    private static final int REQUEST_LOCATION = 3;
     private GoogleApiClient mGoogleApiClient;
     private double Location_lat;
     private double Location_lon;
     private static final String AppName = "Dengue";
+    private boolean map = true; // ture for default map
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         buildGoogleApiClient();
-        Bundle check = this.getIntent().getExtras();
 
         setContentView(R.layout.hot);
         new menu(this, 0);
@@ -55,7 +53,7 @@ public class hot extends Activity implements
         }
     }
 
-    private void setWeb() {
+    private void setWeb(String url) {
         ConnectivityManager cm =
                 (ConnectivityManager) this.getSystemService(Context.CONNECTIVITY_SERVICE);
 
@@ -70,13 +68,28 @@ public class hot extends Activity implements
 
 
         if (isConnected) {
-            String url = "https://www.taiwanstat.com/realtime/dengue-vis/?lat=" + Location_lat + "&lng=" + Location_lon;
             web.loadUrl(url);
         }
         else {
             String html = "<html><body style=\"margin: 30px\"><h3>掌蚊人無法取得網路獲取疫情資訊，請開啟網路！</h23</body></html>";
             web.loadData(html, "text/html; charset=utf-8", "utf-8");
         }
+    }
+
+    private void changeMap() {
+        ImageButton btn = (ImageButton)findViewById(R.id.change_map);
+        btn.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+                map = !map;
+
+                if(map) {
+                    setWeb("https://winone520.github.io/dengue_app/?lat=" + Location_lat + "&lng=" + Location_lon);
+                }
+                else {
+                    setWeb("https://www.taiwanstat.com/realtime/dengue-vis/?lat=" + Location_lat + "&lng=" + Location_lon);
+                }
+            }
+        });
     }
 
     protected synchronized void buildGoogleApiClient() {
@@ -124,11 +137,18 @@ public class hot extends Activity implements
         if (mLastLocation != null) {
             Location_lat = mLastLocation.getLatitude();
             Location_lon = mLastLocation.getLongitude();
-            setWeb();
         }
         else {
             Toast.makeText(this, "請打開定位", Toast.LENGTH_SHORT).show();
-            setWeb();
+        }
+
+        if(map) {
+            setWeb("https://winone520.github.io/dengue_app/?lat=" + Location_lat + "&lng=" + Location_lon);
+            changeMap();
+        }
+        else {
+            setWeb("https://www.taiwanstat.com/realtime/dengue-vis/?lat=" + Location_lat + "&lng=" + Location_lon);
+            changeMap();
         }
     }
 
@@ -148,12 +168,12 @@ public class hot extends Activity implements
                 // If request is cancelled, the result arrays are empty.
                 if (grantResults.length > 0
                         && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-                    setWeb();
+                    setWeb("https://winone520.github.io/dengue_app/?lat=" + Location_lat + "&lng=" + Location_lon);
                 } else {
                     // permission denied, boo! Disable the
                     // functionality that depends on this permission.
                     Toast.makeText(this, "請允許存取位置資訊!", Toast.LENGTH_SHORT).show();
-                    setWeb();
+                    setWeb("https://winone520.github.io/dengue_app/?lat=" + Location_lat + "&lng=" + Location_lon);
                 }
                 return;
             }
