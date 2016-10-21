@@ -33,21 +33,11 @@
 
     <GridView
         android:layout_width="wrap_content"
-        android:layout_height="50dp"
+        android:layout_height="60dp"
         android:id="@+id/menu"
         android:background="@color/menuBackground"
         android:layout_alignParentBottom="true"
         android:layout_gravity="center_horizontal|bottom" />
 
-    <TextView
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:text="@string/breedingSources_photo_hint"
-        android:id="@+id/textView2"
-        android:gravity="center_horizontal"
-        android:textColor="#FFFFFF"
-        android:textSize="25dp"
-        android:layout_gravity="center_horizontal"
-        android:layout_marginTop="66dp" />
 
 </FrameLayout>

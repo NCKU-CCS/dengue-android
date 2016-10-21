@@ -6,7 +6,7 @@
     <string name="start_right_now">直接開始</string>
     <string name="start_img"></string>
 
-    <string name="menu_hot">即時疫情</string>
+    <string name="menu_hot">疫情地圖</string>
     <string name="menu_hospital">快篩診所</string>
     <string name="menu_breedingSources">環境回報</string>
     <string name="menu_bite">蚊蟲叮咬</string>
@@ -34,7 +34,10 @@
 
     <string name="drugBite_title">蚊子叮咬</string>
     <string name="drugBite_text">你被蚊子叮咬嗎？\n請幫忙即刻回報喔!</string>
-    <string name="drugBite_ps">回報資料能協助研究團隊，更精準偵測蚊子的隱性躲藏點。</string>
+    <string name="drugBite_success">上傳成功，將提供於蚊媒熱度分析研究</string>
+    <string name="drugBite_ps">回報資料能協助研究團隊，\n更精準偵測蚊子的隱性躲藏點，\n資料僅作為研究參考，並遵守個資保護法。</string>
+
+
 
     <string name="breedingSources_title">環境回報</string>
     <string name="breedingSources_photo_camera">開啟相機</string>
@@ -47,9 +50,9 @@
     <string name="breedingSources_submit_button">環境回報</string>
     <string name="breedingSources_submit_description">*地點簡介</string>
     <string name="breedingSources_submit_address_user">*地址</string>
-    <string name="breedingSources_submit_type">*孳生源類型：</string>
+    <string name="breedingSources_submit_type">*環境點類型：</string>
 
-    <string name="hot_title">熱區顯示圖</string>
+    <string name="hot_title">環境回報熱區</string>
 
     <string name="hospital_title">鄰近醫療院所</string>
     <string name="hospital_number">您附近有 0 家醫療院所</string>

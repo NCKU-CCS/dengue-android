@@ -58,8 +58,8 @@ public class BreedingSourceSubmit extends Activity implements
     private double Lat;
     private double Lon;
     private String type = "";
-    private String description;
-    private String address_user;
+    private String description = "";
+    private String address_user = "";
     private String address_gps;
     private boolean isFinish = true;
 
@@ -229,9 +229,30 @@ public class BreedingSourceSubmit extends Activity implements
         });
     }
 
+    public boolean checkData() {
+        if(type.equals("")) {
+            Toast.makeText(this, "請選擇環境點類型", Toast.LENGTH_SHORT).show();
+            return false;
+        }
+        else if(description.equals("")) {
+            Toast.makeText(this, "請填寫地點簡介", Toast.LENGTH_SHORT).show();
+            return false;
+        }
+        else if(address_user.equals("")) {
+            Toast.makeText(this, "請填寫地址", Toast.LENGTH_SHORT).show();
+            return false;
+        }
+
+        return true;
+    }
+
     public void sendImg(final String img) {
         final session Session = new session(getSharedPreferences(AppName, 0));
         final Activity Main = this;
+
+        if(!checkData()) {
+            return;
+        }
 
         Toast.makeText(Main, "等候上傳中...", Toast.LENGTH_SHORT).show();
 
@@ -259,7 +280,7 @@ public class BreedingSourceSubmit extends Activity implements
                     multiPartEntityBuilder.addPart("description", new StringBody(description, Charset.forName("UTF-8") ));
                     multiPartEntityBuilder.addPart("modified_address", new StringBody(address_user, Charset.forName("UTF-8")));
 
-                    httpPostRequest.setHeader("Authorization", "Token " +Session.getData("token"));
+                    httpPostRequest.setHeader("Authorization", "Token " + Session.getData("token"));
                     httpPostRequest.setEntity(multiPartEntityBuilder);
                 }
                 catch (IOException ex) {
@@ -313,9 +334,10 @@ public class BreedingSourceSubmit extends Activity implements
 
     public void uploadSuccess(){
         Intent intent = new Intent();
-        intent.setClass(BreedingSourceSubmit.this, BreedingSourceSeparator.class);
+        intent.setClass(this, hot.class);
         startActivity(intent);
     }
+
     protected synchronized void buildGoogleApiClient() {
         mGoogleApiClient = new GoogleApiClient.Builder(this)
                 .addConnectionCallbacks(this)

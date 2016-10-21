@@ -139,12 +139,12 @@ android:orientation="vertical">
                     android:windowSoftInputMode="stateHidden" />
 
                 <Button
-                    android:layout_width="118dp"
+                    android:layout_width="150dp"
                     android:layout_height="wrap_content"
                     android:text="@string/breedingSources_submit_button"
                     android:id="@+id/breedingSources_submit_submit"
                     android:background="@drawable/breeding_source_submit_border"
-                    android:textSize = "18sp"
+                    android:textSize = "15sp"
                     android:gravity="center"
                     android:paddingLeft="20dp"
                     android:paddingRight="20dp"
