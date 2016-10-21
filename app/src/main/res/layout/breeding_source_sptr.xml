@@ -24,16 +24,6 @@
             android:layout_centerVertical="true"
             android:layout_centerHorizontal="true" />
 
-        <ImageView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:id="@+id/go_back"
-            android:background="@mipmap/go_back"
-            android:contentDescription="@string/go_back"
-            android:layout_alignParentRight="false"
-            android:layout_marginTop="20dp"
-            android:layout_marginLeft="10dp" />
-
     </RelativeLayout>
     <ImageView
         android:layout_width="wrap_content"

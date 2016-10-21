@@ -147,7 +147,14 @@ public class BreedingSourceSubmit extends Activity implements
 
         try {
             Bitmap bitmap = BitmapFactory.decodeFile(url);
-            rotate(bitmap,degree);
+            if(degree == 0)
+            {
+                ImageView mImg = (ImageView) findViewById(R.id.breedingSources_img);
+                mImg.setImageBitmap(bitmap);
+            }
+            else{
+                rotate(bitmap,degree);
+            }
         } catch (Exception e) {
             Toast.makeText(this, "無法取得照片!", Toast.LENGTH_SHORT).show();
         }
