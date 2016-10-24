@@ -37,15 +37,14 @@
     <string name="drugBite_success">上傳成功，將提供於蚊媒熱度分析研究</string>
     <string name="drugBite_ps">回報資料能協助研究團隊，\n更精準偵測蚊子的隱性躲藏點，\n資料僅作為研究參考，並遵守個資保護法。</string>
 
-
-
     <string name="breedingSources_title">環境回報</string>
     <string name="breedingSources_photo_camera">開啟相機</string>
     <string name="breedingSources_photo_photo">開啟相簿</string>
     <string name="breedingSources_photo_hint">請拍積水、髒亂處</string>
     <string name="request_permission">This sample needs camera permission.</string>
     <string name="camera_error">This device doesn\'t support Camera2 API.</string>
-
+    <string name="breedingSource_button_hb">室內</string>
+    <string name="breedingSource_button_ob">戶外</string>>
 
     <string name="breedingSources_submit_button">環境回報</string>
     <string name="breedingSources_submit_description">*地點簡介</string>

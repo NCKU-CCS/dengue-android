@@ -85,7 +85,7 @@ android:orientation="vertical">
                             android:textAppearance="?android:attr/textAppearanceSmall"
                             android:background="@drawable/breeding_source_type_button_border"
                             android:id="@+id/button_hb"
-                            android:text="戶外"
+                            android:text="@string/breedingSource_button_hb"
                             android:layout_margin="10dp"
                             android:layout_gravity="center"
                             android:textColor="#000000" />
@@ -95,7 +95,7 @@ android:orientation="vertical">
                             android:textAppearance="?android:attr/textAppearanceSmall"
                             android:background="@drawable/breeding_source_type_button_border"
                             android:id="@+id/button_ob"
-                            android:text="室內"
+                            android:text="@string/breedingSource_button_ob"
                             android:layout_margin="10dp"
                             android:layout_gravity="center"
                             android:textColor="#000000" />
@@ -156,7 +156,7 @@ android:orientation="vertical">
 
         <GridView
     android:layout_width="wrap_content"
-    android:layout_height="50dp"
+    android:layout_height="60dp"
     android:id="@+id/menu"
     android:background="@color/menuBackground"
     android:layout_alignParentBottom="true" />

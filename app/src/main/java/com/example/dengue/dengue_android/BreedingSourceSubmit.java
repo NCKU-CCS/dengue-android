@@ -70,6 +70,7 @@ public class BreedingSourceSubmit extends Activity implements
         setContentView(R.layout.breedingsource);
         getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_HIDDEN);
         buildGoogleApiClient();
+        initTypeButton();
         breedingSourcesSubmitTypeList();
 
         new menu(this, 2);
@@ -114,6 +115,16 @@ public class BreedingSourceSubmit extends Activity implements
         });
 
         return dialog;
+    }
+
+    private void initTypeButton() {
+        final Button btn_hb = (Button)findViewById(R.id.button_hb);
+        final Button btn_ob = (Button)findViewById(R.id.button_ob);
+        btn_ob.setBackgroundResource(R.drawable.breeding_source_type_button_clicked_border);
+        btn_ob.setTextColor(Color.parseColor("#ffffff"));
+        btn_hb.setBackgroundResource(R.drawable.breeding_source_type_button_border);
+        btn_hb.setTextColor(Color.parseColor("#000000"));
+        type = "戶外";
     }
 
     private void breedingSourcesSubmitTypeList() {
