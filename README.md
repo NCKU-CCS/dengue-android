@@ -47,6 +47,7 @@ Use to save data.
     - key: key of data
     - It will return value.
 - Example
+
     ```android
     string AppName = "dengue";
     session Session = new session(getSharedPreferences(AppName, 0));
@@ -65,6 +66,7 @@ Use to get address name.
     - lat: double type.
     - lon: double type.
 - Example
+
     ```android
     // "this" is android activity.
     gps Gps = new Gps(this);
