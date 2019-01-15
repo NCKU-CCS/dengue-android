@@ -77,3 +77,6 @@ Use to get address name.
 ## Issue
 
 - [ ] 未來要修改介面的話，在未登入都情況下按下個人設定按鈕，再按註冊下面的小字進入登入頁面，如果使用者他其實是未註冊的，現在想要退回去可能不知道怎麼操作比較好
+
+## License
+<a rel="license" href="http://creativecommons.org/licenses/by/4.0/"><img alt="Creative Commons License" style="border-width:0" src="https://i.creativecommons.org/l/by/4.0/88x31.png" /></a><br />This work is licensed under a <a rel="license" href="http://creativecommons.org/licenses/by/4.0/">Creative Commons Attribution 4.0 International License</a>.
