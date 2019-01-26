@@ -1,78 +1,57 @@
-# Dengue
+# Dengue Android App
 
-## Usage
+[TOC]
 
-Use [android studio](https://developer.android.com/studio/index.html).
+## Get Started
 
-## Structure
+### Rrerequiste
+* Android Studio (version < 3.0)
+	* You can find it in [Android Studio download archives](https://developer.android.com/studio/archive) 
 
-Aaccording to [android studio projects Overview](https://developer.android.com/studio/projects/index.html)
 
-#### Breeding Source
+## How to Contribute
+### Structure
 
-孳生源回報
+* According to [android studio projects Overview](https://developer.android.com/studio/projects/index.html)
 
-#### Drugbite
+* Breeding Source (孳生源回報)
+* Drugbite (蚊子咬回報)
+* Guild (導覽畫面)
+* Report (回報審核點清單)
+* User (使用者相關)
+* Hospital (醫院清單)
+* Hot (熱區 web view)
+* Session (Use to save data.)
+	* setData(String key, String value)
+ 		* key: key of data
+     * value: value of data
+	* getData(String key)
+		* key: key of data
+		* It will return value.
+	* Example  
+		
+		```android
+		string AppName = "dengue";
+		session Session = new session(getSharedPreferences(AppName, 0));
+		
+		session.setData("isLogin", "true");
+		// it will save isLogin as "true".
+		session.getData("isLogin");
+		// it will return "true"
+		```
 
-蚊子咬回報
+* GPS (Use to get address name.)
+	* get(double lat, double lon)
+		* lat: double type.
+		* lon: double type.
+	* Example
 
-#### Guild
-
-導覽畫面
-
-#### Report
-
-回報審核點清單
-
-#### User
-
-使用者相關
-
-#### Hospital
-
-醫院清單
-
-#### Hot
-
-熱區 web view
-
-#### Session
-
-Use to save data.
-
-- setData(String key, String value)
-    - key: key of data
-    - value: value of data
-- getData(String key)
-    - key: key of data
-    - It will return value.
-- Example
-
-    ```android
-    string AppName = "dengue";
-    session Session = new session(getSharedPreferences(AppName, 0));
-
-    session.setData("isLogin", "true");
-    // it will save isLogin as "true".
-    session.getData("isLogin");
-    // it will return "true"
-    ```
-
-#### GPS
-
-Use to get address name.
-
-- get(double lat, double lon)
-    - lat: double type.
-    - lon: double type.
-- Example
-
-    ```android
-    // "this" is android activity.
-    gps Gps = new Gps(this);
-    Gps.get(0.0, 0.0);
-    // it will return a name of [0, 0]
-    ```
+		```android
+		// "this" is android activity.
+		gps Gps = new Gps(this);
+		Gps.get(0.0, 0.0);
+		// it will return a name of [0, 0]
+		```
 
 ## Issue
 
