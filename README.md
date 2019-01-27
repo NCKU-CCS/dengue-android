@@ -48,6 +48,9 @@ Structured according to [android studio projects Overview](https://developer.and
 		// it will return a name of [0, 0]
 		```
 
+## Usage
+* Please check [The Mosquito Man App Instruction](./doc/掌蚊人APP.pdf)
+
 ## Issue
 * [ ] 未來要修改介面的話，在未登入都情況下按下個人設定按鈕，再按註冊下面的小字進入登入頁面，如果使用者他其實是未註冊的，現在想要退回去可能不知道怎麼操作比較好
 * [ ] By the time of 2018/11/01, Google Play no longer support API level lower than 26. Thus, this app might not be able to be published on Google Play.
