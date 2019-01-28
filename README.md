@@ -7,12 +7,30 @@
 * [Issue](#sec-4)
 * [License](#sec-5)
 
-
 <a name='sec-1'></a>
 ## Getting Started
 ### Prerequisite
 * Android Studio (version < 3.0)
-	* You can find it in [Android Studio download archives](https://developer.android.com/studio/archive) 
+	* You can find it in [Android Studio download archives](https://developer.android.com/studio/archive)
+
+### Setup
+* API URL
+    * Before building the Android App, [the backend server for dengue app](https://github.com/the-mosquito-man/dengue-app-backend-server) should be started.  
+    * After the app starts, you should set the `APIDomain` in the following files to your server host.
+        * `app/src/main//BreedingSourceSubmit.java` (Line 278)
+        * `app/src/main/java/com/example/dengue/dengue_android/Drugbite.java` (Line 76)
+        * `app/src/main/java/com/example/dengue/dengue_android/hospital.java` (Line 314)
+        * `app/src/main/java/com/example/dengue/dengue_android/Report.java` (Line 244, 335)
+        * `app/src/main/java/com/example/dengue/dengue_android/signUpFast.java` (Line 30, 74)
+        * `app/src/main/java/com/example/dengue/dengue_android/UserLogin.java` (Line 84)
+      * `app/src/main/java/com/example/dengue/dengue_android/userProfile.java` (Line 45)
+        * `app/src/main/java/com/example/dengue/dengue_android/UserSignup.java` (Line 62)
+
+* Google Map API Key
+    * Change in `app/src/main/AndroidManifest.xml`  (Line 25)
+
+### Build
+* Build through Android Studio 
 
 <a name='sec-2'></a>
 ## Usage
